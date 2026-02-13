@@ -1,6 +1,9 @@
 <script>
     import { onMount } from "svelte";
     import { appState } from "$lib/state.svelte.js";
+    import { t } from "$lib/i18n.js";
+
+    let { toggleTheme, isLightMode } = $props();
 
     let isOpen = $state(false);
 
@@ -75,7 +78,6 @@
     onMount(() => {
         loadSettings();
     });
-    import { t } from "$lib/i18n.js";
 </script>
 
 {#if isOpen}
@@ -163,6 +165,17 @@
                         oninput={applySettings}
                         onchange={saveSettings}
                     />
+                </div>
+
+                <div class="setting-group">
+                    <div class="group-title">{t("theme")}</div>
+                    <button
+                        class="btn toggle-btn {isLightMode ? 'light' : 'dark'}"
+                        onclick={toggleTheme}
+                        style="width: 100%; text-align: center;"
+                    >
+                        {isLightMode ? t("light_mode") : t("dark_mode")}
+                    </button>
                 </div>
 
                 <div class="actions">

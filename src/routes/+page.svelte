@@ -93,11 +93,10 @@
 </script>
 
 <TopNav
-    {toggleTheme}
-    {isLightMode}
     onSave={handleSave}
     onExport={() => handleExport(appState.char || "UNIT")}
     onSettings={() => settingsModal.open()}
+    {saveBtnState}
 />
 
 <div class="app-container" bind:this={appContainer}>
@@ -111,29 +110,13 @@
 </div>
 
 <!-- Floating Controls -->
-<div class="ctrl-panel">
-    <button
-        class="btn btn-save {saveBtnState.style === 'update'
-            ? 'btn-update'
-            : ''}"
-        onclick={handleSave}
-    >
-        {t(saveBtnState.textKey)}
-    </button>
-    <button class="btn btn-settings" onclick={() => settingsModal.open()}
-        >{t("settings")}</button
-    >
-    <button class="btn" onclick={() => handleExport(appState.char || "UNIT")}
-        >{t("save_png")}</button
-    >
-</div>
 
 <!-- Modals -->
 <MemoryModal />
 <CharacterModal />
 <WeaponResonanceModal />
 <ColorPicker />
-<SettingsModal bind:this={settingsModal} />
+<SettingsModal bind:this={settingsModal} {toggleTheme} {isLightMode} />
 
 <style>
     /* Styles are mostly global in app.css */

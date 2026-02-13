@@ -2,13 +2,7 @@
     import { appState } from "$lib/state.svelte.js";
     import { t } from "$lib/i18n.js";
 
-    let {
-        toggleTheme,
-        isLightMode = false,
-        onSave,
-        onExport,
-        onSettings,
-    } = $props();
+    let { onSave, onExport, onSettings, saveBtnState } = $props();
     let isToolsOpen = $state(false);
 
     function handleToolClick(action) {
@@ -24,6 +18,26 @@
         >
     </div>
     <div class="nav-right">
+        <!-- Desktop Actions -->
+        <div class="desktop-actions">
+            <button
+                class="btn nav-btn {saveBtnState.style === 'update'
+                    ? 'btn-update'
+                    : ''}"
+                onclick={onSave}
+            >
+                {t(saveBtnState.textKey)}
+            </button>
+            <button class="btn nav-btn" onclick={onSettings}
+                >{t("settings")}</button
+            >
+            <button class="btn nav-btn" onclick={onExport}
+                >{t("save_png")}</button
+            >
+        </div>
+
+        <div class="nav-separator"></div>
+
         <!-- Language Switcher -->
         <button
             class="btn lang-toggle toggle-btn"
@@ -46,20 +60,15 @@
                     <button onclick={() => handleToolClick(onSave)}
                         >{t("create_link")}</button
                     >
+                    <button onclick={() => handleToolClick(onSettings)}
+                        >{t("settings")}</button
+                    >
                     <button onclick={() => handleToolClick(onExport)}
                         >{t("save_png")}</button
                     >
                 </div>
             {/if}
         </div>
-
-        <button
-            id="theme-toggle"
-            class="btn toggle-btn {isLightMode ? 'light' : 'dark'}"
-            onclick={toggleTheme}
-        >
-            {isLightMode ? t("dark_mode") : t("light_mode")}
-        </button>
     </div>
 </div>
 
@@ -123,16 +132,6 @@
         transition: all 0.2s ease;
     }
 
-    .toggle-btn.dark {
-        background: #000;
-        color: #fff;
-    }
-
-    .toggle-btn.light {
-        background: #fff;
-        color: #000;
-    }
-
     .lang-toggle {
         min-width: 45px;
         background: #000;
@@ -146,8 +145,34 @@
     }
 
     .toggle-btn:hover,
-    .tools-toggle:hover {
+    .tools-toggle:hover,
+    .nav-btn:hover {
         border-color: var(--accent-red);
         color: var(--accent-red);
+    }
+
+    .desktop-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        padding: 5px 15px;
+        font-size: 0.75rem;
+    }
+
+    .nav-separator {
+        width: 1px;
+        height: 24px;
+        background: #333;
+        margin: 0 10px;
+    }
+
+    /* Hide desktop actions on mobile */
+    @media screen and (max-width: 1024px) {
+        .desktop-actions,
+        .nav-separator {
+            display: none;
+        }
     }
 </style>
