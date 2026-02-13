@@ -144,4 +144,10 @@
         background: #fff;
         color: #000;
     }
+
+    .toggle-btn:hover,
+    .tools-toggle:hover {
+        border-color: var(--accent-red);
+        color: var(--accent-red);
+    }
 </style>
