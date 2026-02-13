@@ -187,7 +187,11 @@ class AppState {
         this.posCode = data.posCode || '';
 
         if (data.builds && Array.isArray(data.builds)) {
-            this.builds = data.builds;
+            this.builds = data.builds.map(b => ({
+                ...createBuild(),
+                ...b,
+                wRes: b.wRes || [null, null, null]
+            }));
         }
     }
 

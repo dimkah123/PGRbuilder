@@ -168,10 +168,20 @@
     }
 
     .build-row>div:nth-child(4) {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 10px;
         width: 100%;
+    }
+
+    .weapon-res-row {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .weapon-res-box {
+        width: 50px;
+        height: 50px;
     }
 
     .build-row>div:last-child {

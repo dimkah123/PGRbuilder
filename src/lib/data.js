@@ -96,6 +96,7 @@ export const ELEMENT_NAMES = {
         "ice": "Лед",
         "thunder": "Молния",
         "dark": "Тьма",
+        "nihl": "Нихил",
         "-": "-"
     },
     en: {
@@ -104,7 +105,7 @@ export const ELEMENT_NAMES = {
         "ice": "Ice",
         "thunder": "Lightning",
         "dark": "Dark",
-        "nihil": "Nihil",
+        "nihl": "Nihil",
         "-": "-"
     }
 };
@@ -1132,24 +1133,6 @@ export const CHAR_DATABASE = [
 export const ASSET_MAP = {};
 
 
-// Map Russian terms to Asset Keys
-const RUS_TO_ENG_MAP = {
-    // Elements
-    "физический": "phys",
-    "молния": "thunder",
-    "огонь": "fire",
-    "тьма": "dark",
-    "лед": "ice",
-
-    // Classes
-    "атакующий": "attacker",
-    "поддержка": "support",
-    "танк": "tank",
-    "авангард": "vanguard",
-    "амплифаер": "amplifier",
-    "унифрейм": "uniframe"
-};
-
 // Populate Asset Map
 for (let img of CHARACTER_IMAGES) {
     ASSET_MAP[img.frame.toLowerCase()] = img.file;
@@ -1167,13 +1150,22 @@ for (let key in CUB_IMAGES) {
     ASSET_MAP[key.toLowerCase()] = CUB_IMAGES[key];
 }
 
-// Add Russian mappings to ASSET_MAP
-for (let rusKey in RUS_TO_ENG_MAP) {
-    const engKey = RUS_TO_ENG_MAP[rusKey];
-    // Check elements / affixes
-    if (ELEMENT_IMAGES[engKey]) ASSET_MAP[rusKey] = ELEMENT_IMAGES[engKey];
-    // Check classes
-    if (CLASS_IMAGES[engKey]) ASSET_MAP[rusKey] = CLASS_IMAGES[engKey];
+// Map localized terms to Asset Keys automatically
+for (let lang in ELEMENT_NAMES) {
+    for (let key in ELEMENT_NAMES[lang]) {
+        const name = ELEMENT_NAMES[lang][key];
+        if (name && name !== '-' && ELEMENT_IMAGES[key]) {
+            ASSET_MAP[name.toLowerCase()] = ELEMENT_IMAGES[key];
+        }
+    }
+}
+for (let lang in CLASS_NAMES) {
+    for (let key in CLASS_NAMES[lang]) {
+        const name = CLASS_NAMES[lang][key];
+        if (name && name !== '-' && CLASS_IMAGES[key]) {
+            ASSET_MAP[name.toLowerCase()] = CLASS_IMAGES[key];
+        }
+    }
 }
 
 // Weapon resonances with class prefix (AT, TA, HE, UN, UNI)
@@ -1202,9 +1194,15 @@ export const WEAPON_RESONANCES = [
 // Map Russian class names to prefixes
 export const CLASS_TO_PREFIX = {
     'Атакующий': 'AT',
+    'Attacker': 'AT',
     'Танк': 'TA',
+    'Tank': 'TA',
     'Поддержка': 'HE',
+    'Support': 'HE',
     'Амплифаер': 'HE',
+    'Amplifier': 'HE',
     'Авангард': 'UNI',
-    'Наблюдатель': 'UN' // Special case - universal
+    'Vanguard': 'UNI',
+    'Наблюдатель': 'UN',
+    'Observer': 'UN'
 };
