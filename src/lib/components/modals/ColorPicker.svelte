@@ -14,9 +14,66 @@
     // UI Refs
     let satBox = $state(null);
     let isDragging = false;
+    let cachedRect = null;
 
-    // Derived
-    // Derived
+    function close() {
+        appState.closeModal();
+    }
+
+    function applyColor() {
+        if (appState.modalData && appState.modalData.callback) {
+            appState.modalData.callback(currentColor);
+        }
+        close();
+    }
+
+    // ...
+
+    function updateSatVal(e) {
+        if (!cachedRect) return; // Should be set by mousedown
+        const rect = cachedRect;
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+        x = Math.max(0, Math.min(x, rect.width));
+        y = Math.max(0, Math.min(y, rect.height));
+
+        s = Math.round((x / rect.width) * 100);
+        v = Math.round(100 - (y / rect.height) * 100);
+
+        updateFromRgb(); // Actually we want to update HSV -> RGB here.
+        // Wait, original updateSatVal did:
+        // let hex = hsvToHex...
+        // let rgb = ...
+        // Apply?
+        // Let's look at original logic. It updated derivatives and applied.
+        // Re-implementing logic:
+        // Trigger effect?
+        // h,s,v are state. Changing them triggers effect.
+
+        applyColor(); // Or live apply? Original had apply()
+    }
+
+    function handleMouseDown(e) {
+        e.preventDefault(); // Prevent native selection/drag
+        if (satBox) {
+            cachedRect = satBox.getBoundingClientRect();
+        }
+        isDragging = true;
+        updateSatVal(e); // Initial click update
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
+    }
+
+    function handleMouseMove(e) {
+        if (isDragging) updateSatVal(e);
+    }
+
+    function handleMouseUp() {
+        isDragging = false;
+        cachedRect = null;
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+    }
     let currentColor = $derived(hsvToHex(h, s, v));
     let hueColor = $derived(`hsl(${h}, 100%, 50%)`);
     let cursorLeft = $derived(`${s}%`);

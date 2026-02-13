@@ -78,7 +78,7 @@
             class="portrait-img"
             src={appState.charImg}
             alt="Character Portrait"
-            style="transform: scale({scale}) translate({x}px, {y}px);"
+            style="transform: scale({scale}) translate({x}px, {y}px); will-change: transform;"
         />
 
         <!-- Change Character Button -->

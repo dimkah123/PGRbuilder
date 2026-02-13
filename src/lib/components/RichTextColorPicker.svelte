@@ -143,9 +143,11 @@
         };
     }
 
+    let cachedRect = null;
+
     function updateSatVal(e) {
-        if (!satBox) return;
-        const rect = satBox.getBoundingClientRect();
+        if (!cachedRect) return; // cache is mandatory for drag
+        const rect = cachedRect;
         let x = e.clientX - rect.left;
         let y = e.clientY - rect.top;
         x = Math.max(0, Math.min(x, rect.width));
@@ -166,7 +168,10 @@
     }
 
     function handleMouseDown(e) {
-        e.preventDefault(); // Prevent native selection/drag
+        e.preventDefault();
+        if (satBox) {
+            cachedRect = satBox.getBoundingClientRect();
+        }
         isDragging = true;
         updateSatVal(e);
         window.addEventListener("mousemove", handleMouseMove);
@@ -179,6 +184,7 @@
 
     function handleMouseUp() {
         isDragging = false;
+        cachedRect = null;
         window.removeEventListener("mousemove", handleMouseMove);
         window.removeEventListener("mouseup", handleMouseUp);
         onclose?.();
