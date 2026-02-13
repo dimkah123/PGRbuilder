@@ -21,11 +21,16 @@
                     c.enFrame &&
                     c.enFrame.toLowerCase() === img.frame.toLowerCase(),
             );
-            const name = dbEntry ? dbEntry.name : "";
+            const isEn = appState.lang === "en";
+            const name = dbEntry
+                ? isEn
+                    ? dbEntry.enName || dbEntry.name
+                    : dbEntry.name
+                : "";
             const frame = dbEntry
-                ? appState.lang === "ru"
-                    ? dbEntry.frame
-                    : dbEntry.enFrame || dbEntry.frame
+                ? isEn
+                    ? dbEntry.enFrame || dbEntry.frame
+                    : dbEntry.frame
                 : img.frame;
 
             let label = frame;
@@ -47,11 +52,13 @@
         );
 
         if (dbEntry) {
-            appState.char = dbEntry.name;
-            appState.frame =
-                appState.lang === "ru"
-                    ? dbEntry.frame
-                    : dbEntry.enFrame || dbEntry.frame;
+            const isEn = appState.lang === "en";
+            appState.char = isEn
+                ? dbEntry.enName || dbEntry.name
+                : dbEntry.name;
+            appState.frame = isEn
+                ? dbEntry.enFrame || dbEntry.frame
+                : dbEntry.frame;
             appState.enFrame = dbEntry.enFrame;
             appState.rank = dbEntry.rank;
             appState.element = dbEntry.element;

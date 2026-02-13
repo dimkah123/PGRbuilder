@@ -95,7 +95,28 @@ class AppState {
     toggleLanguage() {
         this.lang = this.lang === 'ru' ? 'en' : 'ru';
         localStorage.setItem('pgr_lang', this.lang);
-        // Dispatch update for reactive components if needed, though $state covers it
+
+        // Refresh current character name and frame if exists in DB
+        const search = (this.enFrame || this.frame || '').toLowerCase().trim();
+        if (search) {
+            const dbEntry = CHAR_DATABASE.find(c =>
+                (c.frame && c.frame.toLowerCase() === search) ||
+                (c.enFrame && c.enFrame.toLowerCase() === search)
+            );
+            if (dbEntry) {
+                const isEn = this.lang === 'en';
+                this.char = isEn ? dbEntry.enName || dbEntry.name : dbEntry.name;
+                this.frame = isEn ? dbEntry.enFrame || dbEntry.frame : dbEntry.frame;
+            }
+        }
+
+        // Localize "Signature" labels if active
+        if (this.weapon === 'СИГНАТУРНОЕ' || this.weapon === 'SIGNATURE') {
+            this.weapon = this.lang === 'ru' ? 'СИГНАТУРНОЕ' : 'SIGNATURE';
+        }
+        if (this.cub === 'СИГНАТУРНЫЙ' || this.cub === 'SIGNATURE') {
+            this.cub = this.lang === 'ru' ? 'СИГНАТУРНЫЙ' : 'SIGNATURE';
+        }
     }
 
     constructor() {

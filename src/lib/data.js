@@ -104,6 +104,7 @@ export const ELEMENT_NAMES = {
         "ice": "Ice",
         "thunder": "Lightning",
         "dark": "Dark",
+        "nihil": "Nihil",
         "-": "-"
     }
 };
@@ -115,6 +116,7 @@ export const CLASS_NAMES = {
         "support": "Поддержка",
         "amplifier": "Амплифаер",
         "vanguard": "Авангард",
+        "observer": "Наблюдатель",
         "-": "-"
     },
     en: {
@@ -123,6 +125,7 @@ export const CLASS_NAMES = {
         "support": "Support",
         "amplifier": "Amplifier",
         "vanguard": "Vanguard",
+        "observer": "Observer",
         "-": "-"
     }
 };
@@ -307,6 +310,7 @@ export const TERMINOLOGY_DB = {
 export const CHAR_DATABASE = [
     {
         name: "Люсия",
+        enName: "Lucia",
         frame: "Лотус",
         enFrame: "Lotus",
         rank: "B",
@@ -316,6 +320,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Лив",
+        enName: "Liv",
         frame: "Эклипс",
         enFrame: "Eclipse",
         rank: "B",
@@ -325,6 +330,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Нанами",
+        enName: "Nanami",
         frame: "Шторм",
         enFrame: "Storm",
         rank: "B",
@@ -334,6 +340,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Люсия",
+        enName: "Lucia",
         frame: "Давн",
         enFrame: "Dawn",
         rank: "A",
@@ -343,6 +350,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Лив",
+        enName: "Liv",
         frame: "Люкс",
         enFrame: "Lux",
         rank: "A",
@@ -352,6 +360,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ли",
+        enName: "Lee",
         frame: "Пэйлфаер",
         enFrame: "Palefire",
         rank: "A",
@@ -361,6 +370,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ватанабэ",
+        enName: "Watanabe",
         frame: "Найтблейд",
         enFrame: "Nightblade",
         rank: "A",
@@ -370,6 +380,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Бьянка",
+        enName: "Bianca",
         frame: "Зеро",
         enFrame: "Zero",
         rank: "A",
@@ -379,6 +390,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Каренина",
+        enName: "Karenina",
         frame: "Бласт",
         enFrame: "Blast",
         rank: "A",
@@ -388,6 +400,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Лив",
+        enName: "Liv",
         frame: "Люменанс",
         enFrame: "Luminance",
         rank: "S",
@@ -397,6 +410,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ли",
+        enName: "Lee",
         frame: "Энтропи",
         enFrame: "Entropy",
         rank: "S",
@@ -406,6 +420,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Каренина",
+        enName: "Karenina",
         frame: "Эмбер",
         enFrame: "Ember",
         rank: "S",
@@ -415,6 +430,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Нанами",
+        enName: "Nanami",
         frame: "Пульс",
         enFrame: "Pulse",
         rank: "S",
@@ -424,6 +440,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Камуи",
+        enName: "Kamui",
         frame: "Тенебрион",
         enFrame: "Tenebrion",
         rank: "S",
@@ -433,6 +450,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Люсия",
+        enName: "Lucia",
         frame: "Кримзон Абисс",
         enFrame: "Crimson Abyss",
         rank: "S",
@@ -442,6 +460,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Камуи",
+        enName: "Kamui",
         frame: "Бастион",
         enFrame: "Bastion",
         rank: "A",
@@ -451,6 +470,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ватанабэ",
+        enName: "Watanabe",
         frame: "Астрал",
         enFrame: "Astral",
         rank: "A",
@@ -460,6 +480,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Айла",
+        enName: "Ayla",
         frame: "Брилианс",
         enFrame: "Brilliance",
         rank: "A",
@@ -469,6 +490,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Бьянка",
+        enName: "Bianca",
         frame: "Веритас",
         enFrame: "Veritas",
         rank: "S",
@@ -479,6 +501,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "София",
+        enName: "Sophia",
         frame: "Сильверфанг",
         enFrame: "Silverfang",
         rank: "A",
@@ -488,6 +511,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Хром",
+        enName: "Chrome",
         frame: "Арклайт",
         enFrame: "Arclight",
         rank: "A",
@@ -497,6 +521,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Люсия",
+        enName: "Lucia",
         frame: "Плюм",
         enFrame: "Plume",
         rank: "S",
@@ -506,6 +531,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Вера",
+        enName: "Vera",
         frame: "Розен",
         enFrame: "Rozen",
         rank: "A",
@@ -515,6 +541,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Каму",
+        enName: "Camu",
         frame: "Крокотта",
         enFrame: "Crocotta",
         rank: "S",
@@ -524,6 +551,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Розетта",
+        enName: "Rosetta",
         frame: "Ригор",
         enFrame: "Rigor",
         rank: "S",
@@ -534,6 +562,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Чангю",
+        enName: "Changyu",
         frame: "Цилинь",
         enFrame: "Qilin",
         rank: "A",
@@ -543,6 +572,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Цюй",
+        enName: "Qu",
         frame: "Паво",
         enFrame: "Pavo",
         rank: "S",
@@ -552,6 +582,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Луна",
+        enName: "Luna",
         frame: "Лаурель",
         enFrame: "Laurel",
         rank: "S",
@@ -561,6 +592,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "2B",
+        enName: "2B",
         frame: "",
         enFrame: "2B",
         rank: "S",
@@ -570,6 +602,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "9S",
+        enName: "9S",
         frame: "",
         enFrame: "9S",
         rank: "S",
@@ -579,6 +612,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "A2",
+        enName: "A2",
         frame: "",
         enFrame: "A2",
         rank: "S",
@@ -588,6 +622,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ваньши",
+        enName: "Wanshi",
         frame: "Гипнос",
         enFrame: "Hypnos",
         rank: "A",
@@ -597,6 +632,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Селена",
+        enName: "Selena",
         frame: "Темпест",
         enFrame: "Tempest",
         rank: "S",
@@ -606,6 +642,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Хром",
+        enName: "Chrome",
         frame: "Глори",
         enFrame: "Glory",
         rank: "S",
@@ -616,6 +653,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "21",
+        enName: "21",
         frame: "XXI",
         enFrame: "XXI",
         rank: "A",
@@ -625,6 +663,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Вера",
+        enName: "Vera",
         frame: "Гарнет",
         enFrame: "Garnet",
         rank: "S",
@@ -634,6 +673,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Роланд",
+        enName: "Roland",
         frame: "Фламбеа",
         enFrame: "Flambeau",
         rank: "S",
@@ -643,6 +683,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Лив",
+        enName: "Liv",
         frame: "Эмпирей",
         enFrame: "Empyrea",
         rank: "S",
@@ -652,6 +693,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Селена",
+        enName: "Selena",
         frame: "Каприччио",
         enFrame: "Capriccio",
         rank: "S",
@@ -661,6 +703,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Пулао",
+        enName: "Pulao",
         frame: "Драгонтол",
         enFrame: "Dragontoll",
         rank: "S",
@@ -670,6 +713,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Нанами",
+        enName: "Nanami",
         frame: "Старфарер",
         enFrame: "Starfarer",
         rank: "S",
@@ -680,6 +724,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Хаикма",
+        enName: "Haicma",
         frame: "",
         enFrame: "Starveil",
         rank: "S",
@@ -689,6 +734,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Каренина",
+        enName: "Karenina",
         frame: "Скайр",
         enFrame: "Scire",
         rank: "S",
@@ -700,6 +746,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ноан",
+        enName: "Noan",
         frame: "Арка",
         enFrame: "Arca",
         rank: "S",
@@ -709,6 +756,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Бьянка",
+        enName: "Bianca",
         frame: "Стигмата",
         enFrame: "Stigmata",
         rank: "S",
@@ -720,6 +768,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Бамбината",
+        enName: "Bambinata",
         frame: "Витрум",
         enFrame: "Vitrum",
         rank: "A",
@@ -729,6 +778,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ли",
+        enName: "Lee",
         frame: "Гиперреал",
         enFrame: "Hyperreal",
         rank: "S",
@@ -739,6 +789,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Айла",
+        enName: "Ayla",
         frame: "Калеидо",
         enFrame: "Kaleido",
         rank: "S",
@@ -749,6 +800,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Люсия",
+        enName: "Lucia",
         frame: "Кримзон Вейв",
         enFrame: "Crimson Weave",
         rank: "S",
@@ -760,6 +812,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ханьин",
+        enName: "Hanying",
         frame: "Зитервоу",
         enFrame: "Zitherwoe",
         rank: "A",
@@ -769,6 +822,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "21",
+        enName: "21",
         frame: "Feral",
         enFrame: "Feral",
         rank: "S",
@@ -779,6 +833,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ноктис",
+        enName: "Noctis",
         frame: "Индормитус",
         enFrame: "Indomitus",
         rank: "A",
@@ -788,6 +843,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Алиса",
+        enName: "Alisa",
         frame: "Эхо",
         enFrame: "Echo",
         rank: "S",
@@ -799,6 +855,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ламия",
+        enName: "Lamia",
         frame: "Лост Лулаби",
         enFrame: "Lost Lullaby",
         rank: "S",
@@ -809,6 +866,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ватанабэ",
+        enName: "Watanabe",
         frame: "Эпитаф",
         enFrame: "Epitaph",
         rank: "S",
@@ -820,6 +878,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Цюй",
+        enName: "Qu",
         frame: "Шукра",
         enFrame: "Shukra",
         rank: "S",
@@ -830,6 +889,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Тедди",
+        enName: "Teddy",
         frame: "Декриптор",
         enFrame: "Decryptor",
         rank: "A",
@@ -839,6 +899,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Луна",
+        enName: "Luna",
         frame: "Обливион",
         enFrame: "Oblivion",
         rank: "S",
@@ -849,6 +910,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Бриджит",
+        enName: "Bridget",
         frame: "Ардео",
         enFrame: "Ardeo",
         rank: "A",
@@ -858,6 +920,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ханьин",
+        enName: "Hanying",
         frame: "Соласетюн",
         enFrame: "Solacetune",
         rank: "S",
@@ -869,6 +932,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ваньши",
+        enName: "Wanshi",
         frame: "Лусид Дример",
         enFrame: "Lucid Dreamer",
         rank: "S",
@@ -880,6 +944,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Люсия",
+        enName: "Lucia",
         frame: "Пироат",
         enFrame: "Pyropath",
         rank: "S",
@@ -891,6 +956,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ята",
+        enName: "Yata",
         frame: "Фулгор",
         enFrame: "Fulgor",
         rank: "A",
@@ -900,6 +966,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Нанами",
+        enName: "Nanami",
         frame: "Стартрейл",
         enFrame: "Startrail",
         rank: "S",
@@ -911,6 +978,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Ишмаэль",
+        enName: "Ishmael",
         frame: "Пархелион",
         enFrame: "Parhelion",
         rank: "S",
@@ -922,6 +990,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Лилит",
+        enName: "Lilith",
         frame: "Демонисса",
         enFrame: "Daemonissa",
         rank: "S",
@@ -933,6 +1002,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Селена",
+        enName: "Selena",
         frame: "Пианиссимо",
         enFrame: "Pianissimo",
         rank: "S",
@@ -944,6 +1014,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Джетави",
+        enName: "Jetavi",
         frame: "Дейбрейкер",
         enFrame: "Daybreak",
         rank: "A",
@@ -953,6 +1024,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Вера",
+        enName: "Vera",
         frame: "Гейравёр",
         enFrame: "Geiravor",
         rank: "S",
@@ -964,6 +1036,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Dante",
+        enName: "Dante",
         frame: "Данте",
         enFrame: "Dante",
         rank: "S",
@@ -975,6 +1048,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Vergil",
+        enName: "Vergil",
         frame: "",
         enFrame: "Vergil",
         rank: "S",
@@ -986,6 +1060,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Бьянка",
+        enName: "Bianca",
         frame: "Крепускул",
         enFrame: "Crepuscule",
         rank: "S",
@@ -997,6 +1072,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Дискорд",
+        enName: "Discord",
         frame: "Секатор",
         enFrame: "Secator",
         rank: "A",
@@ -1007,6 +1083,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Вероника",
+        enName: "Veronika",
         frame: "Аегис",
         enFrame: "Aegis",
         rank: "S",
@@ -1018,6 +1095,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Лив",
+        enName: "Liv",
         frame: "Лимпидити",
         enFrame: "Limpidity",
         rank: "S",
@@ -1029,6 +1107,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "Тедди",
+        enName: "Teddy",
         frame: "Спектр",
         enFrame: "Spectre",
         rank: "S",
@@ -1040,6 +1119,7 @@ export const CHAR_DATABASE = [
     },
     {
         name: "BLACK★ROCK SHOOTER",
+        enName: "BLACK★ROCK SHOOTER",
         frame: "",
         enFrame: "BLACK★ROCK SHOOTER",
         rank: "A",

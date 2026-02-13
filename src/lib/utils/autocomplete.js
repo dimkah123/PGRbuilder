@@ -4,8 +4,9 @@ import { CHAR_DATABASE, ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX } from '$li
 export function fillCharacterData(charEntry) {
     if (!charEntry) return;
 
-    appState.char = charEntry.name;
-    appState.frame = charEntry.frame;
+    const isEn = appState.lang === "en";
+    appState.char = isEn ? charEntry.enName || charEntry.name : charEntry.name;
+    appState.frame = isEn ? charEntry.enFrame || charEntry.frame : charEntry.frame;
     appState.enFrame = charEntry.enFrame;
     appState.rank = charEntry.rank || 'SSS+';
     appState.element = charEntry.element || '-';
@@ -16,7 +17,7 @@ export function fillCharacterData(charEntry) {
     // Weapon
     if (charEntry.weapon) {
         appState.weaponReal = charEntry.weapon;
-        appState.weapon = 'СИГНАТУРНОЕ';
+        appState.weapon = appState.lang === 'ru' ? 'СИГНАТУРНОЕ' : 'SIGNATURE';
     } else {
         appState.weaponReal = '';
         appState.weapon = '-';
@@ -25,7 +26,7 @@ export function fillCharacterData(charEntry) {
     // CUB
     if (charEntry.cub) {
         appState.cubReal = charEntry.cub;
-        appState.cub = 'СИГНАТУРНЫЙ';
+        appState.cub = appState.lang === 'ru' ? 'СИГНАТУРНЫЙ' : 'SIGNATURE';
     } else {
         appState.cubReal = '';
         appState.cub = '-';
@@ -54,12 +55,19 @@ export function getSuggestions(query, type) {
     if (type === 'frame') {
         return CHAR_DATABASE.filter(c =>
             (c.frame && c.frame.toLowerCase().includes(lowerQ)) ||
-            (c.enFrame && c.enFrame.toLowerCase().includes(lowerQ))
-        ).map(c => ({
-            label: `${c.name}: ${c.frame}`,
-            value: c.frame, // We use Russian frame name as key usually
-            data: c
-        }));
+            (c.enFrame && c.enFrame.toLowerCase().includes(lowerQ)) ||
+            (c.name && c.name.toLowerCase().includes(lowerQ)) ||
+            (c.enName && c.enName.toLowerCase().includes(lowerQ))
+        ).map(c => {
+            const isEn = appState.lang === "en";
+            const name = isEn ? c.enName || c.name : c.name;
+            const frame = isEn ? c.enFrame || c.frame : c.frame;
+            return {
+                label: `${name}: ${frame}`,
+                value: frame,
+                data: c
+            };
+        });
     }
 
     // Add other types as needed

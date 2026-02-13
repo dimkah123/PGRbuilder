@@ -10,9 +10,9 @@
     // Prepare options for autocomplete
     let nameOptions = $derived(
         CHAR_DATABASE.map((c) => {
-            const frameDisplay =
-                appState.lang === "ru" ? c.frame : c.enFrame || c.frame;
-            const nameDisplay = c.name; // Keep RU name for now or translate if available
+            const isEn = appState.lang === "en";
+            const frameDisplay = isEn ? c.enFrame || c.frame : c.frame;
+            const nameDisplay = isEn ? c.enName || c.name : c.name;
             return {
                 label: frameDisplay
                     ? `${nameDisplay}: ${frameDisplay}`
@@ -25,9 +25,9 @@
 
     let frameOptions = $derived(
         CHAR_DATABASE.map((c) => {
-            const frameDisplay =
-                appState.lang === "ru" ? c.frame : c.enFrame || c.frame;
-            const nameDisplay = c.name;
+            const isEn = appState.lang === "en";
+            const frameDisplay = isEn ? c.enFrame || c.frame : c.frame;
+            const nameDisplay = isEn ? c.enName || c.name : c.name;
             return {
                 label: frameDisplay
                     ? `${nameDisplay}: ${frameDisplay}`
