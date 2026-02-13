@@ -191,9 +191,9 @@
 }
 
 /* 
-   Invert White Icons to Black in Light Theme (EXCEPT Weapon, CUB, Affix which are colored/specific) 
+   Invert White Icons to Black in Light Theme (EXCEPT Weapon and CUB which are colored/specific) 
 */
-.light-theme .stat-icon:not(#weapon-img):not(#cub-img):not(#affix-img) {
+.light-theme .stat-icon:not(#weapon-img):not(#cub-img) {
     filter: invert(1);
     opacity: 0.8;
 }
