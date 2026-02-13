@@ -49,6 +49,11 @@
         grid-template-columns: repeat(6, 1fr);
         gap: 5px;
     }
+
+    /* Hide Bottom Control Panel (moved to top-nav tools) */
+    .ctrl-panel {
+        display: none !important;
+    }
 }
 
 /* ==============================================
@@ -167,9 +172,9 @@
         font-size: 0.7rem;
     }
 
-    /* Hide Bottom Control Panel on Mobile (moved to top-nav tools) */
-    .ctrl-panel {
-        display: none !important;
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.7rem;
     }
 
     /* Mobile Tools Toggle Styling */

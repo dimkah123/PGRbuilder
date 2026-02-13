@@ -1,7 +1,13 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
 
-    let { toggleTheme, isLightMode = false, onSave, onExport } = $props();
+    let {
+        toggleTheme,
+        isLightMode = false,
+        onSave,
+        onExport,
+        onSettings,
+    } = $props();
     let isToolsOpen = $state(false);
 
     function handleToolClick(action) {
@@ -27,6 +33,9 @@
                 <div class="tools-dropdown">
                     <button onclick={() => handleToolClick(onSave)}
                         >СОЗДАТЬ ССЫЛКУ</button
+                    >
+                    <button onclick={() => handleToolClick(onSettings)}
+                        >НАСТРОЙКИ</button
                     >
                     <button onclick={() => handleToolClick(onExport)}
                         >СОХРАНИТЬ PNG</button
@@ -93,7 +102,7 @@
     }
 
     /* Mobile Styles */
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
         .mobile-tools-container {
             display: block;
         }

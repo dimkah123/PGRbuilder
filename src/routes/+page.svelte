@@ -96,6 +96,7 @@
     {isLightMode}
     onSave={handleSave}
     onExport={() => handleExport(appState.char || "UNIT")}
+    onSettings={() => settingsModal.open()}
 />
 
 <div class="app-container" bind:this={appContainer}>
