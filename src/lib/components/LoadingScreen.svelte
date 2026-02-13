@@ -1,24 +1,10 @@
 <script>
-    import { onMount } from "svelte";
+    import { appState } from "$lib/state.svelte.js";
     import { fade } from "svelte/transition";
-
-    let visible = $state(true);
-
-    onMount(() => {
-
-        if (document.readyState === "complete") {
-            setTimeout(() => (visible = false), 150);
-        } else {
-            window.addEventListener("load", () => {
-                setTimeout(() => (visible = false), 150);
-            });
-            setTimeout(() => (visible = false), 2000);
-        }
-    });
 </script>
 
-{#if visible}
-    <div id="loading-overlay" transition:fade={{ duration: 150 }}>
+{#if appState.isLoading}
+    <div id="loading-overlay" transition:fade={{ duration: 300 }}>
         <div class="spinner"></div>
         <div class="loading-text">INITIALIZING SYSTEMS...</div>
     </div>

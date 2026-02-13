@@ -16,6 +16,7 @@ function createBuild() {
 
 class AppState {
     // Character Info
+    isLoading = $state(true);
     char = $state('');
     frame = $state('');
     enFrame = $state('');

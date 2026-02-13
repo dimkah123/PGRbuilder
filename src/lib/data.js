@@ -104,7 +104,7 @@ export const ELEMENT_NAMES = {
         "slash": "Слеш",
         "umbra": "Тень",
         "freez": "Заморозка",
-        "light": "Raydiance",
+        "light": "Рейдианс",
         "-": "-"
     },
     en: {
@@ -120,7 +120,7 @@ export const ELEMENT_NAMES = {
         "slash": "Slash",
         "umbra": "Umbra",
         "freez": "Freez",
-        "light": "Light",
+        "light": "Raydiance",
         "-": "-"
     }
 };
@@ -134,7 +134,7 @@ export const CLASS_NAMES = {
         "vanguard": "Авангард",
         "vanguard": "Авангард",
         "observer": "Наблюдатель",
-        "disruption": "Disruption",
+        "disruption": "Дизинтегратор",
         "-": "-"
     },
     en: {
@@ -1225,8 +1225,4 @@ export const CLASS_TO_PREFIX = {
     'Amplifier': 'HE',
     'Авангард': 'UNI',
     'Vanguard': 'UNI',
-    'Vanguard': 'UNI',
-    'Наблюдатель': 'UN',
-    'Observer': 'UN',
-    'Disruption': 'AT'
 };

@@ -80,6 +80,10 @@
         // Init URL Load
         loadFromUrl().then(() => {
             saveBtnState = getSaveButtonState();
+            // Small delay to ensure render
+            setTimeout(() => {
+                appState.isLoading = false;
+            }, 100);
         });
 
         // AutoScale
