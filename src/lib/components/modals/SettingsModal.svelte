@@ -173,8 +173,8 @@
         max-width: 90%;
         height: auto;
         max-height: 90vh;
-        background: #111;
-        border: 1px solid #333;
+        background: var(--panel-bg);
+        border: 1px solid var(--border-color);
     }
 
     .settings-body {
@@ -182,7 +182,7 @@
         display: flex;
         flex-direction: column;
         gap: 25px;
-        color: #ddd;
+        color: var(--text-color);
     }
 
     .setting-group {
@@ -190,7 +190,8 @@
         flex-direction: column;
         gap: 10px;
         padding-bottom: 15px;
-        border-bottom: 1px solid #222;
+        border-bottom: 1px solid var(--border-color);
+        opacity: 0.9;
     }
 
     .group-title {

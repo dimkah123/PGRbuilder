@@ -9,7 +9,7 @@
     /* Light Theme Variables */
     --bg-color: #f2f2f5;
     --panel-bg: #ffffff;
-    --text-color: #1a1a1a;
+    --text-color: #000000;
     --text-highlight: #000000;
     --accent-red: #d32f2f;
     --accent-dim: #f0f0f0;
@@ -50,8 +50,8 @@
 
 /* Stat Labels (Class, Element, etc.) */
 .light-theme .stat-label {
-    color: #666 !important;
-    background: rgba(0, 0, 0, 0.03) !important;
+    color: #000 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
     border-bottom-color: #ddd !important;
     border-top-color: #ddd !important;
 }
@@ -59,17 +59,17 @@
 /* Top Navigation Bar */
 .light-theme .top-nav {
     background: #fff !important;
-    color: #333 !important;
+    color: #000 !important;
     border-bottom-color: #ddd !important;
 }
 
 .light-theme .nav-right {
-    color: #666;
+    color: #000;
 }
 
 /* Section Headers */
 .light-theme .section-header {
-    color: #333 !important;
+    color: #000 !important;
     border-bottom-color: #eee !important;
 }
 
@@ -81,7 +81,7 @@
 
 /* Rich Text Editor */
 .light-theme .rich-textarea {
-    color: #333 !important;
+    color: #000 !important;
 }
 
 /* Portrait Placeholder */
@@ -110,7 +110,7 @@
 }
 
 .light-theme .suggestions-box div {
-    color: #333 !important;
+    color: #000 !important;
     border-bottom-color: #eee !important;
 }
 
@@ -124,7 +124,7 @@
     background-color: #ffffff !important;
     border-color: #ccc !important;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
-    color: #333 !important;
+    color: #000 !important;
 }
 
 .light-theme .cp-hex-input {
@@ -143,7 +143,7 @@
 }
 
 .light-theme .rte-dropdown-item {
-    color: #333 !important;
+    color: #000 !important;
 }
 
 .light-theme .rte-dropdown-item:hover {
@@ -156,8 +156,38 @@
 .light-theme .section-header,
 .light-theme .tac-header,
 .light-theme .weapon-textarea,
-.light-theme .stat-input {
-    color: #333 !important;
+.light-theme .stat-input,
+.light-theme .mobile-tools-container .btn {
+    color: #000 !important;
+}
+
+/* Specific overrides for names in light theme */
+.light-theme .char-name-input {
+    color: #000 !important;
+}
+
+.light-theme .frame-name-input {
+    color: var(--accent-red) !important;
+    opacity: 1 !important;
+}
+
+/* Light theme mobile tools */
+.light-theme .tools-dropdown {
+    background: #fff !important;
+    border-color: #ccc !important;
+}
+
+.light-theme .tools-dropdown button {
+    color: #000 !important;
+    border-bottom-color: #eee !important;
+}
+
+.light-theme .tools-dropdown button:last-child {
+    border-bottom: none;
+}
+
+.light-theme .tools-dropdown button:hover {
+    background: #f5f5f5 !important;
 }
 
 /* 
@@ -217,7 +247,7 @@
 
 .light-theme .modal-header h3,
 .light-theme .wres-modal-header {
-    color: #333 !important;
+    color: #000 !important;
     text-shadow: none !important;
 }
 
@@ -245,14 +275,14 @@
 .light-theme .mem-opt-name,
 .light-theme .wres-item span,
 .light-theme .modal-item span {
-    color: #333 !important;
+    color: #000 !important;
 }
 
 .light-theme .mem-search,
 .light-theme .modal-search-box input,
 .light-theme .modal-search {
     background: #fff !important;
-    color: #333 !important;
+    color: #000 !important;
     border: 1px solid #ccc !important;
     border-bottom: 2px solid #e0e0e0 !important;
     /* Keep bottom slightly thicker/different if desired, or match */
@@ -285,7 +315,7 @@
 .light-theme .custom-res-select .res-select-trigger {
     background-color: #fff !important;
     border-color: #ddd !important;
-    color: #333 !important;
+    color: #000 !important;
 }
 
 .light-theme .res-select-options {
@@ -295,7 +325,7 @@
 
 .light-theme .res-select-option {
     background: #fff !important;
-    color: #333 !important;
+    color: #000 !important;
 }
 
 .light-theme .res-select-option:hover {
@@ -335,7 +365,7 @@
 /* Light Theme Resilience Skill Input */
 .light-theme .res-skill-input {
     border-bottom-color: #ccc !important;
-    color: #333 !important;
+    color: #000 !important;
 }
 
 /* Fix Weapon Resonance Modal Backgrounds */
@@ -350,9 +380,9 @@
 
 /* Light Theme Buttons */
 .light-theme .btn {
-    background: #f0f0f0 !important;
-    color: #333 !important;
-    border-color: #ccc !important;
+    background: #fcfcfc !important;
+    color: #000 !important;
+    border-color: #ddd !important;
     box-shadow: none !important;
 }
 
