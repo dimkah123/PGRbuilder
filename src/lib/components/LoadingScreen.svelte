@@ -5,10 +5,6 @@
     let visible = $state(true);
 
     onMount(() => {
-        // Simulate initialization or wait for resources
-        // Legacy code used window.load + 500ms
-        // In SvelteKit, onMount runs when component is mounted.
-        // We can check document.readyState or just use a timeout.
 
         if (document.readyState === "complete") {
             setTimeout(() => (visible = false), 150);
@@ -16,7 +12,6 @@
             window.addEventListener("load", () => {
                 setTimeout(() => (visible = false), 150);
             });
-            // Fallback in case load already fired
             setTimeout(() => (visible = false), 2000);
         }
     });
