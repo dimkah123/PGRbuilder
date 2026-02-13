@@ -40,6 +40,8 @@
         display: flex;
         justify-content: center;
         margin-top: 20px;
+        min-height: 52px; /* Button height + padding/border approximate */
+        box-sizing: border-box;
     }
     .add-build-wide-btn {
         width: 100%;

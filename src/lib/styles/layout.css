@@ -82,6 +82,9 @@
     height: 20px;
     border: 2px solid #333;
     pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.2s;
+    /* Fade them in with container */
 }
 
 .pc-tl {

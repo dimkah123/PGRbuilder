@@ -74,9 +74,6 @@
             appContainer.style.marginLeft = "";
             appContainer.style.alignSelf = "";
         }
-
-        // Reveal container after scaling logic is applied
-        appContainer.style.opacity = "1";
     }
 
     onMount(() => {
@@ -109,7 +106,7 @@
 <div
     class="app-container"
     bind:this={appContainer}
-    style="opacity: 0; transition: opacity 0.2s;"
+    style="opacity: {appState.isLoading ? 0 : 1}; transition: opacity 0.2s;"
 >
     <div class="page-corner pc-tl"></div>
     <div class="page-corner pc-tr"></div>
