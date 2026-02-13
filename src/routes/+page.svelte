@@ -57,12 +57,13 @@
         const minDesktopW = 1024;
 
         if (winW < containerW && winW > minDesktopW) {
-            const scale = winW / containerW;
+            // Add 40px buffer (20px each side) for "16:9 like" spacing
+            const scale = (winW - 40) / containerW;
             appContainer.style.width = `${containerW}px`; // Force full width layout
             appContainer.style.transform = `scale(${scale})`;
-            appContainer.style.transformOrigin = "top left"; // Align left per user request
-            appContainer.style.marginLeft = "0";
-            appContainer.style.alignSelf = "flex-start"; // Override body centering
+            appContainer.style.transformOrigin = "top center"; // Center it back
+            appContainer.style.marginLeft = "";
+            appContainer.style.alignSelf = ""; // Let Flexbox center it
             appContainer.style.zoom = "";
         } else {
             appContainer.style.width = ""; // Reset to CSS default
