@@ -26,7 +26,7 @@
     <div class="nav-right">
         <!-- Language Switcher -->
         <button
-            class="btn lang-toggle"
+            class="btn lang-toggle toggle-btn"
             onclick={() => appState.toggleLanguage()}
             title={t("language")}
         >
@@ -55,10 +55,7 @@
 
         <button
             id="theme-toggle"
-            class="btn"
-            style="padding: 5px 10px; font-size: 0.7rem; background: {isLightMode
-                ? '#fff'
-                : '#000'}; color: {isLightMode ? '#000' : '#fff'};"
+            class="btn toggle-btn {isLightMode ? 'light' : 'dark'}"
             onclick={toggleTheme}
         >
             {isLightMode ? t("dark_mode") : t("light_mode")}
@@ -117,10 +114,34 @@
         color: #fff;
     }
 
+    .toggle-btn {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        border: 1px solid #444;
+        transition: all 0.2s ease;
+    }
+
+    .toggle-btn.dark {
+        background: #000;
+        color: #fff;
+    }
+
+    .toggle-btn.light {
+        background: #fff;
+        color: #000;
+    }
+
     .lang-toggle {
-        padding: 4px 8px;
-        font-size: 0.65rem;
-        min-width: 35px;
-        letter-spacing: 0.5px;
+        min-width: 45px;
+        background: #000;
+        color: #fff;
+    }
+
+    /* Keep theme toggle consistent with mode */
+    :global(.light-theme) .lang-toggle {
+        background: #fff;
+        color: #000;
     }
 </style>

@@ -1,5 +1,5 @@
 import { appState } from '$lib/state.svelte.js';
-import { CHAR_DATABASE, ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX } from '$lib/data.js';
+import { CHAR_DATABASE, ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX, ELEMENT_NAMES, CLASS_NAMES } from '$lib/data.js';
 
 export function fillCharacterData(charEntry) {
     if (!charEntry) return;
@@ -9,10 +9,14 @@ export function fillCharacterData(charEntry) {
     appState.frame = isEn ? charEntry.enFrame || charEntry.frame : charEntry.frame;
     appState.enFrame = charEntry.enFrame;
     appState.rank = charEntry.rank || 'SSS+';
-    appState.element = charEntry.element || '-';
+
+    // Element update
+    const elementKey = Object.keys(ELEMENT_NAMES['ru']).find(k => ELEMENT_NAMES['ru'][k] === charEntry.element);
+    appState.element = elementKey ? ELEMENT_NAMES[appState.lang][elementKey] : (charEntry.element || '-');
+
     // class update
-    const newClass = charEntry.class || '-';
-    appState.class = newClass;
+    const classKey = Object.keys(CLASS_NAMES['ru']).find(k => CLASS_NAMES['ru'][k] === charEntry.class);
+    appState.class = classKey ? CLASS_NAMES[appState.lang][classKey] : (charEntry.class || '-');
 
     // Weapon
     if (charEntry.weapon) {

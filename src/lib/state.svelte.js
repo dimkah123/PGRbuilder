@@ -1,4 +1,4 @@
-import { ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX } from './data.js';
+import { ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX, CHAR_DATABASE, ELEMENT_NAMES, CLASS_NAMES } from './data.js';
 
 function createBuild() {
     return {
@@ -93,29 +93,43 @@ class AppState {
     lang = $state('ru');
 
     toggleLanguage() {
+        const oldLang = this.lang;
         this.lang = this.lang === 'ru' ? 'en' : 'ru';
         localStorage.setItem('pgr_lang', this.lang);
 
+        const isEn = this.lang === 'en';
+
         // Refresh current character name and frame if exists in DB
-        const search = (this.enFrame || this.frame || '').toLowerCase().trim();
-        if (search) {
+        const searchVal = (this.enFrame || this.frame || '').toLowerCase().trim();
+        if (searchVal) {
             const dbEntry = CHAR_DATABASE.find(c =>
-                (c.frame && c.frame.toLowerCase() === search) ||
-                (c.enFrame && c.enFrame.toLowerCase() === search)
+                (c.frame && c.frame.toLowerCase() === searchVal) ||
+                (c.enFrame && c.enFrame.toLowerCase() === searchVal)
             );
             if (dbEntry) {
-                const isEn = this.lang === 'en';
                 this.char = isEn ? dbEntry.enName || dbEntry.name : dbEntry.name;
                 this.frame = isEn ? dbEntry.enFrame || dbEntry.frame : dbEntry.frame;
             }
         }
 
+        // Migrate Element
+        const elementKey = Object.keys(ELEMENT_NAMES[oldLang]).find(k => ELEMENT_NAMES[oldLang][k] === this.element);
+        if (elementKey) {
+            this.element = ELEMENT_NAMES[this.lang][elementKey];
+        }
+
+        // Migrate Class
+        const classKey = Object.keys(CLASS_NAMES[oldLang]).find(k => CLASS_NAMES[oldLang][k] === this._class);
+        if (classKey) {
+            this._class = CLASS_NAMES[this.lang][classKey];
+        }
+
         // Localize "Signature" labels if active
         if (this.weapon === 'СИГНАТУРНОЕ' || this.weapon === 'SIGNATURE') {
-            this.weapon = this.lang === 'ru' ? 'СИГНАТУРНОЕ' : 'SIGNATURE';
+            this.weapon = isEn ? 'SIGNATURE' : 'СИГНАТУРНОЕ';
         }
         if (this.cub === 'СИГНАТУРНЫЙ' || this.cub === 'SIGNATURE') {
-            this.cub = this.lang === 'ru' ? 'СИГНАТУРНЫЙ' : 'SIGNATURE';
+            this.cub = isEn ? 'SIGNATURE' : 'СИГНАТУРНЫЙ';
         }
     }
 

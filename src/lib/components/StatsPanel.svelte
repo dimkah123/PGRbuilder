@@ -13,14 +13,14 @@
     let classOptions = $derived(
         Object.keys(CLASS_NAMES[appState.lang]).map((key) => ({
             label: CLASS_NAMES[appState.lang][key],
-            value: CLASS_NAMES["ru"][key], // Keep RU as internal value for backwards compatibility
+            value: CLASS_NAMES[appState.lang][key],
         })),
     );
 
     let elementOptions = $derived(
         Object.keys(ELEMENT_NAMES[appState.lang]).map((key) => ({
             label: ELEMENT_NAMES[appState.lang][key],
-            value: ELEMENT_NAMES["ru"][key],
+            value: ELEMENT_NAMES[appState.lang][key],
         })),
     );
 
@@ -30,7 +30,7 @@
     let affixOptions = $derived([
         ...Object.keys(ELEMENT_NAMES[appState.lang]).map((key) => ({
             label: ELEMENT_NAMES[appState.lang][key],
-            value: ELEMENT_NAMES["ru"][key],
+            value: ELEMENT_NAMES[appState.lang][key],
         })),
         "Burn",
         "Dark",
