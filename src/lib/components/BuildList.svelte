@@ -8,7 +8,11 @@
 <div id="builds-container">
     {#each appState.builds as build, index (build)}
         <div
-            in:fly={{ y: -20, duration: 300, easing: quintOut }}
+            in:fly={{
+                y: -20,
+                duration: appState.isLoading ? 0 : 300,
+                easing: quintOut,
+            }}
             out:slide={{ duration: 300, easing: quintOut }}
         >
             <BuildRow {build} {index} />
