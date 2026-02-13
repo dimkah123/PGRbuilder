@@ -1,6 +1,7 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import { WEAPON_RESONANCES, CLASS_TO_PREFIX } from "$lib/data.js";
+    import { t } from "$lib/i18n.js";
 
     // Derived filtering logic
     let availableResonances = $derived.by(() => {

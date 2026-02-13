@@ -181,7 +181,7 @@
                                 class="mem-remove-btn"
                                 onclick={(e) => {
                                     e.stopPropagation();
-                                    build.wRes[wIndex] = null;
+                                    if (build.wRes) build.wRes[wIndex] = null;
                                 }}
                             >
                                 ×
@@ -196,10 +196,16 @@
                                 })}
                         >
                             {#if build.wRes && build.wRes[wIndex]}
-                                <img
-                                    src={build.wRes[wIndex].file}
-                                    alt={build.wRes[wIndex].name}
-                                />
+                                {#if typeof build.wRes[wIndex] === "object" && build.wRes[wIndex].file}
+                                    <img
+                                        src={build.wRes[wIndex].file}
+                                        alt={build.wRes[wIndex].name}
+                                    />
+                                {:else}
+                                    <div class="wres-fallback">
+                                        {build.wRes[wIndex]}
+                                    </div>
+                                {/if}
                             {/if}
                         </div>
                     </div>

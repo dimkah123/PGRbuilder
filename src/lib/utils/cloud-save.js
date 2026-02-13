@@ -121,8 +121,8 @@ export function getSaveButtonState() {
     const id = params.get('id');
     if (id) {
         const token = getEditToken(id);
-        if (token) return { text: 'ОБНОВИТЬ', style: 'update' };
-        return { text: 'СОЗДАТЬ КОПИЮ', style: 'copy' };
+        if (token) return { textKey: 'update', style: 'update' };
+        return { textKey: 'copy', style: 'copy' };
     }
-    return { text: 'СОЗДАТЬ ССЫЛКУ', style: 'new' };
+    return { textKey: 'create_link', style: 'new' };
 }

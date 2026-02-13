@@ -4,7 +4,9 @@ const translations = {
     ru: {
         tools: "ИНСТРУМЕНТЫ",
         create_link: "СОЗДАТЬ ССЫЛКУ",
-        save_png: "СОХРАНИТЬ PNG",
+        save_png: "СОХРАНИТЬ (PNG)",
+        update: "ОБНОВИТЬ",
+        copy: "СОЗДАТЬ КОПИЮ",
         dark_mode: "ТЕМНАЯ ТЕМА",
         light_mode: "СВЕТЛАЯ ТЕМА",
         language: "ЯЗЫК",
@@ -69,7 +71,9 @@ const translations = {
     en: {
         tools: "TOOLS",
         create_link: "CREATE LINK",
-        save_png: "SAVE PNG",
+        save_png: "SAVE (PNG)",
+        update: "UPDATE",
+        copy: "CREATE COPY",
         dark_mode: "DARK MODE",
         light_mode: "LIGHT MODE",
         language: "LANGUAGE",

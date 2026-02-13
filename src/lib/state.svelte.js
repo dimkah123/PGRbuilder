@@ -84,11 +84,11 @@ class AppState {
         return img ? img.file : '';
     }
 
-    get elementImg() { return ASSET_MAP[this.element.toLowerCase()] || ''; }
-    get classImg() { return ASSET_MAP[this.class.toLowerCase()] || ''; }
-    get weaponImg() { return ASSET_MAP[(this.weaponReal || this.weapon).toLowerCase()] || ''; }
-    get affixImg() { return ASSET_MAP[this.affix.toLowerCase()] || ''; }
-    get cubImg() { return ASSET_MAP[(this.cubReal || this.cub).toLowerCase()] || ''; }
+    get elementImg() { return ASSET_MAP[(this.element || '').toLowerCase()] || ''; }
+    get classImg() { return ASSET_MAP[(this.class || '').toLowerCase()] || ''; }
+    get weaponImg() { return ASSET_MAP[(this.weaponReal || this.weapon || '').toLowerCase()] || ''; }
+    get affixImg() { return ASSET_MAP[(this.affix || '').toLowerCase()] || ''; }
+    get cubImg() { return ASSET_MAP[(this.cubReal || this.cub || '').toLowerCase()] || ''; }
 
     lang = $state('ru');
 
@@ -176,13 +176,18 @@ class AppState {
         this.class = data.class || '';
 
         // Handle Weapon/CUB (Store real name, display logic handled in component usually)
+        const isEn = this.lang === 'en';
         this.weaponReal = data.weapon || '';
-        this.weapon = (data.weapon && ASSET_MAP[data.weapon.toLowerCase()]) ? 'СИГНАТУРНОЕ' : (data.weapon || '-');
+        this.weapon = (data.weapon && ASSET_MAP[data.weapon.toLowerCase()])
+            ? (isEn ? 'SIGNATURE' : 'СИГНАТУРНОЕ')
+            : (data.weapon || '-');
 
         this.affix = data.affix || '';
 
         this.cubReal = data.cub || '';
-        this.cub = (data.cub && ASSET_MAP[data.cub.toLowerCase()]) ? 'СИГНАТУРНЫЙ' : (data.cub || '-');
+        this.cub = (data.cub && ASSET_MAP[data.cub.toLowerCase()])
+            ? (isEn ? 'SIGNATURE' : 'СИГНАТУРНЫЙ')
+            : (data.cub || '-');
 
         this.posCode = data.posCode || '';
 

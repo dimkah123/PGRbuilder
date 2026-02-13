@@ -3,6 +3,7 @@
     import TopNav from "$lib/components/TopNav.svelte";
     import LeftPanel from "$lib/components/LeftPanel.svelte";
     import RightPanel from "$lib/components/RightPanel.svelte";
+    import { t } from "$lib/i18n.js";
     import { appState } from "$lib/state.svelte.js";
 
     // Modals
@@ -21,7 +22,7 @@
     import { handleExport } from "$lib/utils/export.js";
 
     let isLightMode = $state(false);
-    let saveBtnState = $state({ text: "СОЗДАТЬ ССЫЛКУ", style: "new" });
+    let saveBtnState = $state({ textKey: "create_link", style: "new" });
     let appContainer; // binding
     let settingsModal; // binding
 
@@ -117,13 +118,13 @@
             : ''}"
         onclick={handleSave}
     >
-        {saveBtnState.text}
+        {t(saveBtnState.textKey)}
     </button>
     <button class="btn btn-settings" onclick={() => settingsModal.open()}
-        >НАСТРОЙКИ</button
+        >{t("settings")}</button
     >
     <button class="btn" onclick={() => handleExport(appState.char || "UNIT")}
-        >СОХРАНИТЬ (PNG)</button
+        >{t("save_png")}</button
     >
 </div>
 
