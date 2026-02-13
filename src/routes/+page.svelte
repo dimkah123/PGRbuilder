@@ -91,7 +91,12 @@
     });
 </script>
 
-<TopNav {toggleTheme} {isLightMode} />
+<TopNav
+    {toggleTheme}
+    {isLightMode}
+    onSave={handleSave}
+    onExport={() => handleExport(appState.char || "UNIT")}
+/>
 
 <div class="app-container" bind:this={appContainer}>
     <div class="page-corner pc-tl"></div>
@@ -113,7 +118,9 @@
     >
         {saveBtnState.text}
     </button>
-    <button class="btn" onclick={() => settingsModal.open()}>НАСТРОЙКИ</button>
+    <button class="btn btn-settings" onclick={() => settingsModal.open()}
+        >НАСТРОЙКИ</button
+    >
     <button class="btn" onclick={() => handleExport(appState.char || "UNIT")}
         >СОХРАНИТЬ (PNG)</button
     >

@@ -171,4 +171,18 @@
         padding: 8px 12px;
         font-size: 0.7rem;
     }
+
+    /* Hide Settings Button on Mobile */
+    .btn-settings {
+        display: none !important;
+    }
+
+    /* Mobile Tools Toggle Styling */
+    .tools-toggle {
+        font-size: 0.7rem !important;
+        padding: 5px 10px !important;
+        background: transparent;
+        border: 1px solid #333;
+        color: #fff;
+    }
 }
