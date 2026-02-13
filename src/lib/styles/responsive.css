@@ -5,6 +5,9 @@
 /* ==============================================
    Tablet / Netbook (max-width: 1024px)
    ============================================== */
+/* ==============================================
+   Tablet / Netbook (max-width: 1024px)
+   ============================================== */
 @media screen and (max-width: 1024px) {
     .app-container {
         display: flex;
@@ -119,6 +122,8 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, auto);
         gap: 8px;
+        width: 100%;
+        /* Force full width to match Harm Col */
     }
 
     .mem-cell {
@@ -174,6 +179,13 @@
         width: 100%;
     }
 
+    .tac-box {
+        height: auto !important;
+        min-height: 100px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
     .weapon-res-row {
         flex-wrap: wrap;
         gap: 10px;
@@ -187,13 +199,8 @@
     .build-row>div:last-child {
         display: flex;
         justify-content: flex-end;
-    }
-
-
-
-    .btn {
-        padding: 8px 12px;
-        font-size: 0.7rem;
+        align-self: flex-end;
+        /* Prevent stretching */
     }
 
     .btn {

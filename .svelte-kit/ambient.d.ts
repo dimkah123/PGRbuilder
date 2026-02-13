@@ -27,7 +27,6 @@
  */
 declare module '$env/static/private' {
 	export const ALLUSERSPROFILE: string;
-	export const ANTIGRAVITY_AGENT: string;
 	export const ANTIGRAVITY_CLI_ALIAS: string;
 	export const APPDATA: string;
 	export const BUNDLED_DEBUGPY_PATH: string;
@@ -43,11 +42,11 @@ declare module '$env/static/private' {
 	export const DriverData: string;
 	export const DXSDK_DIR: string;
 	export const EDITOR: string;
-	export const EFC_1780_1262719628: string;
-	export const EFC_1780_1592913036: string;
-	export const EFC_1780_2283032206: string;
-	export const EFC_1780_2775293581: string;
-	export const EFC_1780_3789132940: string;
+	export const EFC_7840_1262719628: string;
+	export const EFC_7840_1592913036: string;
+	export const EFC_7840_2283032206: string;
+	export const EFC_7840_2775293581: string;
+	export const EFC_7840_3789132940: string;
 	export const FPS_BROWSER_APP_PROFILE_STRING: string;
 	export const FPS_BROWSER_USER_PROFILE_STRING: string;
 	export const GIT_ASKPASS: string;
@@ -83,7 +82,6 @@ declare module '$env/static/private' {
 	export const NUMBER_OF_PROCESSORS: string;
 	export const OneDrive: string;
 	export const OS: string;
-	export const PAGER: string;
 	export const Path: string;
 	export const PATHEXT: string;
 	export const PROCESSOR_ARCHITECTURE: string;
@@ -149,7 +147,6 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		ALLUSERSPROFILE: string;
-		ANTIGRAVITY_AGENT: string;
 		ANTIGRAVITY_CLI_ALIAS: string;
 		APPDATA: string;
 		BUNDLED_DEBUGPY_PATH: string;
@@ -165,11 +162,11 @@ declare module '$env/dynamic/private' {
 		DriverData: string;
 		DXSDK_DIR: string;
 		EDITOR: string;
-		EFC_1780_1262719628: string;
-		EFC_1780_1592913036: string;
-		EFC_1780_2283032206: string;
-		EFC_1780_2775293581: string;
-		EFC_1780_3789132940: string;
+		EFC_7840_1262719628: string;
+		EFC_7840_1592913036: string;
+		EFC_7840_2283032206: string;
+		EFC_7840_2775293581: string;
+		EFC_7840_3789132940: string;
 		FPS_BROWSER_APP_PROFILE_STRING: string;
 		FPS_BROWSER_USER_PROFILE_STRING: string;
 		GIT_ASKPASS: string;
@@ -205,7 +202,6 @@ declare module '$env/dynamic/private' {
 		NUMBER_OF_PROCESSORS: string;
 		OneDrive: string;
 		OS: string;
-		PAGER: string;
 		Path: string;
 		PATHEXT: string;
 		PROCESSOR_ARCHITECTURE: string;
