@@ -162,7 +162,7 @@
 }
 
 /* Specific overrides for names in light theme */
-.light-theme .char-name-input {
+.light-theme .name-plate .char-name-input {
     color: #000 !important;
 }
 
@@ -408,13 +408,6 @@
     background: rgba(0, 0, 0, 0.02);
 }
 
-/* 
-   Global Smooth Theme Transition 
-   ----------------------------------------------
-   This block ensures that ALL elements transition their colors/backgrounds/borders
-   smoothly when the 'changing-theme' class is applied to the body.
-   This class is added via JS for 550ms during the toggle.
-*/
 .changing-theme,
 .changing-theme *,
 .changing-theme *::before,
