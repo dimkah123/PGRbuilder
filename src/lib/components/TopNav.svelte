@@ -34,9 +34,6 @@
                     <button onclick={() => handleToolClick(onSave)}
                         >СОЗДАТЬ ССЫЛКУ</button
                     >
-                    <button onclick={() => handleToolClick(onSettings)}
-                        >НАСТРОЙКИ</button
-                    >
                     <button onclick={() => handleToolClick(onExport)}
                         >СОХРАНИТЬ PNG</button
                     >
