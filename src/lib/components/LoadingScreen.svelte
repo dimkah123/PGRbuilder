@@ -11,10 +11,10 @@
         // We can check document.readyState or just use a timeout.
 
         if (document.readyState === "complete") {
-            setTimeout(() => (visible = false), 250);
+            setTimeout(() => (visible = false), 150);
         } else {
             window.addEventListener("load", () => {
-                setTimeout(() => (visible = false), 250);
+                setTimeout(() => (visible = false), 150);
             });
             // Fallback in case load already fired
             setTimeout(() => (visible = false), 2000);
@@ -23,7 +23,7 @@
 </script>
 
 {#if visible}
-    <div id="loading-overlay" transition:fade={{ duration: 250 }}>
+    <div id="loading-overlay" transition:fade={{ duration: 150 }}>
         <div class="spinner"></div>
         <div class="loading-text">INITIALIZING SYSTEMS...</div>
     </div>
