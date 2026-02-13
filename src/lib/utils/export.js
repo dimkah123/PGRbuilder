@@ -106,17 +106,36 @@ export function handleExport(charName = 'UNIT') {
             }
         }
 
-        // Copy styles
-        ['fontFamily', 'fontSize', 'fontWeight', 'color', 'textAlign', 'letterSpacing', 'textTransform'].forEach(k => {
-            div.style[k] = style[k];
-        });
+        // Copy ONLY essential text styles that might be strictly set, but preferably trust CSS.
+        // If we copy fontSize/width from mobile, we break the desktop render.
+        // We will only copy text-align and color which are usually consistent or inline.
+        // Actually, let's copy nothing if possible and rely on classes? 
+        // But some inputs might have specific alignments.
+
+        div.style.textAlign = style.textAlign;
+        div.style.color = style.color;
+        div.style.fontWeight = style.fontWeight;
+        div.style.fontFamily = style.fontFamily;
+        div.style.textTransform = style.textTransform;
+        div.style.letterSpacing = style.letterSpacing;
+        // Do NOT copy fontSize, width, height, styling (border, padding) as these change with resolution.
 
         div.style.background = 'transparent';
         div.style.border = 'none';
-        div.style.borderBottom = style.borderBottom; // Keep underline if exists
-        div.style.padding = style.padding;
-        div.style.width = style.width;
-        div.style.height = style.height;
+
+        // For underline inputs (top section), we might need the border-bottom.
+        // But in CSS .char-name-input has border-bottom.
+        // If we strip it, we lose it? The original input has it. 
+        // The div replacing it essentially mimics the input's box.
+        // Let's rely on the classNames being present on the div implies we might need to verify if the div inherits the border.
+        // The original logic replaced the input with a div but KEPT the classes on the input? 
+        // No, it inserted the div. The div doesn't have the input's classes! 
+
+        // CRITICAL FIX: Transfer classes from input to div!
+        div.className = orig.className;
+
+        // Remove 'mem-input' etc if they cause issues on a div? 
+        // Usually input classes work on divs if they just set typography/border.
 
         cl.style.display = 'none';
         cl.parentNode.insertBefore(div, cl);
@@ -124,11 +143,13 @@ export function handleExport(charName = 'UNIT') {
 
     html2canvas(clone, {
         backgroundColor: '#000000',
-        scale: 1, // High res?
+        scale: 1,
         useCORS: true,
         logging: false,
         width: 1920,
-        windowWidth: 1920
+        height: 1080, // Force height too?
+        windowWidth: 1920,
+        windowHeight: 1080,
     }).then(canvas => {
         const link = document.createElement('a');
         link.download = `GR_DB_${charName}.png`;
