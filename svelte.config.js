@@ -6,7 +6,7 @@ const config = {
         adapter: adapter({
             fallback: '404.html'
         }),
-        inlineStyleThreshold: 10240,
+        inlineStyleThreshold: 51200,
         prerender: {
             handleHttpError: ({ path, message }) => {
                 // Ignore missing assets/links during build

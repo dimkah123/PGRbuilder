@@ -1,0 +1,66 @@
+/* Exo 2 */
+@font-face {
+    font-family: 'Exo 2';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/Exo2-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Exo 2';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/fonts/Exo2-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Exo 2';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/Exo2-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Exo 2';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/Exo2-Bold.ttf') format('truetype');
+}
+
+/* JetBrains Mono */
+@font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+}
+
+/* Jura */
+@font-face {
+    font-family: 'Jura';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/Jura-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Jura';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/Jura-Bold.ttf') format('truetype');
+}

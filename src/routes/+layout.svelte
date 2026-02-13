@@ -1,4 +1,5 @@
 <script>
+    import "$lib/styles/fonts.css";
     import "$lib/styles/globals.css";
     import "$lib/styles/layout.css";
     import "$lib/styles/character.css";
