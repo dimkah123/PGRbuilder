@@ -5,6 +5,8 @@
 
     let { slotIndex, buildIndex } = $props();
 
+    let dragOver = $state(false);
+
     // Derived value for the image
     let memName = $derived(appState.builds[buildIndex]?.mems[slotIndex] || "");
     let memImg = $derived(
@@ -21,9 +23,46 @@
     function handleClick() {
         appState.openModal("mem", { buildIndex, slotIndex });
     }
+
+    function handleDragStart(e) {
+        e.dataTransfer.setData(
+            "text/plain",
+            JSON.stringify({ buildIndex, slotIndex, memName }),
+        );
+        e.dataTransfer.effectAllowed = "copy";
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+        dragOver = true;
+    }
+
+    function handleDragLeave() {
+        dragOver = false;
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        dragOver = false;
+        try {
+            const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+            if (data.memName && MEMORY_NAMES.includes(data.memName)) {
+                appState.builds[buildIndex].mems[slotIndex] = data.memName;
+            }
+        } catch {}
+    }
 </script>
 
-<div class="mem-cell {memName || memImg ? 'has-item' : ''}">
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div
+    class="mem-cell {memName || memImg ? 'has-item' : ''} {dragOver
+        ? 'drag-over'
+        : ''}"
+    ondragover={handleDragOver}
+    ondragleave={handleDragLeave}
+    ondrop={handleDrop}
+>
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="mem-remove-btn" onclick={handleRemove}>×</div>
@@ -32,7 +71,13 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="mem-box" onclick={handleClick}>
         {#if memImg}
-            <img class="mem-img" src={memImg} alt={memName} draggable="true" />
+            <img
+                class="mem-img"
+                src={memImg}
+                alt={memName}
+                draggable="true"
+                ondragstart={handleDragStart}
+            />
         {/if}
     </div>
 

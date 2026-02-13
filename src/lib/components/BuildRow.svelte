@@ -23,6 +23,36 @@
     function removeBuild() {
         appState.removeBuild(index);
     }
+    let harmDragOver = $state(false);
+
+    function harmDragStart(e) {
+        e.dataTransfer.setData(
+            "text/plain",
+            JSON.stringify({ buildIndex: index, memName: build.harm }),
+        );
+        e.dataTransfer.effectAllowed = "copy";
+    }
+
+    function harmDragOver_(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+        harmDragOver = true;
+    }
+
+    function harmDragLeave() {
+        harmDragOver = false;
+    }
+
+    function harmDrop(e) {
+        e.preventDefault();
+        harmDragOver = false;
+        try {
+            const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+            if (data.memName && MEMORY_NAMES.includes(data.memName)) {
+                build.harm = data.memName;
+            }
+        } catch {}
+    }
 </script>
 
 <div class="build-row">
@@ -45,7 +75,15 @@
     </div>
 
     <!-- 2. Harmony -->
-    <div class="harm-col {build.harm ? 'has-item' : ''}">
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div
+        class="harm-col {build.harm ? 'has-item' : ''} {harmDragOver
+            ? 'drag-over'
+            : ''}"
+        ondragover={harmDragOver_}
+        ondragleave={harmDragLeave}
+        ondrop={harmDrop}
+    >
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         {#if build.harm && MEMORY_NAMES.includes(build.harm)}
@@ -71,6 +109,8 @@
                     <img
                         src={`Image/Memories/Memory-${build.harm}-Icon-1.webp`}
                         alt={build.harm}
+                        draggable="true"
+                        ondragstart={harmDragStart}
                     />
                 {/if}
             </div>

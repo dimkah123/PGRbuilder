@@ -103,6 +103,11 @@
     position: relative;
 }
 
+.mem-cell.drag-over .mem-box {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 10px rgba(255, 50, 50, 0.5);
+}
+
 /* Individual Memory Slot */
 .mem-box {
     width: 100%;
@@ -253,6 +258,11 @@
     margin-bottom: 5px;
     cursor: pointer;
     transition: all 0.2s ease;
+}
+
+.harm-col.drag-over .harm-slot {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 10px rgba(255, 50, 50, 0.5);
 }
 
 .harm-slot:hover {
