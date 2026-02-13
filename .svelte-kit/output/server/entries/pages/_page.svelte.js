@@ -1215,7 +1215,6 @@ class AppState {
   validateResonances() {
     const newClass = this._class;
     const allowedPrefix = CLASS_TO_PREFIX[newClass];
-    console.log(`[AppState] Validating Resonances. Class: ${newClass}, Prefix: ${allowedPrefix}`);
     this.builds.forEach((build, bIdx) => {
       if (!build.wRes) return;
       const validRes = build.wRes.filter((res) => {
@@ -1223,9 +1222,6 @@ class AppState {
         if (res.prefix === "UN") return true;
         if (allowedPrefix === "UNI") return true;
         const isValid = res.prefix === allowedPrefix;
-        if (!isValid) {
-          console.log(`[AppState] Removing incompatible: ${res.name} (${res.prefix}) != ${allowedPrefix}`);
-        }
         return isValid;
       });
       const newWRes = [...validRes, null, null, null].slice(0, 3);
@@ -1579,7 +1575,6 @@ function LeftPanel($$renderer, $$props) {
       data: c
     }));
     function onNameSelect(opt) {
-      console.log("[LeftPanel] onNameSelect triggered", opt);
       if (opt.data) {
         fillCharacterData(opt.data);
       } else {
@@ -1587,7 +1582,6 @@ function LeftPanel($$renderer, $$props) {
       }
     }
     function onFrameSelect(opt) {
-      console.log("[LeftPanel] onFrameSelect triggered", opt);
       if (opt.data) {
         fillCharacterData(opt.data);
       }
@@ -1649,7 +1643,7 @@ function MemorySlot($$renderer, $$props) {
     let $$settled = true;
     let $$inner_renderer;
     function $$render_inner($$renderer3) {
-      $$renderer3.push(`<div${attr_class(`mem-cell ${stringify(memName || memImg ? "has-item" : "")}`)}><div class="mem-remove-btn">×</div>  <div class="mem-box">`);
+      $$renderer3.push(`<div${attr_class(`mem-cell ${stringify(memName || memImg ? "has-item" : "")} ${stringify("")}`)}><div class="mem-remove-btn">×</div>  <div class="mem-box">`);
       if (memImg) {
         $$renderer3.push("<!--[-->");
         $$renderer3.push(`<img class="mem-img"${attr("src", memImg)}${attr("alt", memName)} draggable="true"/>`);
@@ -1729,7 +1723,7 @@ function BuildRow($$renderer, $$props) {
         let slotIndex = each_array[$$index];
         MemorySlot($$renderer3, { buildIndex: index, slotIndex });
       }
-      $$renderer3.push(`<!--]--></div> <div${attr_class(`harm-col ${stringify(build.harm ? "has-item" : "")}`)}>`);
+      $$renderer3.push(`<!--]--></div>  <div${attr_class(`harm-col ${stringify(build.harm ? "has-item" : "")} ${stringify("")}`)}>`);
       if (build.harm && MEMORY_NAMES.includes(build.harm)) {
         $$renderer3.push("<!--[-->");
         $$renderer3.push(`<div class="mem-remove-btn">×</div>`);
@@ -1739,11 +1733,26 @@ function BuildRow($$renderer, $$props) {
       $$renderer3.push(`<!--]-->  <div class="harm-slot"><div class="mem-box">`);
       if (build.harm && MEMORY_NAMES.includes(build.harm)) {
         $$renderer3.push("<!--[-->");
-        $$renderer3.push(`<img${attr("src", `Image/Memories/Memory-${build.harm}-Icon-1.webp`)}${attr("alt", build.harm)}/>`);
+        $$renderer3.push(`<img${attr("src", `Image/Memories/Memory-${build.harm}-Icon-1.webp`)}${attr("alt", build.harm)} draggable="true"/>`);
       } else {
         $$renderer3.push("<!--[!-->");
       }
-      $$renderer3.push(`<!--]--></div></div> <span class="harm-label">ГАРМ</span></div> <div class="res-col"><div class="res-group"><div class="res-label">ВЕРХ. РЕЗОНАНС</div> <div class="res-row">`);
+      $$renderer3.push(`<!--]--></div></div> <div class="combobox-container svelte-1bapz8c">`);
+      Combobox($$renderer3, {
+        class: "harm-input",
+        placeholder: "ГАРМ",
+        options: MEMORY_NAMES,
+        showOnFocus: false,
+        strict: true,
+        get value() {
+          return build.harm;
+        },
+        set value($$value) {
+          build.harm = $$value;
+          $$settled = false;
+        }
+      });
+      $$renderer3.push(`<!----></div></div> <div class="res-col"><div class="res-group"><div class="res-label">ВЕРХ. РЕЗОНАНС</div> <div class="res-row">`);
       ResonanceSelect($$renderer3, {
         get value() {
           return build.resTopSlot;
@@ -1852,13 +1861,19 @@ function RightPanel($$renderer, $$props) {
 function MemoryModal($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let searchQuery = "";
-    let memoryList = [];
     let activeSlotIndex = (() => {
       if (!appState.modalData) return 1;
       if (appState.modalData.slotIndex !== void 0) {
         return appState.modalData.slotIndex % 3 + 1;
       }
       return 1;
+    })();
+    let memoryList = (() => {
+      const lowerQ = searchQuery.toLowerCase();
+      return MEMORY_NAMES.filter((name) => name.toLowerCase().includes(lowerQ)).map((name) => ({
+        name,
+        file: `Image/Memories/Memory-${name}-Icon-${activeSlotIndex}.webp`
+      }));
     })();
     if (appState.activeModal === "mem") {
       $$renderer2.push("<!--[-->");
@@ -2018,7 +2033,7 @@ function _page($$renderer, $$props) {
     LeftPanel($$renderer2);
     $$renderer2.push(`<!----> `);
     RightPanel($$renderer2);
-    $$renderer2.push(`<!----></div> <div class="ctrl-panel"><button class="btn"${attr_style(`margin-right: 10px; ${stringify("")}`)}>${escape_html(saveBtnState.text)}</button> <button class="btn">НАСТРОЙКИ</button> <button class="btn">СОХРАНИТЬ (PNG)</button></div> `);
+    $$renderer2.push(`<!----></div> <div class="ctrl-panel"><button${attr_class(`btn btn-save ${stringify("")}`)}>${escape_html(saveBtnState.text)}</button> <button class="btn">НАСТРОЙКИ</button> <button class="btn">СОХРАНИТЬ (PNG)</button></div> `);
     MemoryModal($$renderer2);
     $$renderer2.push(`<!----> `);
     CharacterModal($$renderer2);

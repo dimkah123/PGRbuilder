@@ -28,7 +28,6 @@
     );
 
     function onNameSelect(opt) {
-        console.log("[LeftPanel] onNameSelect triggered", opt);
         // opt is object {label, value, data}
         if (opt.data) {
             fillCharacterData(opt.data);
@@ -38,7 +37,6 @@
     }
 
     function onFrameSelect(opt) {
-        console.log("[LeftPanel] onFrameSelect triggered", opt);
         // opt is the object { label, value, data }
         if (opt.data) {
             fillCharacterData(opt.data);

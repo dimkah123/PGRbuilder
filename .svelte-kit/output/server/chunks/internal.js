@@ -2609,7 +2609,7 @@ const options = {
   service_worker: false,
   service_worker_options: void 0,
   templates: {
-    app: ({ head, body, assets, nonce, env }) => '<!DOCTYPE html>\r\n<html lang="ru">\r\n\r\n<head>\r\n    <meta charset="utf-8" />\r\n    <link rel="icon" href="' + assets + '/Image/Classes/Uniframe.webp" type="image/webp" />\r\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\r\n    <title>БАЗА ДАННЫХ GRAY RAVEN // ГАЙД</title>\r\n\r\n    <link rel="preload"\r\n        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@100..800&family=Jura:wght@300..700&display=swap"\r\n        as="style">\r\n    <link rel="preconnect" href="https://fonts.googleapis.com">\r\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\r\n    <link\r\n        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@100..800&family=Jura:wght@300..700&display=swap"\r\n        rel="stylesheet">\r\n\r\n    ' + head + '\r\n</head>\r\n\r\n<body data-sveltekit-preload-data="hover">\r\n    <div style="display: contents">' + body + "</div>\r\n</body>\r\n\r\n</html>",
+    app: ({ head, body, assets, nonce, env }) => '<!DOCTYPE html>\r\n<html lang="ru">\r\n\r\n<head>\r\n    <meta charset="utf-8" />\r\n    <link rel="icon" href="' + assets + '/Image/Classes/Uniframe.webp" type="image/webp" />\r\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\r\n    <meta name="description"\r\n        content="PGR Builder — конструктор билдов для Punishing: Gray Raven. Создавайте, сохраняйте и делитесь сборками персонажей." />\r\n    <title>БАЗА ДАННЫХ GRAY RAVEN // ГАЙД</title>\r\n\r\n    <link rel="preload"\r\n        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@100..800&family=Jura:wght@300..700&display=swap"\r\n        as="style">\r\n    <link rel="preconnect" href="https://fonts.googleapis.com">\r\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\r\n    <link\r\n        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@100..800&family=Jura:wght@300..700&display=swap"\r\n        rel="stylesheet">\r\n\r\n    ' + head + '\r\n</head>\r\n\r\n<body data-sveltekit-preload-data="hover">\r\n    <div style="display: contents">' + body + "</div>\r\n</body>\r\n\r\n</html>",
     error: ({ status, message }) => '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<title>' + message + `</title>
 
 		<style>
@@ -2681,7 +2681,7 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "19qci28"
+  version_hash: "13nc29c"
 };
 async function get_hooks() {
   let handle;

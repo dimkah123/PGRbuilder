@@ -40,6 +40,12 @@
     /* Technical data / Numbers */
     --font-body: 'Exo 2', sans-serif;
     /* Body text */
+
+    /* Modal Settings Defaults */
+    --modal-width-char: 1000px;
+    --modal-width-mem: 1000px;
+    --modal-width-wres: 1200px;
+    --wres-cols: 8;
 }
 
 /* 

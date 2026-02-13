@@ -96,9 +96,8 @@
 <!-- Floating Controls -->
 <div class="ctrl-panel">
     <button
-        class="btn"
-        style="margin-right: 10px; {saveBtnState.style === 'update'
-            ? 'border-color:#4caf50; color:#4caf50;'
+        class="btn btn-save {saveBtnState.style === 'update'
+            ? 'btn-update'
             : ''}"
         onclick={handleSave}
     >

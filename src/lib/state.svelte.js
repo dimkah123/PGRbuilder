@@ -34,7 +34,6 @@ class AppState {
     validateResonances() {
         const newClass = this._class;
         const allowedPrefix = CLASS_TO_PREFIX[newClass];
-        console.log(`[AppState] Validating Resonances. Class: ${newClass}, Prefix: ${allowedPrefix}`);
 
         this.builds.forEach((build, bIdx) => {
             if (!build.wRes) return;
@@ -52,9 +51,6 @@ class AppState {
                 // 3. Otherwise, prefix must match character's class prefix
                 const isValid = res.prefix === allowedPrefix;
 
-                if (!isValid) {
-                    console.log(`[AppState] Removing incompatible: ${res.name} (${res.prefix}) != ${allowedPrefix}`);
-                }
                 return isValid;
             });
 
