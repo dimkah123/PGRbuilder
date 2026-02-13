@@ -15,7 +15,7 @@
             }}
             out:slide={{ duration: 300, easing: quintOut }}
         >
-            <BuildRow {build} {index} />
+            <BuildRow {build} {index} isLoading={appState.isLoading} />
         </div>
     {/each}
 </div>

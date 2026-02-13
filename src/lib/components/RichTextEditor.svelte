@@ -258,6 +258,10 @@
         execCmd("foreColor", color, true);
         // Keep picker open
     }
+
+    function initialContent(node) {
+        if (value) node.innerHTML = value;
+    }
 </script>
 
 <svelte:document
@@ -280,6 +284,7 @@
         class="rich-textarea"
         contenteditable="true"
         bind:this={editor}
+        use:initialContent
         oninput={handleInput}
         role="textbox"
         tabindex="0"

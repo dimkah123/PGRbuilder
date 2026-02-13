@@ -13,10 +13,6 @@ build/
 # Vercel
 .vercel/
 
-# OS files
-Thumbs.db
-.DS_Store
-
 # IDE
 .idea/
 .vscode/

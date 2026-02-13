@@ -7,7 +7,8 @@
     import { MEMORY_NAMES } from "$lib/data.js";
     import { t } from "$lib/i18n.js";
 
-    let { build, index } = $props();
+    let { build, index, isLoading = false } = $props();
+    // ... (rest of props logic is fine, just updated the destructuring)
 
     let resSkillTopOptions = $derived([
         t("atk_15"),
@@ -15,6 +16,9 @@
         "Blue Orb",
         "Yellow Orb",
     ]);
+    // ...
+
+    // Note: I need to target the top div.
 
     const RES_SKILL_BOTTOM_OPTIONS = [
         "Core Passive",
@@ -57,7 +61,7 @@
     }
 </script>
 
-<div class="build-row">
+<div class="build-row {isLoading ? 'no-transition' : ''}">
     <div class="build-title">
         <span class="build-num">{(index + 1).toString().padStart(2, "0")}</span>
         //
