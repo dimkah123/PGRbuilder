@@ -74,6 +74,9 @@
             appContainer.style.marginLeft = "";
             appContainer.style.alignSelf = "";
         }
+
+        // Reveal container after scaling logic is applied
+        appContainer.style.opacity = "1";
     }
 
     onMount(() => {
@@ -103,7 +106,11 @@
     {saveBtnState}
 />
 
-<div class="app-container" bind:this={appContainer}>
+<div
+    class="app-container"
+    bind:this={appContainer}
+    style="opacity: 0; transition: opacity 0.2s;"
+>
     <div class="page-corner pc-tl"></div>
     <div class="page-corner pc-tr"></div>
     <div class="page-corner pc-bl"></div>

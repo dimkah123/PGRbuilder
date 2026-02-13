@@ -80,6 +80,7 @@
             class="portrait-img"
             src={appState.charImg}
             alt="Character Portrait"
+            fetchpriority="high"
             style="transform: scale({scale}) translate({x}px, {y}px); will-change: transform;"
         />
 
