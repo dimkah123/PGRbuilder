@@ -101,19 +101,9 @@
         .mobile-tools-container {
             display: block;
         }
-
-        .desktop-status {
-            display: none; /* Hide status text on mobile to save space */
-        }
     }
 
     .desktop-status-text {
         color: #fff;
-    }
-
-    .desktop-status {
-        display: flex;
-        align-items: center;
-        gap: 8px;
     }
 </style>
