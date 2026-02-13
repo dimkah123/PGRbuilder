@@ -19,7 +19,7 @@
 
 <div class="top-nav">
     <div class="nav-left">
-        <span>{t("system_database")}</span><span class="desktop-status-text">
+        <span>GRAY RAVEN DATABASE</span><span class="desktop-status-text">
             // {t("build_constructor")}</span
         >
     </div>
@@ -115,5 +115,12 @@
 
     .desktop-status-text {
         color: #fff;
+    }
+
+    .lang-toggle {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+        min-width: 35px;
+        letter-spacing: 0.5px;
     }
 </style>

@@ -63,7 +63,7 @@
                 name="char-name"
                 class="char-name-input"
                 bind:value={appState.char}
-                placeholder={t("change_char")}
+                placeholder={t("name")}
                 options={nameOptions}
                 onSelect={onNameSelect}
                 showOnFocus={false}
