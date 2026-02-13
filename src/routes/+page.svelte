@@ -53,15 +53,24 @@
         if (!appContainer) return;
         const winW = window.innerWidth;
         const containerW = 1900;
+        // Use 1024 to match CSS breakpoint
+        const minDesktopW = 1024;
 
-        if (winW < containerW && winW > 1000) {
+        if (winW < containerW && winW > minDesktopW) {
             const scale = winW / containerW;
+            appContainer.style.width = `${containerW}px`; // Force full width layout
             appContainer.style.transform = `scale(${scale})`;
-            appContainer.style.transformOrigin = "top center";
+            appContainer.style.transformOrigin = "top left"; // Align left per user request
+            appContainer.style.marginLeft = "0";
+            appContainer.style.alignSelf = "flex-start"; // Override body centering
             appContainer.style.zoom = "";
         } else {
+            appContainer.style.width = ""; // Reset to CSS default
             appContainer.style.transform = "none";
             appContainer.style.zoom = "";
+            appContainer.style.transformOrigin = "";
+            appContainer.style.marginLeft = "";
+            appContainer.style.alignSelf = "";
         }
     }
 

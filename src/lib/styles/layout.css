@@ -67,6 +67,8 @@
     max-width: 1800px;
     margin-bottom: 0px;
     position: relative;
+    /* Add smooth transition for scaling */
+    transition: transform 0.1s ease-out, width 0.1s ease-out;
 }
 
 /* 
