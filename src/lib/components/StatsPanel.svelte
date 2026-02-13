@@ -54,6 +54,7 @@
             {/if}
             <div class="combobox-container">
                 <Combobox
+                    name="char-class"
                     class="stat-input"
                     bind:value={appState.class}
                     placeholder="-"
@@ -75,6 +76,7 @@
             {/if}
             <div class="combobox-container">
                 <Combobox
+                    name="char-element"
                     class="stat-input"
                     bind:value={appState.element}
                     placeholder="-"
@@ -97,6 +99,7 @@
             {/if}
             <div class="combobox-container">
                 <Combobox
+                    name="char-weapon"
                     class="stat-input"
                     bind:value={appState.weapon}
                     placeholder="-"
@@ -128,6 +131,7 @@
             {/if}
             <div class="combobox-container">
                 <Combobox
+                    name="char-affix"
                     class="stat-input"
                     bind:value={appState.affix}
                     placeholder="-"
@@ -150,6 +154,7 @@
             {/if}
             <div class="combobox-container">
                 <Combobox
+                    name="char-cub"
                     class="stat-input"
                     bind:value={appState.cub}
                     placeholder="-"
@@ -162,6 +167,7 @@
             <span class="stat-label">РАНГ</span>
             <div class="combobox-container">
                 <Combobox
+                    name="char-rank"
                     class="stat-input rank-input"
                     bind:value={appState.rank}
                     placeholder="-"

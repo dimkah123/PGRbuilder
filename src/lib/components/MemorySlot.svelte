@@ -83,6 +83,7 @@
 
     <div class="combobox-container">
         <Combobox
+            name="memory-{slotIndex}"
             class="mem-input"
             bind:value={appState.builds[buildIndex].mems[slotIndex]}
             placeholder="МЕМ"
