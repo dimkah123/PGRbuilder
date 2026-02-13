@@ -1,0 +1,775 @@
+/* ==============================================
+   PGRBuilder - Component Styles
+   ============================================== */
+
+/* ==============================================
+   Weapon Resonance Selector Modal 
+   ----------------------------------------------
+   Popup for choosing weapon resonance skills.
+*/
+.wres-modal-content {
+    background: #111;
+    border: 1px solid #333;
+    padding: 20px;
+    position: relative;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.wres-modal-header {
+    font-family: var(--font-header);
+    color: var(--accent-red);
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.wres-modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 30px;
+    background: transparent;
+    color: #fff;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+    transition: all 0.1s;
+    border: none;
+    z-index: 10;
+}
+
+.wres-modal-close:hover {
+    background: #e81123;
+    color: #fff;
+    transform: none;
+}
+
+/* Grid of available resonance skills */
+.wres-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.wres-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #0a0a0a;
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wres-item:hover:not(.disabled) {
+    border-color: #ff4d4d;
+    background: #1a1a1a;
+    box-shadow: 0 0 8px rgba(255, 50, 50, 0.4);
+}
+
+.wres-item.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.wres-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.wres-item span {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-align: center;
+    font-family: var(--font-tech);
+}
+
+/* ==============================================
+   Rich Text Editor
+   ============================================== */
+.rich-editor-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    position: relative;
+}
+
+/* Floating Toolbar (Bold, Italic, Color) */
+.rte-toolbar {
+    position: fixed;
+    display: none;
+    /* Hidden by default */
+    z-index: 10000;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 4px;
+    gap: 4px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    align-items: center;
+}
+
+/* Triangle pointer for toolbar */
+.rte-toolbar::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1a1a1a transparent transparent transparent;
+}
+
+.rte-toolbar.visible {
+    display: flex;
+    animation: fadeIn 0.15s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.rte-btn {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    border-radius: 2px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+}
+
+.rte-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rte-btn.active {
+    color: var(--accent-red);
+    background: rgba(211, 47, 47, 0.15);
+}
+
+/* Editor Dropdown Menus */
+.rte-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.rte-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+    z-index: 10001;
+    padding: 5px;
+    min-width: 100px;
+    margin-top: 5px;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rte-dropdown.active .rte-dropdown-menu {
+    display: flex;
+    animation: fadeInMenu 0.1s ease-out;
+}
+
+@keyframes fadeInMenu {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rte-menu-item {
+    padding: 6px 10px;
+    color: #ccc;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.1s;
+}
+
+.rte-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Color Palette Picker */
+.color-menu {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding: 8px;
+    min-width: auto;
+    background: #1a1a1a;
+    border-radius: 6px;
+    border: 1px solid #333;
+}
+
+.rte-dropdown.active .color-menu {
+    display: flex;
+}
+
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #444;
+    transition: transform 0.1s;
+    position: relative;
+}
+
+.color-swatch:hover {
+    transform: scale(1.2);
+    border-color: #fff;
+    z-index: 10;
+}
+
+.color-separator {
+    width: 1px;
+    height: 20px;
+    background: #444;
+    margin: 0 5px;
+}
+
+/* Gradient Wheel Icon */
+.custom-picker {
+    background: conic-gradient(from 180deg at 50% 50%, #FF0000 0deg, #FFFF00 60deg, #00FF00 120deg, #00FFFF 180deg, #0000FF 240deg, #FF00FF 300deg, #FF0000 360deg);
+    border-radius: 50%;
+    border: 1px solid #555;
+    overflow: hidden;
+}
+
+.color-indicator {
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, #fff 50%, #d32f2f 50%);
+    border-radius: 50%;
+    border: 1px solid #555;
+    display: inline-block;
+}
+
+.rte-color-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#rte-color-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.rich-textarea {
+    flex-grow: 1;
+    padding: 10px;
+    color: #999;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    outline: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+.rich-textarea:focus {
+    color: #ccc;
+}
+
+/* 
+   Syntax/Keyword Highlighting 
+   ----------------------------------------------
+   Styles for spans created by the custom highlighter.
+*/
+.term-highlight {
+    color: #ffaa00;
+    border-bottom: 1px dotted #ffaa00;
+    cursor: help;
+    position: relative;
+}
+
+/* Tooltip on hover for terms */
+.term-highlight:hover::after {
+    content: attr(data-desc);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--accent-red);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    width: max-content;
+    max-width: 250px;
+    z-index: 1000;
+    white-space: normal;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+.separator-line {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #333;
+    margin: 10px 0;
+}
+
+/* ==============================================
+   Button Components
+   ============================================== */
+.ctrl-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 200;
+}
+
+.btn {
+    background: #000;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 10px 20px;
+    font-family: var(--font-header);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
+
+.btn-del {
+    background: transparent;
+    border: none;
+    color: #333;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.btn-del:hover {
+    color: var(--accent-red);
+}
+
+/* ==============================================
+   Autocomplete Dropdowns
+   ============================================== */
+.hidden-file {
+    display: none !important;
+}
+
+.autocomplete-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #333;
+    border-bottom: none;
+    border-top: none;
+    z-index: 9999;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #0a0a0a;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #222;
+    color: #a0a0a0;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    transition: all 0.1s;
+}
+
+.autocomplete-item:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+    border-left: 2px solid var(--accent-red);
+}
+
+.autocomplete-active {
+    background-color: #1a1a1a !important;
+    color: #fff !important;
+    border-left: 2px solid var(--accent-red);
+}
+
+.autocomplete-item strong {
+    color: var(--accent-red);
+}
+
+/* ==============================================
+   Modal Dialogs
+   ============================================== */
+.modal-overlay {
+    display: none;
+    /* Flex when active */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    width: 500px;
+    max-width: 90%;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #050505;
+}
+
+.modal-header h3 {
+    font-family: var(--font-header);
+    color: var(--accent-red);
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.modal-close:hover {
+    color: #fff;
+}
+
+.modal-search-box {
+    padding: 15px;
+    border-bottom: 1px solid #222;
+}
+
+.mem-search {
+    width: 100%;
+    background: #111;
+    border: none;
+    border-bottom: 1px solid #333;
+    padding: 2px 5px;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    height: 24px;
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.mem-search:focus {
+    border-color: var(--accent-red);
+}
+
+.mem-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-auto-rows: max-content;
+    align-content: start;
+    gap: 10px;
+}
+
+.mem-option {
+    background: #0f0f0f;
+    border: 1px solid #222;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.mem-option:hover {
+    border-color: var(--accent-red);
+    background: #151515;
+}
+
+.mem-opt-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    background: transparent;
+}
+
+.mem-opt-name {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: #aaa;
+    text-align: center;
+}
+
+/* ==============================================
+   Image Controls / Management
+   ============================================== */
+/* Clear Button on Memory Slots */
+.mem-clear-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(220, 20, 60, 0.9);
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    cursor: pointer;
+    display: none;
+    z-index: 10;
+    font-weight: bold;
+}
+
+.mem-box.has-mem:hover .mem-clear-btn {
+    display: block;
+}
+
+.mem-clear-btn:hover {
+    background: red;
+}
+
+/* Portrait Controls (Zoom/Move) - Legacy support if needed */
+.img-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 15px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.portrait-area:hover .img-controls {
+    opacity: 1;
+}
+
+.ctl-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-family: sans-serif;
+}
+
+.ctl-row input {
+    width: 50px;
+    cursor: pointer;
+}
+
+/* ==============================================
+   Custom Color Picker
+   ============================================== */
+#custom-color-picker * {
+    box-sizing: border-box;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#cp-rgb-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 30px;
+    gap: 8px;
+    margin-bottom: 12px;
+    align-items: end;
+}
+
+.cp-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: #888;
+    font-weight: bold;
+}
+
+.cp-num-input {
+    width: 100%;
+    background: #222;
+    border: 1px solid #444;
+    color: #fff;
+    text-align: center;
+    padding: 4px 0;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-top: 3px;
+}
+
+.cp-num-input:focus {
+    border-color: #d32f2f;
+    background: #111;
+    outline: none;
+}
+
+#cp-sat-box {
+    position: relative;
+    overflow: hidden;
+}
+
+#cp-sat-handle {
+    pointer-events: none;
+}
+
+/* Hue Slider Rainbow */
+#cp-hue-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+    outline: none;
+    margin-bottom: 15px !important;
+    cursor: pointer;
+    border: 1px solid #333;
+}
+
+#cp-hue-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    margin-top: 0px;
+}
+
+#cp-hue-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+}
+
+/* Selection Visibility */
+.color-picking-mode *::selection {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: inherit !important;
+}
+
+/* Recent Colors */
+.recent-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #444;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.recent-swatch:hover {
+    transform: scale(1.2);
+    border-color: #fff;
+}
+
+/* UI Locking (until character selected) */
+.ui-locked {
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+}

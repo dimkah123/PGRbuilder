@@ -1,0 +1,174 @@
+/* ==============================================
+   PGRBuilder - Responsive Styles
+   ============================================== */
+
+/* ==============================================
+   Tablet / Netbook (max-width: 1024px)
+   ============================================== */
+@media screen and (max-width: 1024px) {
+    .app-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 50px;
+        gap: 20px;
+        padding-bottom: 80px;
+    }
+
+    .left-panel {
+        width: 100%;
+        height: auto;
+        border: 1px solid #222;
+    }
+
+    .portrait-area {
+        height: 500px;
+        border-bottom: 1px solid #222;
+    }
+
+    .right-panel {
+        padding: 0 10px;
+    }
+
+    .build-row {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        height: auto;
+        border-bottom: 1px solid #222;
+        padding-bottom: 20px;
+    }
+
+    .build-title {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .mem-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 5px;
+    }
+}
+
+/* ==============================================
+   Mobile Devices (max-width: 768px)
+   ============================================== */
+@media screen and (max-width: 768px) {
+    .top-nav {
+        padding: 0 15px;
+        font-size: 0.75rem;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 40px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .nav-left span {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    .portrait-area {
+        height: 400px;
+    }
+
+    .name-plate {
+        padding: 10px;
+        margin: 5px 0;
+    }
+
+    .char-name-input {
+        font-size: 2rem;
+    }
+
+    .stats-row {
+        height: 110px;
+    }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .mem-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 8px;
+    }
+
+    .mem-cell {
+        gap: 2px;
+    }
+
+    .mem-input {
+        font-size: 0.65rem;
+        position: static;
+        margin-top: 2px;
+        width: 100%;
+        background: transparent;
+        z-index: auto;
+        height: 20px;
+        line-height: 20px;
+        color: #666;
+    }
+
+    .harm-col {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 0;
+    }
+
+    .harm-slot {
+        width: calc((100% - 16px) / 3);
+        aspect-ratio: 1;
+        margin: 0;
+    }
+
+    .harm-slot:hover {
+        border-color: var(--accent-red);
+        background: #1a1a1a;
+        transform: scale(1.05);
+        /* Slight pop */
+    }
+
+    .harm-input {
+        text-align: center;
+        width: calc((100% - 16px) / 3);
+    }
+
+    .build-row {
+        gap: 8px;
+    }
+
+    .build-row>div:nth-child(4) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .build-row>div:last-child {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .ctrl-panel {
+        bottom: 10px;
+        right: 10px;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.7rem;
+    }
+}

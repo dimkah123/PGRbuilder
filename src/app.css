@@ -1,0 +1,832 @@
+/* ==============================================
+   PGRBuilder - Global Styles
+   ============================================== */
+
+:root {
+    /* Core Colors */
+    --bg-color: #000000;
+    --panel-bg: #050505;
+    --text-color: #c0c0c0;
+    --text-dim: #adadad;
+    --text-highlight: #ffffff;
+    --accent-red: #ff3333;
+    --accent-dim: #550000;
+    --border-color: #222;
+    --input-bg: #0a0a0a;
+
+    /* Fonts */
+    --font-header: 'Jura', sans-serif;
+    --font-tech: 'JetBrains Mono', monospace;
+    --font-body: 'Exo 2', sans-serif;
+
+    /* Modal Settings Defaults */
+    --modal-width-char: 1000px;
+    --modal-width-mem: 1000px;
+    --modal-width-wres: 1200px;
+    --wres-cols: 8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222;
+    border: 1px solid var(--accent-red);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+    font-weight: 500;
+}
+
+/* Inputs Global */
+input:focus {
+    outline: none;
+}
+
+/* Layout Styles from layout.css */
+.top-nav {
+    width: 100%;
+    height: 40px;
+    background-color: #000;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    font-family: var(--font-header);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-left span {
+    color: var(--accent-red);
+    margin-right: 10px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-tech);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #00ff00;
+}
+
+.app-container {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 40px;
+    width: 95%;
+    max-width: 1800px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.page-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #333;
+    pointer-events: none;
+}
+
+.pc-tl {
+    top: -10px;
+    left: -10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.pc-tr {
+    top: -10px;
+    right: -10px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.pc-bl {
+    bottom: -10px;
+    left: -10px;
+    border-right: none;
+    border-top: none;
+}
+
+.pc-br {
+    bottom: -10px;
+    right: -10px;
+    border-left: none;
+    border-top: none;
+}
+
+/* Theme Styles from themes.css */
+.light-theme {
+    --bg-color: #f2f2f5;
+    --panel-bg: #ffffff;
+    --text-color: #1a1a1a;
+    --text-highlight: #000000;
+    --accent-red: #d32f2f;
+    --accent-dim: #f0f0f0;
+    --border-color: #e0e0e0;
+    --input-bg: #f5f5f7;
+}
+
+/* Light Theme Overrides */
+.light-theme .mem-box,
+.light-theme .harm-slot,
+.light-theme .res-group,
+.light-theme .stat-box:not(.empty-state) {
+    background-color: #fcfcfc !important;
+    border-color: #ccc !important;
+}
+
+.light-theme .left-panel {
+    background-color: var(--panel-bg) !important;
+    border-color: #ddd !important;
+}
+
+.light-theme input,
+.light-theme .stat-input {
+    color: #333 !important;
+}
+
+.light-theme .top-nav {
+    background: #fff !important;
+    color: #333 !important;
+    border-bottom-color: #ddd !important;
+}
+
+/* Transition */
+.changing-theme,
+.changing-theme *,
+.changing-theme *::before,
+.changing-theme *::after {
+    transition: all 0.5s ease !important;
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}
+
+.btn {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #ccc;
+    font-family: var(--font-header);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    border-color: var(--accent-red);
+    color: #fff;
+}
+
+.ctrl-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 200;
+}
+
+/* ==============================================
+   Build Styles (Migrated from legacy/css/builds.css)
+   ============================================== */
+
+/* Build Row Layout */
+.build-row {
+    --slot-size: 100px;
+    --mem-gap: 10px;
+    --mem-col-width: calc(var(--slot-size) * 3 + var(--mem-gap) * 2);
+
+    margin-bottom: 10px;
+    display: grid;
+    /* Grid Columns: Memories | Harmony | Weapon Res | Res | Controls */
+    grid-template-columns: var(--mem-col-width) var(--slot-size) 220px 1fr 30px;
+    gap: 10px;
+    border-bottom: 1px solid #111;
+    padding-bottom: 10px;
+    position: relative;
+    transition: max-height 0.3s ease-out, margin 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
+    max-height: 800px;
+    overflow: visible;
+    /* Changed from hidden to visible for dropdowns */
+}
+
+.build-title {
+    grid-column: 1 / -1;
+    font-family: var(--font-tech);
+    color: var(--accent-red);
+    font-size: 1.1rem;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.build-title input {
+    background: transparent;
+    border: none;
+    color: var(--accent-red);
+    font-family: inherit;
+    font-size: inherit;
+    width: 300px;
+    text-transform: uppercase;
+    line-height: 1.4;
+}
+
+/* Memories Grid */
+.mem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: var(--mem-gap);
+    align-self: start;
+}
+
+.mem-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+/* Individual Memory Slot */
+.mem-box {
+    width: 100%;
+    aspect-ratio: 1;
+    background: #080808;
+    border: 1px solid #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.mem-box img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+}
+
+.mem-box:hover {
+    border-color: #444;
+}
+
+/* Memory Level Input */
+.mem-input {
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #666;
+    font-family: var(--font-tech);
+    font-size: 0.7rem;
+    height: 20px;
+    line-height: 20px;
+    display: block;
+    transition: all 0.2s;
+}
+
+.mem-input:hover,
+.mem-input:focus {
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    outline: none;
+}
+
+/* Remove Button (Red 'X') */
+.mem-remove-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: #b30000;
+    border: 1px solid #000;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    font-size: 16px;
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+.mem-cell.has-item:hover .mem-remove-btn,
+.harm-col.has-item:hover .mem-remove-btn,
+.weapon-res-cell.has-item:hover .mem-remove-btn {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    pointer-events: auto;
+}
+
+.mem-remove-btn:hover {
+    background: #ff3333;
+    transform: scale(1.15) rotate(90deg);
+}
+
+/* Empty State Visuals */
+.mem-cell:not(.has-item) img,
+.harm-col:not(.has-item) img,
+.weapon-res-cell:not(.has-item) img {
+    display: none !important;
+}
+
+.mem-cell:not(.has-item) .mem-box::after,
+.harm-col:not(.has-item) .harm-slot::after,
+.weapon-res-cell:not(.has-item) .weapon-res-box::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid #ccca;
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.weapon-res-cell:not(.has-item) .weapon-res-box::after {
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+}
+
+/* Harmonization Slots */
+.harm-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-self: start;
+    position: relative;
+}
+
+.harm-slot {
+    width: 100%;
+    aspect-ratio: 1;
+    background: #0a0505;
+    border: 1px solid var(--accent-dim);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.harm-slot:hover {
+    border-color: #ff4d4d;
+    background: #1a1a1a;
+    box-shadow: 0 0 8px rgba(255, 50, 50, 0.4);
+}
+
+.harm-slot img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+}
+
+.harm-input {
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--accent-red);
+    font-family: var(--font-tech);
+    font-size: 0.7rem;
+    height: 20px;
+    line-height: 20px;
+    display: block;
+    transition: all 0.2s;
+}
+
+.harm-input:hover,
+.harm-input:focus {
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    outline: none;
+}
+
+/* Resonance & Skills */
+.res-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-self: start;
+    padding-top: 0;
+}
+
+.res-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #080808;
+    border: 1px solid #1a1a1a;
+    padding: 10px;
+    border-left: 2px solid #333;
+    overflow: visible;
+}
+
+.res-label {
+    font-family: var(--font-tech);
+    color: var(--accent-red);
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.res-row {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: 100%;
+}
+
+.res-skill-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    padding: 2px 5px;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    height: 24px;
+    flex: 1;
+    min-width: 0;
+    width: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.res-skill-input:focus {
+    border-bottom-color: var(--accent-red);
+    color: #fff;
+}
+
+/* Weapon Resonance UI */
+.weapon-res-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #080808;
+    border: 1px solid #1a1a1a;
+    padding: 10px;
+    border-left: 2px solid #333;
+}
+
+.weapon-res-row {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-start;
+}
+
+.weapon-res-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.weapon-res-box {
+    width: 40px;
+    height: 40px;
+    background: #0a0505;
+    border: 1px solid var(--accent-dim);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.weapon-res-box:hover {
+    border-color: #ff4d4d;
+    background: #1a1a1a;
+    box-shadow: 0 0 8px rgba(255, 50, 50, 0.4);
+}
+
+.weapon-res-box img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+}
+
+/* Tactical Analysis */
+.tac-box {
+    position: relative;
+    height: 100%;
+    padding: 15px;
+    border: 1px solid #1a1a1a;
+    background: rgba(255, 255, 255, 0.01);
+    /* overflow: hidden; - Removed to allow floating toolbar to pop out */
+    max-width: 100%;
+}
+
+.tac-header {
+    font-family: var(--font-header);
+    font-weight: 700;
+    color: #fff;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.7;
+}
+
+.tac-header::before {
+    content: '';
+    width: 3px;
+    height: 12px;
+    background: var(--accent-red);
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+.btn-del {
+    background: #330000;
+    color: #ff3333;
+    border: 1px solid #550000;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+/* ==============================================
+   Rich Text Editor Styles (Restored)
+   ============================================== */
+.rich-editor-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    position: relative;
+    /* ensure toolbar absolute positioning works relative to this or page */
+}
+
+.rich-textarea {
+    flex-grow: 1;
+    padding: 10px;
+    color: #999;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    outline: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+.rich-textarea:focus {
+    color: #ccc;
+}
+
+/* Floating Toolbar */
+.rte-toolbar {
+    position: fixed;
+    display: none;
+    z-index: 10000;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 4px;
+    gap: 4px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    align-items: center;
+}
+
+.rte-toolbar.visible {
+    display: flex;
+    animation: fadeIn 0.15s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.rte-btn {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    border-radius: 2px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+}
+
+.rte-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rte-btn.active {
+    color: var(--accent-red);
+    background: rgba(211, 47, 47, 0.15);
+}
+
+/* Editor Dropdowns */
+.rte-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.rte-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+    z-index: 10001;
+    padding: 5px;
+    min-width: 100px;
+    margin-top: 5px;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rte-dropdown.active .rte-dropdown-menu {
+    display: flex;
+    animation: fadeInMenu 0.1s ease-out;
+}
+
+.rte-menu-item {
+    padding: 6px 10px;
+    color: #ccc;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.1s;
+}
+
+.rte-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Color Menu */
+.color-menu {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 5px;
+    padding: 8px;
+    min-width: auto;
+    flex-wrap: wrap;
+    width: 140px;
+}
+
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #444;
+    transition: transform 0.1s;
+}
+
+.color-swatch:hover {
+    transform: scale(1.2);
+    border-color: #fff;
+    z-index: 10;
+}
+
+.custom-picker {
+    background: conic-gradient(from 180deg at 50% 50%, #FF0000 0deg, #FFFF00 60deg, #00FF00 120deg, #00FFFF 180deg, #0000FF 240deg, #FF00FF 300deg, #FF0000 360deg);
+    border-radius: 50%;
+}
+
+.color-indicator {
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, #fff 50%, #d32f2f 50%);
+    border-radius: 50%;
+    border: 1px solid #555;
+    display: inline-block;
+}
+
+/* Separator Line for content */
+.separator-line {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #333;
+    margin: 10px 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeInMenu {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

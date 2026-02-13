@@ -1,0 +1,177 @@
+/* ==============================================
+   PGRBuilder - Global Styles
+   ============================================== */
+
+/* ----------------------------------------------
+   CSS Variables (Theme Settings)
+   ---------------------------------------------- */
+:root {
+    /* Core Colors */
+    --bg-color: #000000;
+    /* Main background color */
+    --panel-bg: #050505;
+    /* Background for panels (Left/Right) */
+
+    /* Text Colors */
+    --text-color: #c0c0c0;
+    /* Primary text color (Standardized bright gray) */
+    --text-dim: #adadad;
+    /* Secondary text color (Labels, less important info) */
+    --text-highlight: #ffffff;
+    /* Highlighted text color */
+
+    /* Accent Colors */
+    --accent-red: #ff3333;
+    /* Main accent color (Red) */
+    --accent-dim: #550000;
+    /* Dimmed accent for backgrounds/borders */
+
+    /* UI Elements */
+    --border-color: #222;
+    /* Default border color */
+    --input-bg: #0a0a0a;
+    /* Background for input fields */
+
+    /* Fonts */
+    /* CYRILLIC FONT STACK */
+    --font-header: 'Jura', sans-serif;
+    /* Headlines */
+    --font-tech: 'JetBrains Mono', monospace;
+    /* Technical data / Numbers */
+    --font-body: 'Exo 2', sans-serif;
+    /* Body text */
+}
+
+/* 
+   Reset Defaults 
+   ----------------------------------------------
+   Standard reset to ensure consistent box-sizing and remove default margins.
+*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    /* Prevent text selection mostly for app-like feel */
+}
+
+/* Inputs Global */
+input:focus {
+    outline: none;
+    /* Remove default browser outline */
+}
+
+/* 
+   Custom Scrollbar (Webkit)
+   ----------------------------------------------
+   Styles for Chrome/Edge/Safari scrollbars to match the dark theme.
+*/
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    /* Dark track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222;
+    /* Dark thumb */
+    border-radius: 0;
+    border: 1px solid var(--accent-red, red);
+    /* Accent border on thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+    /* Lighter on hover */
+}
+
+/* 
+   Body Switch 
+   ----------------------------------------------
+   Sets up the main flex container for the page.
+*/
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+    font-weight: 500;
+}
+
+/* 
+   Loading Screen 
+   ----------------------------------------------
+   Full screen overlay to hide layout shifts on load.
+*/
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+
+#loading-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(255, 51, 51, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--accent-red);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(255, 51, 51, 0.1);
+    flex-shrink: 0;
+    /* Prevent squishing */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    font-family: var(--font-header);
+    color: var(--accent-red);
+    letter-spacing: 4px;
+    font-size: 0.9rem;
+    animation: blink 2s infinite;
+    text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+    min-height: 1.2em;
+    /* Reserve height for text */
+    text-align: center;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}

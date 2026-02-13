@@ -1,0 +1,5 @@
+# Not needed for Vercel deployment
+legacy/
+.git/
+.svelte-kit/
+*.md

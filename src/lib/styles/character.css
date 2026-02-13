@@ -1,0 +1,355 @@
+/* ==============================================
+   PGRBuilder - Character Panel Styles
+   ============================================== */
+
+/* ==============================================
+   Left Panel - Character Info
+   ============================================== */
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    height: 850px;
+    border: 1px solid #1a1a1a;
+    background-color: var(--panel-bg);
+    /* Solid color for smooth transition */
+    position: relative;
+}
+
+/* 
+   Portrait Area 
+   ----------------------------------------------
+   Container for the character image and placeholder.
+*/
+.portrait-area {
+    flex-grow: 1;
+    /* Takes up remaining height */
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #222;
+}
+
+.portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Changed from cover to allow full manual positioning */
+    object-position: center bottom;
+    /* Align to bottom by default */
+}
+
+.portrait-img.hidden {
+    visibility: hidden;
+}
+
+/* Placeholder when no image is loaded */
+.portrait-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ff3f3f;
+    font-family: var(--font-header);
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--panel-bg);
+    /* Default background matching panel */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+/* Default subtle glow on the main text */
+.portrait-placeholder span:first-child {
+    text-shadow: 0 0 8px rgba(255, 51, 51, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Hover: Pulsing text glow animation */
+.portrait-placeholder:hover {
+    background-color: #080000;
+}
+
+.portrait-placeholder:hover span:first-child {
+    color: var(--accent-red);
+    text-shadow: 0 0 15px rgba(255, 51, 51, 0.8), 0 0 30px rgba(255, 51, 51, 0.5);
+    animation: textPulse 1.5s ease-in-out infinite;
+}
+
+.portrait-placeholder:hover span:last-child {
+    color: #666;
+}
+
+@keyframes textPulse {
+
+    0%,
+    100% {
+        text-shadow: 0 0 15px rgba(255, 51, 51, 0.8), 0 0 30px rgba(255, 51, 51, 0.5);
+    }
+
+    50% {
+        text-shadow: 0 0 25px rgba(255, 51, 51, 1), 0 0 50px rgba(255, 51, 51, 0.7);
+    }
+}
+
+/* Hide image controls permanently */
+.img-controls {
+    display: none !important;
+}
+
+/* "Change Character" Button overlay */
+.char-change-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 0;
+    display: none;
+    /* Toggled by JS */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 21;
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.char-change-btn:hover {
+    background: var(--accent-red);
+    color: #fff;
+}
+
+/* Show button on hover */
+.portrait-area:hover .char-change-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 
+   Name Plate 
+   ----------------------------------------------
+   Character Name and Frame/Rank inputs.
+*/
+.name-plate {
+    padding: 10px 20px;
+    border-left: 4px solid var(--accent-red);
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    /* Allowing text to be visible */
+}
+
+.char-name-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: var(--font-header);
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0px;
+    line-height: 1.1;
+    padding: 0;
+    display: block;
+}
+
+.frame-name-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--accent-red);
+    font-family: var(--font-header);
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 1.2;
+    padding-top: 2px;
+}
+
+/* 
+   Stats Area 
+   ----------------------------------------------
+   Grid of stats (Class, Element, Weapon, etc.)
+*/
+.stats-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* 3 Equal Columns */
+    height: 130px;
+}
+
+/* Individual Stat Box */
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 1px solid #222;
+    padding: 0;
+    padding-bottom: 5px;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--panel-bg);
+    /* Solid background for smooth fade */
+}
+
+/* Center input content when no icon is present */
+.stat-box:not(:has(.stat-icon)) .combobox-container {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.stat-box:last-child {
+    border-right: none;
+}
+
+.stat-box.empty-state {
+    justify-content: center;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    opacity: 0.9;
+    object-fit: contain;
+    margin-bottom: 2px;
+    margin-top: auto;
+    display: block;
+    /* Always take space */
+}
+
+.stat-icon.hidden {
+    visibility: hidden;
+}
+
+/* Labels (e.g., "CLASS", "WEAPON") */
+.stat-label {
+    font-family: var(--font-tech);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    position: static;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #222;
+    border-top: 1px solid #222;
+    padding: 4px 0;
+    background: rgba(255, 255, 255, 0.02);
+    margin-bottom: 5px;
+}
+
+/* Input/Text below icons */
+.stat-input {
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding: 2px 0;
+    margin-top: auto;
+}
+
+.weapon-textarea {
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    line-height: 1.1;
+    padding: 4px 0;
+    resize: none;
+    height: 38px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.rank-input {
+    font-size: 2rem !important;
+    color: var(--accent-red) !important;
+    line-height: 1.5 !important;
+    padding: 5px 0 !important;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/* Additional Component Overrides */
+/* Rank Box */
+/* Rank Box */
+.rank-box {
+    padding-bottom: 0 !important;
+}
+
+.rank-box .combobox-container {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    justify-content: center;
+}
+
+/* "Change Character" Button overlay */
+.char-change-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 0;
+    display: none;
+    /* Toggled by JS/CSS */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 21;
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+    /* Ensure flex is set so it can be shown */
+}
+
+.char-change-btn:hover {
+    background: var(--accent-red);
+    color: #fff;
+}
+
+/* Show button on hover */
+.portrait-area:hover .char-change-btn {
+    opacity: 1;
+    pointer-events: auto;
+}

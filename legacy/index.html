@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>БАЗА ДАННЫХ GRAY RAVEN // ГАЙД</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@100..800&family=Jura:wght@300..700&display=swap"
+        as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@100..800&family=Jura:wght@300..700&display=swap"
+        rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5BD2P7G289"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-W5DN1QJVZN');
+    </script>
+    <link rel="stylesheet" href="css/globals.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/character.css">
+    <link rel="stylesheet" href="css/builds.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" href="Image/Classes/Uniframe.webp">
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">INITIALIZING SYSTEMS...</div>
+    </div>
+
+    <!-- Header -->
+    <div class="top-nav">
+        <div class="nav-left">
+            <span>GRAY RAVEN DATABASE</span> // СБОРКА КОНСТРУКТА
+        </div>
+        <div class="nav-right">
+            <button id="theme-toggle" class="btn" style="padding: 5px 10px; font-size: 0.7rem;">LIGHT MODE</button>
+            СИСТЕМА: ОНЛАЙН <div class="status-dot"></div>
+        </div>
+    </div>
+
+    <div class="app-container" id="capture-area">
+        <!-- Deco Corners -->
+        <div class="page-corner pc-tl"></div>
+        <div class="page-corner pc-tr"></div>
+        <div class="page-corner pc-bl"></div>
+        <div class="page-corner pc-br"></div>
+
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="portrait-area">
+                <img id="char-img" class="portrait-img hidden" src="" alt="">
+                <div class="portrait-placeholder" id="char-placeholder" onclick="openCharModal()">
+                    <span>+ ВЫБРАТЬ ПЕРСОНАЖА</span>
+                    <span style="font-size: 0.7rem; color:#9c9c9c;">НАЖМИ ДЛЯ ВЫБОРА</span>
+                </div>
+                <!-- Change Character Button -->
+                <div class="char-change-btn" onclick="openCharModal()" title="Изменить персонажа">
+                    ↻
+                </div>
+                <!-- Image Controls -->
+                <div class="img-controls" onclick="event.stopPropagation()">
+                    <div class="ctl-row"><span>Z</span><input type="range" id="scale-ctl" min="0.5" max="2.5"
+                            step="0.05" value="1" oninput="updateCharImg()"></div>
+                    <div class="ctl-row"><span>X</span><input type="range" id="x-ctl" min="-150" max="150" step="5"
+                            value="0" oninput="updateCharImg()"></div>
+                    <div class="ctl-row"><span>Y</span><input type="range" id="y-ctl" min="-150" max="150" step="5"
+                            value="0" oninput="updateCharImg()"></div>
+                    <div class="ctl-row"><input type="text" id="pos-code" placeholder="CODE"
+                            style="width: 80px; text-align: center; background: #222; border: 1px solid #444; color: #ff3333; font-family: monospace;"
+                            oninput="applyPosCode(this.value)" title="Код позиции (Scale/X/Y)"></div>
+                </div>
+            </div>
+            <input type="file" id="char-upload" class="hidden-file" accept="image/*"
+                onchange="previewImage(this, 'char-img', 'char-placeholder')">
+
+            <div class="name-plate">
+                <input type="text" class="char-name-input" id="char-name-display" name="charName" placeholder="ИМЯ"
+                    autocomplete="off">
+                <input type="text" class="frame-name-input" name="frameName" placeholder="КОРПУС/ФРЕЙМ"
+                    autocomplete="off">
+            </div>
+
+            <!-- Stats Container (2 Rows) -->
+            <div class="stats-container">
+                <!-- Row 1: Main Stats -->
+                <div class="stats-row main-stats-row">
+                    <!-- Class -->
+                    <div class="stat-box">
+                        <span class="stat-label">КЛАСС</span>
+                        <img id="class-img" class="stat-icon hidden" src="" width="60" height="60">
+                        <input type="text" class="stat-input mapped-input" name="classInput" data-target="class-img"
+                            placeholder="-" autocomplete="off">
+                    </div>
+                    <!-- Element -->
+                    <div class="stat-box">
+                        <span class="stat-label">СТИХИЯ</span>
+                        <img id="element-img" class="stat-icon hidden" src="" width="60" height="60">
+                        <input type="text" class="stat-input mapped-input" name="elementInput" data-target="element-img"
+                            placeholder="-" autocomplete="off">
+                    </div>
+                    <!-- Weapon -->
+                    <div class="stat-box">
+                        <span class="stat-label">ОРУЖИЕ</span>
+                        <img id="weapon-img" class="stat-icon hidden" src="" width="60" height="60">
+                        <input type="text" class="stat-input mapped-input" name="weaponInput" data-target="weapon-img"
+                            placeholder="-" autocomplete="off">
+                    </div>
+                </div>
+
+                <!-- Row 2: Extra Data (Affix/CUB/Rank) -->
+                <div class="stats-row">
+                    <!-- Affix -->
+                    <div class="stat-box">
+                        <span class="stat-label">АФФИКС</span>
+                        <img id="affix-img" class="stat-icon hidden" src="" width="60" height="60">
+                        <input type="text" class="stat-input mapped-input" name="affixInput" data-target="affix-img"
+                            placeholder="-" autocomplete="off">
+                    </div>
+                    <!-- Pet/CUB -->
+                    <div class="stat-box">
+                        <span class="stat-label">ПИТОМЕЦ / CUB</span>
+                        <img id="cub-img" class="stat-icon hidden" src="" width="60" height="60">
+                        <input type="text" class="stat-input mapped-input" name="cubInput" data-target="cub-img"
+                            placeholder="-" autocomplete="off">
+                    </div>
+                    <!-- Rank -->
+                    <div class="stat-box rank-box">
+                        <span class="stat-label">РАНГ</span>
+                        <input type="text" class="stat-input rank-input" name="rankInput" placeholder="SSS+"
+                            autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .rank-box {
+                justify-content: center !important;
+                padding-bottom: 0 !important;
+            }
+        </style>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+            <div class="section-header">
+                <span>КОНФИГУРАЦИЯ ПАМЯТИ</span>
+            </div>
+
+            <div id="builds-container">
+                <!-- Builds injected here -->
+            </div>
+
+            <div class="add-build-area">
+                <button id="add-build-btn-wide" class="add-build-wide-btn">+ ДОБАВИТЬ СЕТ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Controls -->
+    <div class="ctrl-panel">
+        <button class="btn" id="export-btn">СОХРАНИТЬ (PNG)</button>
+    </div>
+
+    <!-- Character Selector Modal -->
+    <div class="modal-overlay" id="char-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>ВЫБОР ПЕРСОНАЖА</h3>
+                <button class="modal-close" onclick="closeCharModal()">X</button>
+            </div>
+            <div class="modal-search-box">
+                <input type="text" class="mem-search" id="char-search-input" placeholder="ПОИСК (Напр. Lotus)">
+            </div>
+            <div class="mem-list" id="char-list-container">
+                <!-- Items populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Selector Modal -->
+    <div class="modal-overlay" id="mem-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>ВЫБОР МЕМОРИ</h3>
+                <button class="modal-close" onclick="closeMemModal()">X</button>
+            </div>
+            <div class="modal-search-box">
+                <input type="text" class="mem-search" id="mem-search-input" placeholder="ПОИСК (Напр. Shakespeare)">
+            </div>
+            <div class="mem-list" id="mem-list-container">
+                <!-- Items populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Floating Toolbar -->
+    <div class="rte-toolbar">
+        <!-- Size Dropdown -->
+        <div class="rte-dropdown">
+            <button class="rte-btn" onmousedown="event.preventDefault(); toggleDropdown(this, 'size-menu')">
+                T <span style="font-size:8px; margin-left:2px;">▼</span>
+            </button>
+            <div class="rte-dropdown-menu" id="size-menu">
+                <div class="rte-menu-item" onmousedown="event.preventDefault(); formatDoc(null, 'fontSize', '1')">
+                    Маленький
+                </div>
+                <div class="rte-menu-item" onmousedown="event.preventDefault(); formatDoc(null, 'fontSize', '3')">
+                    Средний
+                </div>
+                <div class="rte-menu-item" onmousedown="event.preventDefault(); formatDoc(null, 'fontSize', '5')">
+                    Большой
+                </div>
+                <div class="rte-menu-item" onmousedown="event.preventDefault(); formatDoc(null, 'fontSize', '7')">
+                    Огромный
+                </div>
+            </div>
+        </div>
+
+        <!-- Separator -->
+        <div style="width:1px; height:15px; background:#333; margin:0 2px;"></div>
+
+        <button class="rte-btn" onmousedown="event.preventDefault(); formatDoc(this, 'bold')" data-cmd="bold"
+            title="Жирный">B</button>
+        <button class="rte-btn" onmousedown="event.preventDefault(); formatDoc(this, 'italic')" data-cmd="italic"
+            title="Курсив">I</button>
+
+        <!-- Separator -->
+        <div style="width:1px; height:15px; background:#333; margin:0 2px;"></div>
+
+        <!-- Alignment buttons -->
+        <button class="rte-btn" onmousedown="event.preventDefault(); formatDoc(this, 'justifyLeft')"
+            data-cmd="justifyLeft" title="По левому краю">≡←</button>
+        <button class="rte-btn" onmousedown="event.preventDefault(); formatDoc(this, 'justifyCenter')"
+            data-cmd="justifyCenter" title="По центру">≡↔</button>
+
+        <!-- Separator -->
+        <div style="width:1px; height:15px; background:#333; margin:0 2px;"></div>
+
+        <!-- Color Dropdown -->
+        <div class="rte-dropdown">
+            <button class="rte-btn" onmousedown="event.preventDefault(); toggleDropdown(this, 'color-menu')">
+                <span class="color-indicator" id="current-color-indicator"></span>
+                <span style="font-size:8px; margin-left:2px;">▼</span>
+            </button>
+            <div class="rte-dropdown-menu color-menu" id="color-menu">
+                <div class="color-swatch" style="background:#ff9900"
+                    onmousedown="event.preventDefault(); applyColor('#ff9900')"></div>
+                <div class="color-swatch" style="background:#ea9999"
+                    onmousedown="event.preventDefault(); applyColor('#ea9999')"></div>
+                <div class="color-swatch" style="background:#cc4125"
+                    onmousedown="event.preventDefault(); applyColor('#cc4125')"></div>
+                <div class="color-swatch" style="background:#6d9eeb"
+                    onmousedown="event.preventDefault(); applyColor('#6d9eeb')"></div>
+                <div class="color-swatch" style="background:#ffffff"
+                    onmousedown="event.preventDefault(); applyColor('#ffffff')"></div>
+
+                <!-- Separator -->
+                <div class="color-separator"></div>
+
+                <!-- Custom -->
+                <div class="color-swatch custom-picker" title="Свой цвет"
+                    onmousedown="event.preventDefault(); openCustomPicker()">
+                </div>
+            </div>
+        </div>
+
+        <!-- HR -->
+        <button class="rte-btn" onmousedown="event.preventDefault(); insertSeparator(this)"
+            title="Разделитель">HR</button>
+    </div>
+
+    <!-- Custom Color Picker HTML -->
+    <div id="custom-color-picker"
+        style="display:none; position:fixed; z-index:10002; background:#1a1a1a; border:1px solid #333; padding:15px; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.95); width:220px;">
+        <!-- Saturation/Value Box -->
+        <div id="cp-sat-box"
+            style="width:100%; height:140px; position:relative; background:red; margin-bottom:15px; cursor:crosshair; overflow:hidden; border-radius:4px; border:1px solid #444;">
+            <div
+                style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(to right, #fff, transparent);">
+            </div>
+            <div
+                style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(to top, #000, transparent);">
+            </div>
+            <div id="cp-cursor"
+                style="position:absolute; width:12px; height:12px; border:2px solid white; border-radius:50%; box-shadow:0 0 3px rgba(0,0,0,0.8); pointer-events:none; transform:translate(-50%, -50%);">
+            </div>
+        </div>
+
+        <!-- Hue Slider -->
+        <input type="range" id="cp-hue-slider" min="0" max="360" value="0">
+
+        <!-- Controls Row 1: RGB -->
+        <div id="cp-rgb-row">
+            <div class="cp-col">
+                R <input type="number" id="cp-r" min="0" max="255" oninput="updateFromRGB()" class="cp-num-input">
+            </div>
+            <div class="cp-col">
+                G <input type="number" id="cp-g" min="0" max="255" oninput="updateFromRGB()" class="cp-num-input">
+            </div>
+            <div class="cp-col">
+                B <input type="number" id="cp-b" min="0" max="255" oninput="updateFromRGB()" class="cp-num-input">
+            </div>
+            <!-- Eyedropper Btn -->
+            <button onclick="openEyeDropper()" title="Пипетка"
+                style="background:#222; border:1px solid #444; color:#ccc; border-radius:4px; width:30px; height:30px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s; align-self: end; margin-bottom:2px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14.5 2H22V9.5L16 15.5L8.5 8L14.5 2Z" />
+                    <path d="M8.5 8L2 14.5V22H9.5L16 15.5" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Controls Row 2: Hex + Preview -->
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+            <div id="cp-preview"
+                style="width:36px; height:32px; border:1px solid #444; border-radius:4px; flex-shrink:0;"></div>
+            <div style="flex-grow:1; display:flex; justify-content:center; gap:5px;">
+                <input type="text" id="cp-hex-input" value="#FF0000" onchange="applyCustomColor()"
+                    style="width:100%; background:#111; border:1px solid #333; color:#fff; padding:6px; font-family:monospace; text-align:center; border-radius:4px; text-transform:uppercase; font-size:0.9rem;">
+                <!-- Reset/Clear Button -->
+                <button onclick="resetColor()" title="Сбросить цвет (Белый)"
+                    style="background:#333; border:1px solid #444; color:#ccc; border-radius:4px; width:36px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div style="border-top:1px solid #333; padding-top:10px; min-height:30px;">
+            <div
+                style="font-size:0.7rem; color:#888; margin-bottom:5px; text-transform:uppercase; letter-spacing:1px; font-family:monospace;">
+                Недавние:</div>
+            <div id="cp-recent-list" style="display:flex; gap:8px; flex-wrap:wrap;">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- 1. Data Bundle (Optimized) -->
+    <script defer src="js/data-bundle.js"></script>
+
+    <!-- 3. Logic -->
+    <script type="module" src="js/app.js"></script>
+
+</body>
+
+</html>
