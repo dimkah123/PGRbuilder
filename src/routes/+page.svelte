@@ -54,8 +54,8 @@
         if (!appContainer) return;
         const winW = window.innerWidth;
         const containerW = 1900;
-        // Use 1024 to match CSS breakpoint
-        const minDesktopW = 1024;
+        // Use 950 to ensure scaling kicks in for 1024px/1200px screens
+        const minDesktopW = 950;
 
         if (winW < containerW && winW > minDesktopW) {
             // Add 40px buffer (20px each side) for "16:9 like" spacing
