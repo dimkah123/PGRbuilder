@@ -53,10 +53,6 @@
         >
             {isLightMode ? "DARK MODE" : "LIGHT MODE"}
         </button>
-        <div class="desktop-status">
-            <span>СИСТЕМА: ОНЛАЙН</span>
-            <div class="status-dot"></div>
-        </div>
     </div>
 </div>
 
