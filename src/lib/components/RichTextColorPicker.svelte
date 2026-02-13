@@ -217,6 +217,7 @@
 
     <!-- Hue Slider -->
     <input
+        name="cp-hue"
         type="range"
         min="0"
         max="360"
@@ -239,6 +240,7 @@
             <div class="cp-col">
                 <span class="cp-label">R</span>
                 <input
+                    name="cp-red"
                     type="number"
                     min="0"
                     max="255"
@@ -253,6 +255,7 @@
             <div class="cp-col">
                 <span class="cp-label">G</span>
                 <input
+                    name="cp-green"
                     type="number"
                     min="0"
                     max="255"
@@ -267,6 +270,7 @@
             <div class="cp-col">
                 <span class="cp-label">B</span>
                 <input
+                    name="cp-blue"
                     type="number"
                     min="0"
                     max="255"
@@ -290,6 +294,7 @@
                 style="background-color: {currentColor};"
             ></div>
             <input
+                name="cp-hex"
                 type="text"
                 class="cp-hex-input"
                 bind:value={hexInput}

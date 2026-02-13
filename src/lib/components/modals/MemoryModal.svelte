@@ -59,6 +59,7 @@
                 <button class="modal-close" onclick={close}>X</button>
             </div>
             <input
+                name="memory-search"
                 type="text"
                 class="modal-search"
                 bind:value={searchQuery}

@@ -7,6 +7,8 @@
         showOnFocus = true,
         strict = false,
         class: className,
+        id,
+        name,
         ...rest
     } = $props();
 
@@ -111,6 +113,8 @@
         bind:this={inputElement}
         bind:value
         {placeholder}
+        {id}
+        {name}
         oninput={handleInput}
         onkeydown={handleKeydown}
         onblur={handleBlur}

@@ -112,6 +112,7 @@
     <div class="img-controls" onclick={(e) => e.stopPropagation()}>
         <div class="ctl-row">
             <span>Z</span><input
+                name="portrait-scale"
                 type="range"
                 class="slider"
                 min="0.5"
@@ -122,6 +123,7 @@
         </div>
         <div class="ctl-row">
             <span>X</span><input
+                name="portrait-x"
                 type="range"
                 class="slider"
                 min="-150"
@@ -132,6 +134,7 @@
         </div>
         <div class="ctl-row">
             <span>Y</span><input
+                name="portrait-y"
                 type="range"
                 class="slider"
                 min="-150"
@@ -142,6 +145,7 @@
         </div>
         <div class="ctl-row">
             <input
+                name="portrait-code"
                 type="text"
                 placeholder="CODE"
                 value={posCode}

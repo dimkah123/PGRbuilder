@@ -60,6 +60,7 @@
         <span class="build-num">{(index + 1).toString().padStart(2, "0")}</span>
         //
         <input
+            name="build-title"
             type="text"
             bind:value={build.title}
             placeholder="ВВЕДИТЕ НАЗВАНИЕ"
@@ -117,6 +118,7 @@
         </div>
         <div class="combobox-container">
             <Combobox
+                name="build-harm"
                 class="harm-input"
                 bind:value={build.harm}
                 placeholder="ГАРМ"
@@ -135,6 +137,7 @@
                 <ResonanceSelect bind:value={build.resTopSlot} />
                 <div class="combobox-container res-combobox">
                     <Combobox
+                        name="build-res-top-skill"
                         class="res-skill-input"
                         bind:value={build.resTopSkill}
                         placeholder="НАВЫК"
@@ -149,6 +152,7 @@
                 <ResonanceSelect bind:value={build.resBotSlot} />
                 <div class="combobox-container res-combobox">
                     <Combobox
+                        name="build-res-bot-skill"
                         class="res-skill-input"
                         bind:value={build.resBotSkill}
                         placeholder="НАВЫК"

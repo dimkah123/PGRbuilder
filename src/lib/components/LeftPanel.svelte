@@ -50,6 +50,8 @@
     <div class="name-plate">
         <div class="combobox-container">
             <Combobox
+                id="char-name-input"
+                name="char-name"
                 class="char-name-input"
                 bind:value={appState.char}
                 placeholder="ИМЯ"
@@ -61,6 +63,8 @@
         </div>
         <div class="combobox-container">
             <Combobox
+                id="frame-name-input"
+                name="frame-name"
                 class="frame-name-input"
                 bind:value={appState.frame}
                 placeholder="ФРЕЙМ"
