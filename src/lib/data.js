@@ -101,10 +101,10 @@ export const ELEMENT_NAMES = {
         "dis": "Дизинтеграция",
         "burn": "Горение",
         "plasma": "Плазма",
-        "slash": "Разрез",
+        "slash": "Слеш",
         "umbra": "Тень",
         "freez": "Заморозка",
-        "light": "Свет",
+        "light": "Raydiance",
         "-": "-"
     },
     en: {
