@@ -66,7 +66,14 @@ const translations = {
         align_left: "По левому краю",
         align_center: "По центру",
         custom_color: "Свой цвет",
-        separator: "Разделитель"
+        separator: "Разделитель",
+        msg_updated: "Сборка обновлена! Ссылка осталась прежней.",
+        msg_no_permission: "Нет прав на редактирование. Создать новую копию?",
+        msg_save_error: "Ошибка сохранения: ",
+        msg_saved_id: "Сборка сохранена! ID: {id}\nСсылка автоматически скопирована.",
+        msg_not_found: "Сборка не найдена (ID: {id})",
+        msg_load_error: "Ошибка загрузки: ",
+        disruption: "Дизинтеграция"
     },
     en: {
         tools: "TOOLS",
@@ -133,7 +140,14 @@ const translations = {
         align_left: "Align Left",
         align_center: "Align Center",
         custom_color: "Custom Color",
-        separator: "Separator"
+        separator: "Separator",
+        msg_updated: "Build updated! The link remains the same.",
+        msg_no_permission: "No permission to edit. Create a new copy?",
+        msg_save_error: "Save error: ",
+        msg_saved_id: "Build saved! ID: {id}\nThe link has been automatically copied.",
+        msg_not_found: "Build not found (ID: {id})",
+        msg_load_error: "Load error: ",
+        disruption: "Disruption"
     }
 };
 

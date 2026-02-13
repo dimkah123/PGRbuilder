@@ -8,18 +8,22 @@
         const charClass = appState.class || "";
         const prefix = CLASS_TO_PREFIX[charClass];
 
+        // Get used resonances in this build
+        const buildIndex = appState.modalData?.buildIndex;
+        const currentBuild =
+            buildIndex !== undefined ? appState.builds[buildIndex] : null;
+        const usedNames =
+            currentBuild?.wRes
+                ?.filter((r) => r && typeof r === "object")
+                .map((r) => r.name) || [];
+
         return WEAPON_RESONANCES.filter((res) => {
+            // Skip if already used in this build
+            if (usedNames.includes(res.name)) return false;
+
             if (res.prefix === "UN") return true;
             if (!prefix) return true; // Show all if no class
-            if (prefix === "UNI") return true; // Vanguard gets all? Legacy said: UNI = Vanguard only... Wait.
-            // Legacy check:
-            // if (res.prefix === 'UN') return true;
-            // if (!charClass) return true;
-            // if (charClass === 'UNI') return true; // THIS IS WRONG in legacy logic naming?
-            // Legacy: if (charClass === 'UNI') return true; means "If character is Vanguard/UNI, show everything".
-            // But UNI prefix is explicitly for Vanguard.
-            // Let's stick to legacy logic:
-            // res.prefix === charClass (which is mapped prefix) OR res.prefix === 'UN'
+            if (prefix === "UNI") return true;
 
             return res.prefix === prefix;
         });

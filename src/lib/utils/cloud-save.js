@@ -1,4 +1,5 @@
 import { appState } from '$lib/state.svelte.js';
+import { t } from '$lib/i18n.js';
 
 const API_BASE = '/api';
 
@@ -24,10 +25,10 @@ export async function saveToCloud() {
         if (existingId && existingToken) {
             const updated = await updateBuild(existingId, existingToken);
             if (updated) {
-                alert('Сборка обновлена! Ссылка осталась прежней.');
+                alert(t('msg_updated'));
                 return { success: true, updated: true };
             } else {
-                if (!confirm('Нет прав на редактирование. Создать новую копию?')) {
+                if (!confirm(t('msg_no_permission'))) {
                     return { success: false, reason: 'cancelled' };
                 }
             }
@@ -38,7 +39,7 @@ export async function saveToCloud() {
 
     } catch (e) {
         console.error('Save Error:', e);
-        alert('Ошибка сохранения: ' + e.message);
+        alert(t('msg_save_error') + e.message);
         return { success: false, error: e.message };
     }
 }
@@ -84,7 +85,7 @@ async function createNewBuild() {
     newUrl.searchParams.set('id', result.shortId);
     window.history.pushState({}, '', newUrl.toString());
 
-    alert(`Сборка сохранена! ID: ${result.shortId}\nСсылка автоматически скопирована.`);
+    alert(t('msg_saved_id').replace('{id}', result.shortId));
     await navigator.clipboard.writeText(newUrl.toString());
 
     return result;
@@ -98,7 +99,7 @@ export async function loadFromUrl() {
         try {
             const response = await fetch(`${API_BASE}/load?id=${id}`);
             if (!response.ok) {
-                if (response.status === 404) alert('Сборка не найдена (ID: ' + id + ')');
+                if (response.status === 404) alert(t('msg_not_found').replace('{id}', id));
                 else throw new Error('Load failed: ' + response.status);
                 return;
             }
@@ -111,7 +112,7 @@ export async function loadFromUrl() {
             }
         } catch (e) {
             console.error('Load Error:', e);
-            alert('Ошибка загрузки: ' + e.message);
+            alert(t('msg_load_error') + e.message);
         }
     }
 }

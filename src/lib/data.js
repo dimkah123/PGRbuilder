@@ -79,6 +79,7 @@ export const ELEMENT_IMAGES = {
     "fire": "Image/Elements/FIRE.webp",
     "freez": "Image/Elements/FREEZ.webp",
     "general": "Image/Elements/GENERAL.webp",
+    "dis": "Image/Elements/GENERAL.webp",
     "ice": "Image/Elements/ICE.webp",
     "light": "Image/Elements/LIGHT.webp",
     "nihl": "Image/Elements/NIHL.webp",
@@ -97,6 +98,13 @@ export const ELEMENT_NAMES = {
         "thunder": "Молния",
         "dark": "Тьма",
         "nihl": "Нихил",
+        "dis": "Дизинтеграция",
+        "burn": "Горение",
+        "plasma": "Плазма",
+        "slash": "Разрез",
+        "umbra": "Тень",
+        "freez": "Заморозка",
+        "light": "Свет",
         "-": "-"
     },
     en: {
@@ -106,6 +114,13 @@ export const ELEMENT_NAMES = {
         "thunder": "Lightning",
         "dark": "Dark",
         "nihl": "Nihil",
+        "dis": "Disruption",
+        "burn": "Burn",
+        "plasma": "Plasma",
+        "slash": "Slash",
+        "umbra": "Umbra",
+        "freez": "Freez",
+        "light": "Light",
         "-": "-"
     }
 };
@@ -117,7 +132,9 @@ export const CLASS_NAMES = {
         "support": "Поддержка",
         "amplifier": "Амплифаер",
         "vanguard": "Авангард",
+        "vanguard": "Авангард",
         "observer": "Наблюдатель",
+        "disruption": "Disruption",
         "-": "-"
     },
     en: {
@@ -126,7 +143,9 @@ export const CLASS_NAMES = {
         "support": "Support",
         "amplifier": "Amplifier",
         "vanguard": "Vanguard",
+        "vanguard": "Vanguard",
         "observer": "Observer",
+        "disruption": "Disruption",
         "-": "-"
     }
 };
@@ -135,7 +154,10 @@ export const CLASS_IMAGES = {
     "amplifier": "Image/Classes/Amplifier.webp",
     "annihilator": "Image/Classes/Annihilator.webp",
     "attacker": "Image/Classes/Attacker.webp",
-    "observer": "Image/Classes/Observer.webp",
+    "annihilator": "Image/Classes/Annihilator.webp",
+    "attacker": "Image/Classes/Attacker.webp",
+    "observer": "Image/Elements/GENERAL.webp",
+    "disruption": "Image/Classes/Observer.webp",
     "support": "Image/Classes/Support.webp",
     "tank": "Image/Classes/Tank.webp",
     "uniframe": "Image/Classes/Uniframe.webp",
@@ -986,7 +1008,7 @@ export const CHAR_DATABASE = [
         element: "Нихил",
         class: "Наблюдатель",
         weapon: "Alpha-Omega",
-        affix: "Disruption",
+        affix: "Дизинтеграция",
         cub: "Diamaton"
     },
     {
@@ -1203,6 +1225,8 @@ export const CLASS_TO_PREFIX = {
     'Amplifier': 'HE',
     'Авангард': 'UNI',
     'Vanguard': 'UNI',
+    'Vanguard': 'UNI',
     'Наблюдатель': 'UN',
-    'Observer': 'UN'
+    'Observer': 'UN',
+    'Disruption': 'AT'
 };

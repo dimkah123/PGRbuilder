@@ -124,6 +124,12 @@ class AppState {
             this._class = CLASS_NAMES[this.lang][classKey];
         }
 
+        // Migrate Affix
+        const affixKey = Object.keys(ELEMENT_NAMES[oldLang]).find(k => ELEMENT_NAMES[oldLang][k] === this.affix);
+        if (affixKey) {
+            this.affix = ELEMENT_NAMES[this.lang][affixKey];
+        }
+
         // Localize "Signature" labels if active
         if (this.weapon === 'СИГНАТУРНОЕ' || this.weapon === 'SIGNATURE') {
             this.weapon = isEn ? 'SIGNATURE' : 'СИГНАТУРНОЕ';

@@ -27,23 +27,12 @@
     const RANK_OPTIONS = ["B", "A", "S", "SS", "SSS", "SSS+"];
 
     // Combine element names for affix options
-    let affixOptions = $derived([
-        ...Object.keys(ELEMENT_NAMES[appState.lang]).map((key) => ({
+    let affixOptions = $derived(
+        Object.keys(ELEMENT_NAMES[appState.lang]).map((key) => ({
             label: ELEMENT_NAMES[appState.lang][key],
             value: ELEMENT_NAMES[appState.lang][key],
         })),
-        "Burn",
-        "Dark",
-        "Fire",
-        "Freez",
-        "Light",
-        "Nihl",
-        "Phys",
-        "Plasma",
-        "Slash",
-        "Thunder",
-        "Umbra",
-    ]);
+    );
 
     const WEAPON_OPTIONS = Object.keys(WEAPON_IMAGES).sort();
     const CUB_OPTIONS = Object.keys(CUB_IMAGES).sort();
