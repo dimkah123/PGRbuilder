@@ -52,6 +52,7 @@
             }
         } catch {}
     }
+    import { t } from "$lib/i18n.js";
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -62,14 +63,22 @@
     ondragover={handleDragOver}
     ondragleave={handleDragLeave}
     ondrop={handleDrop}
+    aria-label="Memory slot {slotIndex + 1}"
 >
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="mem-remove-btn" onclick={handleRemove}>×</div>
+    <div
+        class="mem-remove-btn"
+        onclick={handleRemove}
+        role="button"
+        tabindex="0"
+    >
+        ×
+    </div>
 
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="mem-box" onclick={handleClick}>
+    <div class="mem-box" onclick={handleClick} role="button" tabindex="0">
         {#if memImg}
             <img
                 class="mem-img"
@@ -86,7 +95,7 @@
             name="memory-{slotIndex}"
             class="mem-input"
             bind:value={appState.builds[buildIndex].mems[slotIndex]}
-            placeholder="МЕМ"
+            placeholder={t("mem_placeholder")}
             options={MEMORY_NAMES}
             showOnFocus={false}
             strict={true}

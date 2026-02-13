@@ -63,6 +63,7 @@
     }
 
     let showControls = $state(false);
+    import { t } from "$lib/i18n.js";
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -71,6 +72,7 @@
     onmousedown={handleMouseDown}
     onwheel={handleWheel}
     style="cursor: {isDragging ? 'grabbing' : 'grab'};"
+    aria-label="Character portrait area"
 >
     {#if appState.charImg}
         <img
@@ -87,7 +89,9 @@
         <div
             class="char-change-btn"
             onclick={() => appState.openModal("char")}
-            title="Изменить персонажа"
+            title={t("change_char")}
+            role="button"
+            tabindex="0"
         >
             ↻
         </div>
@@ -98,10 +102,12 @@
             class="portrait-placeholder"
             id="char-placeholder"
             onclick={() => appState.openModal("char")}
+            role="button"
+            tabindex="0"
         >
-            <span>+ ВЫБРАТЬ ПЕРСОНАЖА</span>
+            <span>{t("select_char_placeholder")}</span>
             <span style="font-size: 0.7rem; color:#9c9c9c;"
-                >НАЖМИ ДЛЯ ВЫБОРА</span
+                >{t("click_to_select")}</span
             >
         </div>
     {/if}
@@ -151,7 +157,7 @@
                 value={posCode}
                 onchange={(e) => applyPosCode(e.target.value)}
                 style="width: 80px; text-align: center; background: #222; border: 1px solid #444; color: #ff3333; font-family: monospace;"
-                title="Код позиции (Scale/X/Y)"
+                title={t("pos_code_title")}
             />
         </div>
     </div>

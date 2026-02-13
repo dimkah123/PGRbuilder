@@ -1,11 +1,12 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import BuildList from "./BuildList.svelte";
+    import { t } from "$lib/i18n.js";
 </script>
 
 <div class="right-panel {appState.char ? '' : 'ui-locked'}">
     <div class="section-header">
-        <span>КОНФИГУРАЦИЯ ПАМЯТИ</span>
+        <span>{t("memory_config")}</span>
     </div>
 
     <BuildList />
@@ -16,7 +17,7 @@
             class="add-build-wide-btn"
             onclick={() => appState.addBuild()}
         >
-            + ДОБАВИТЬ СЕТ
+            {t("add_set")}
         </button>
     </div>
 </div>

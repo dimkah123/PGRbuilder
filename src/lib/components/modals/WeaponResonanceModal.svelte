@@ -48,20 +48,37 @@
 </script>
 
 {#if appState.activeModal === "wres"}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="modal-overlay" onclick={close}>
-        <div class="wres-modal-content" onclick={(e) => e.stopPropagation()}>
+    <div
+        class="modal-overlay"
+        onclick={(e) => e.target === e.currentTarget && close()}
+        onkeydown={(e) => e.key === "Escape" && close()}
+        role="button"
+        tabindex="-1"
+        aria-label="Close modal"
+    >
+        <div
+            class="wres-modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            tabindex="-1"
+        >
             <div class="modal-header">
-                <h3>ВЫБОР РЕЗОНАНСА ОРУЖИЯ</h3>
+                <h3 id="modal-title">{t("weapon_res_selection")}</h3>
                 <button class="modal-close" onclick={close}>X</button>
             </div>
 
             <div class="wres-grid">
                 {#each availableResonances as res}
-                    <!-- svelte-ignore a11y_click_events_have_key_events -->
-                    <!-- svelte-ignore a11y_no_static_element_interactions -->
-                    <div class="wres-item" onclick={() => selectResonance(res)}>
+                    <div
+                        class="wres-item"
+                        onclick={() => selectResonance(res)}
+                        onkeydown={(e) =>
+                            (e.key === "Enter" || e.key === " ") &&
+                            selectResonance(res)}
+                        role="button"
+                        tabindex="0"
+                    >
                         <img src={res.file} alt={res.name} />
                         <span>{res.name}</span>
                     </div>

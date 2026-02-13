@@ -75,27 +75,35 @@
     onMount(() => {
         loadSettings();
     });
+    import { t } from "$lib/i18n.js";
 </script>
 
 {#if isOpen}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="modal-overlay" onclick={close}>
+    <div
+        class="modal-overlay"
+        onclick={(e) => e.target === e.currentTarget && close()}
+        onkeydown={(e) => e.key === "Escape" && close()}
+        role="button"
+        tabindex="-1"
+        aria-label="Close modal"
+    >
         <div
             class="modal-content settings-modal"
-            onclick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="settings-title"
+            tabindex="-1"
         >
             <div class="modal-header">
-                <h3>НАСТРОЙКИ ИНТЕРФЕЙСА</h3>
+                <h3 id="settings-title">{t("interface_settings")}</h3>
                 <button class="modal-close" onclick={close}>X</button>
             </div>
 
             <div class="settings-body">
                 <div class="setting-group">
                     <label for="charWidth">
-                        Ширина окна персонажей: <span class="val"
-                            >{charWidth}px</span
-                        >
+                        {t("char_window_width")}:
+                        <span class="val">{charWidth}px</span>
                     </label>
                     <input
                         id="charWidth"
@@ -111,8 +119,8 @@
 
                 <div class="setting-group">
                     <label for="memWidth">
-                        Ширина окна памяти: <span class="val">{memWidth}px</span
-                        >
+                        {t("mem_window_width")}:
+                        <span class="val">{memWidth}px</span>
                     </label>
                     <input
                         id="memWidth"
@@ -127,9 +135,9 @@
                 </div>
 
                 <div class="setting-group">
-                    <div class="group-title">Окно резонанса оружия</div>
+                    <div class="group-title">{t("wres_window")}</div>
                     <label for="wresWidth">
-                        Ширина: <span class="val">{wresWidth}px</span>
+                        {t("width")}: <span class="val">{wresWidth}px</span>
                     </label>
                     <input
                         id="wresWidth"
@@ -143,7 +151,7 @@
                     />
 
                     <label for="wresCols">
-                        Количество колонок: <span class="val">{wresCols}</span>
+                        {t("columns")}: <span class="val">{wresCols}</span>
                     </label>
                     <input
                         id="wresCols"
@@ -158,9 +166,12 @@
                 </div>
 
                 <div class="actions">
-                    <button class="btn" onclick={resetDefaults}>СБРОСИТЬ</button
+                    <button class="btn" onclick={resetDefaults}
+                        >{t("reset")}</button
                     >
-                    <button class="btn save-btn" onclick={close}>ГОТОВО</button>
+                    <button class="btn save-btn" onclick={close}
+                        >{t("done")}</button
+                    >
                 </div>
             </div>
         </div>

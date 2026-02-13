@@ -1,5 +1,6 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
+    import { t } from "$lib/i18n.js";
 
     let {
         toggleTheme,
@@ -18,26 +19,35 @@
 
 <div class="top-nav">
     <div class="nav-left">
-        <span>GRAY RAVEN DATABASE</span><span class="desktop-status-text">
-            // СБОРКА КОНСТРУКТА</span
+        <span>{t("system_database")}</span><span class="desktop-status-text">
+            // {t("build_constructor")}</span
         >
     </div>
     <div class="nav-right">
+        <!-- Language Switcher -->
+        <button
+            class="btn lang-toggle"
+            onclick={() => appState.toggleLanguage()}
+            title={t("language")}
+        >
+            {appState.lang.toUpperCase()}
+        </button>
+
         <!-- Mobile Tools Menu -->
         <div class="mobile-tools-container">
             <button
                 class="btn tools-toggle"
                 onclick={() => (isToolsOpen = !isToolsOpen)}
             >
-                ИНСТРУМЕНТЫ
+                {t("tools")}
             </button>
             {#if isToolsOpen}
                 <div class="tools-dropdown">
                     <button onclick={() => handleToolClick(onSave)}
-                        >СОЗДАТЬ ССЫЛКУ</button
+                        >{t("create_link")}</button
                     >
                     <button onclick={() => handleToolClick(onExport)}
-                        >СОХРАНИТЬ PNG</button
+                        >{t("save_png")}</button
                     >
                 </div>
             {/if}
@@ -51,7 +61,7 @@
                 : '#000'}; color: {isLightMode ? '#000' : '#fff'};"
             onclick={toggleTheme}
         >
-            {isLightMode ? "DARK MODE" : "LIGHT MODE"}
+            {isLightMode ? t("dark_mode") : t("light_mode")}
         </button>
     </div>
 </div>

@@ -1,6 +1,7 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import { CHAR_DATABASE, CHARACTER_IMAGES, ASSET_MAP } from "$lib/data.js";
+    import { t } from "$lib/i18n.js";
 
     let searchQuery = $state("");
     let charList = $state([]);
@@ -21,7 +22,11 @@
                     c.enFrame.toLowerCase() === img.frame.toLowerCase(),
             );
             const name = dbEntry ? dbEntry.name : "";
-            const frame = dbEntry ? dbEntry.frame : img.frame;
+            const frame = dbEntry
+                ? appState.lang === "ru"
+                    ? dbEntry.frame
+                    : dbEntry.enFrame || dbEntry.frame
+                : img.frame;
 
             let label = frame;
             if (name && frame && name !== frame) {
@@ -35,37 +40,36 @@
     });
 
     function selectCharacter(imgData) {
-        // Find DB entry
         const dbEntry = CHAR_DATABASE.find(
             (c) =>
                 c.enFrame &&
                 c.enFrame.toLowerCase() === imgData.frame.toLowerCase(),
         );
 
-        // Update State
         if (dbEntry) {
             appState.char = dbEntry.name;
-            appState.frame = dbEntry.frame; // Russian Frame
+            appState.frame =
+                appState.lang === "ru"
+                    ? dbEntry.frame
+                    : dbEntry.enFrame || dbEntry.frame;
             appState.enFrame = dbEntry.enFrame;
             appState.rank = dbEntry.rank;
             appState.element = dbEntry.element;
             appState.class = dbEntry.class;
 
-            // Weapon Logic
             const weaponName = (dbEntry.weapon || "").toLowerCase().trim();
             if (weaponName && ASSET_MAP[weaponName]) {
-                appState.weapon = "СИГНАТУРНОЕ";
+                appState.weapon = t("signature");
                 appState.weaponReal = dbEntry.weapon;
             } else {
                 appState.weapon = dbEntry.weapon || "-";
                 appState.weaponReal = "";
             }
 
-            // CUB Logic
             const cubName = (dbEntry.cub || "").toLowerCase().trim();
             if (cubName && ASSET_MAP[cubName]) {
-                appState.cub = "СИГНАТУРНЫЙ"; // Display Name
-                appState.cubReal = dbEntry.cub; // Image Key Name
+                appState.cub = t("signature_cub");
+                appState.cubReal = dbEntry.cub;
             } else {
                 appState.cub = dbEntry.cub || "-";
                 appState.cubReal = "";
@@ -73,12 +77,8 @@
 
             appState.affix = dbEntry.affix || "-";
         } else {
-            // Check if we can infer from image frame name if strictly just an image
-            // Fallback for now just set image by setting enFrame/frame
             appState.frame = imgData.frame;
             appState.enFrame = imgData.frame;
-
-            // Reset others
             appState.rank = "";
             appState.element = "-";
             appState.class = "-";
@@ -96,32 +96,43 @@
 </script>
 
 {#if appState.activeModal === "char"}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="modal-overlay" onclick={close}>
+    <div
+        class="modal-overlay"
+        onclick={(e) => e.target === e.currentTarget && close()}
+        onkeydown={(e) => e.key === "Escape" && close()}
+        role="button"
+        tabindex="-1"
+        aria-label="Close modal"
+    >
         <div
             class="modal-content modal-char"
-            onclick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="char-modal-title"
+            tabindex="-1"
         >
             <div class="modal-header">
-                <h3>ВЫБОР ПЕРСОНАЖА</h3>
+                <h3 id="char-modal-title">{t("char_selection")}</h3>
                 <button class="modal-close" onclick={close}>X</button>
             </div>
             <input
                 type="text"
                 class="modal-search"
                 bind:value={searchQuery}
-                placeholder="ПОИСК..."
+                placeholder={t("search")}
                 bind:this={searchInput}
             />
 
             <div class="modal-grid">
                 {#each charList as char}
-                    <!-- svelte-ignore a11y_click_events_have_key_events -->
-                    <!-- svelte-ignore a11y_no_static_element_interactions -->
                     <div
                         class="modal-item"
                         onclick={() => selectCharacter(char)}
+                        onkeydown={(e) =>
+                            (e.key === "Enter" || e.key === " ") &&
+                            selectCharacter(char)}
+                        role="button"
+                        tabindex="0"
                     >
                         <img src={char.file} alt={char.frame} loading="lazy" />
                         <span>{char.label}</span>

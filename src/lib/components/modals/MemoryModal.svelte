@@ -1,6 +1,7 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import { MEMORY_NAMES } from "$lib/data.js";
+    import { t } from "$lib/i18n.js";
 
     let searchQuery = $state("");
     let searchInput = $state();
@@ -47,15 +48,26 @@
 </script>
 
 {#if appState.activeModal === "mem"}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="modal-overlay" onclick={close}>
+    <div
+        class="modal-overlay"
+        onclick={(e) => e.target === e.currentTarget && close()}
+        onkeydown={(e) => e.key === "Escape" && close()}
+        role="button"
+        tabindex="-1"
+        aria-label="Close modal"
+    >
         <div
             class="modal-content modal-mem"
-            onclick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mem-modal-title"
+            tabindex="-1"
         >
             <div class="modal-header">
-                <h3>ВЫБОР ВОСПОМИНАНИЯ (СЛОТ {activeSlotIndex})</h3>
+                <h3 id="mem-modal-title">
+                    {t("memory_selection")} ({t("slot")}
+                    {activeSlotIndex})
+                </h3>
                 <button class="modal-close" onclick={close}>X</button>
             </div>
             <input
@@ -63,17 +75,20 @@
                 type="text"
                 class="modal-search"
                 bind:value={searchQuery}
-                placeholder="ПОИСК..."
+                placeholder={t("search")}
                 bind:this={searchInput}
             />
 
             <div class="modal-grid">
                 {#each memoryList as mem}
-                    <!-- svelte-ignore a11y_click_events_have_key_events -->
-                    <!-- svelte-ignore a11y_no_static_element_interactions -->
                     <div
                         class="mem-option"
                         onclick={() => selectMemory(mem.name)}
+                        onkeydown={(e) =>
+                            (e.key === "Enter" || e.key === " ") &&
+                            selectMemory(mem.name)}
+                        role="button"
+                        tabindex="0"
                     >
                         <img
                             class="mem-opt-img"

@@ -1,6 +1,7 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import { onMount } from "svelte";
+    import { t } from "$lib/i18n.js";
 
     let { value = $bindable("") } = $props();
 
@@ -262,15 +263,11 @@
 <svelte:document
     onselectionchange={updateToolbarPos}
     onmousedown={(e) => {
-        // Close toolbar if clicking outside
         if (
             toolbar &&
             !toolbar.contains(e.target) &&
             !editor.contains(e.target)
         ) {
-            // Allow text selection inside editor to handle itself, but outside should hide?
-            // Actually selectionchange handles showing/hiding based on selection.
-            // We just need to close dropdowns if clicking elsewhere.
             if (activeDropdown && !e.target.closest(".rte-dropdown")) {
                 closeDropdowns();
             }
@@ -287,6 +284,7 @@
         role="textbox"
         tabindex="0"
         spellcheck="false"
+        aria-label="Tactical analysis editor"
     ></div>
 
     {#if showToolbar}
@@ -297,6 +295,9 @@
             bind:this={toolbar}
             style="top: {toolbarPos.top}px; left: {toolbarPos.left}px; --arrow-offset: {toolbarPos.arrowOffset}px; position: fixed;"
             onmousedown={(e) => e.preventDefault()}
+            role="toolbar"
+            aria-label="Text formatting tools"
+            tabindex="-1"
         >
             <!-- Size Dropdown -->
             <div
@@ -305,38 +306,47 @@
                 <button
                     class="rte-btn"
                     onmousedown={(e) => toggleDropdown("size", e)}
+                    aria-label="Font size"
                 >
                     T <span style="font-size:8px; margin-left:2px;">▼</span>
                 </button>
                 {#if activeDropdown === "size"}
-                    <div class="rte-dropdown-menu">
+                    <div class="rte-dropdown-menu" role="menu" tabindex="-1">
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <div
                             class="rte-menu-item"
                             onmousedown={(e) => formatDoc(e, "fontSize", "1")}
+                            role="menuitem"
+                            tabindex="0"
                         >
-                            Маленький
+                            {t("small")}
                         </div>
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <div
                             class="rte-menu-item"
                             onmousedown={(e) => formatDoc(e, "fontSize", "3")}
+                            role="menuitem"
+                            tabindex="0"
                         >
-                            Средний
+                            {t("medium")}
                         </div>
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <div
                             class="rte-menu-item"
                             onmousedown={(e) => formatDoc(e, "fontSize", "5")}
+                            role="menuitem"
+                            tabindex="0"
                         >
-                            Большой
+                            {t("large")}
                         </div>
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <div
                             class="rte-menu-item"
                             onmousedown={(e) => formatDoc(e, "fontSize", "7")}
+                            role="menuitem"
+                            tabindex="0"
                         >
-                            Огромный
+                            {t("huge")}
                         </div>
                     </div>
                 {/if}
@@ -349,12 +359,12 @@
             <button
                 class="rte-btn {isBold ? 'active' : ''}"
                 onmousedown={(e) => formatDoc(e, "bold")}
-                title="Жирный"><b>B</b></button
+                title={t("bold")}><b>B</b></button
             >
             <button
                 class="rte-btn {isItalic ? 'active' : ''}"
                 onmousedown={(e) => formatDoc(e, "italic")}
-                title="Курсив"><i>I</i></button
+                title={t("italic")}><i>I</i></button
             >
 
             <div
@@ -365,12 +375,12 @@
             <button
                 class="rte-btn"
                 onmousedown={(e) => formatDoc(e, "justifyLeft")}
-                title="По левому краю">≡←</button
+                title={t("align_left")}>≡←</button
             >
             <button
                 class="rte-btn"
                 onmousedown={(e) => formatDoc(e, "justifyCenter")}
-                title="По центру">≡↔</button
+                title={t("align_center")}>≡↔</button
             >
 
             <div
@@ -386,22 +396,20 @@
                 <button
                     class="rte-btn"
                     onmousedown={(e) => toggleDropdown("color", e)}
+                    aria-label="Text color"
                 >
                     <span class="color-indicator"></span>
                     <span style="font-size:8px; margin-left:2px;">▼</span>
                 </button>
                 {#if activeDropdown === "color"}
-                    <!-- If showing custom picker, we render it INSTEAD of menu? No, inside menu structure or absolute -->
-                    <!-- Let's render the menu, and if custom is clicked, switch mode? 
-                         Or just render the picker directly if a specific sub-state is active? 
-                         Let's keep it simple: The Swatches are the menu. The Wheel toggles the Picker.
-                    -->
                     {#if activeDropdown === "color"}
                         <!-- svelte-ignore a11y_click_events_have_key_events -->
                         <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <div
                             class="rte-dropdown-menu color-menu"
                             onclick={(e) => e.stopPropagation()}
+                            role="menu"
+                            tabindex="-1"
                         >
                             <!-- Preset Swatches -->
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -409,30 +417,45 @@
                                 class="color-swatch"
                                 style="background:#ff9900"
                                 onmousedown={(e) => applyColor("#ff9900", e)}
+                                role="menuitem"
+                                tabindex="0"
+                                aria-label="Orange"
                             ></div>
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
                             <div
                                 class="color-swatch"
                                 style="background:#ea9999"
                                 onmousedown={(e) => applyColor("#ea9999", e)}
+                                role="menuitem"
+                                tabindex="0"
+                                aria-label="Light red"
                             ></div>
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
                             <div
                                 class="color-swatch"
                                 style="background:#cc4125"
                                 onmousedown={(e) => applyColor("#cc4125", e)}
+                                role="menuitem"
+                                tabindex="0"
+                                aria-label="Red"
                             ></div>
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
                             <div
                                 class="color-swatch"
                                 style="background:#6d9eeb"
                                 onmousedown={(e) => applyColor("#6d9eeb", e)}
+                                role="menuitem"
+                                tabindex="0"
+                                aria-label="Blue"
                             ></div>
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
                             <div
                                 class="color-swatch"
                                 style="background:#ffffff"
                                 onmousedown={(e) => applyColor("#ffffff", e)}
+                                role="menuitem"
+                                tabindex="0"
+                                aria-label="White"
                             ></div>
 
                             <div class="color-separator"></div>
@@ -440,12 +463,14 @@
                             <!-- svelte-ignore a11y_click_events_have_key_events -->
                             <div
                                 class="color-swatch custom-picker-btn"
-                                title="Свой цвет"
+                                title={t("custom_color")}
                                 onmousedown={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     toggleDropdown("customColor", e);
                                 }}
+                                role="menuitem"
+                                tabindex="0"
                             ></div>
                         </div>
                     {/if}
@@ -469,7 +494,7 @@
             <button
                 class="rte-btn"
                 onmousedown={insertSeparator}
-                title="Разделитель">HR</button
+                title={t("separator")}>HR</button
             >
         </div>
     {/if}

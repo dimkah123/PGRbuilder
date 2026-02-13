@@ -5,30 +5,40 @@
     import Combobox from "./ui/Combobox.svelte";
     import { CHAR_DATABASE } from "$lib/data.js";
     import { fillCharacterData } from "$lib/utils/autocomplete.js";
+    import { t } from "$lib/i18n.js";
 
     // Prepare options for autocomplete
-    // We want to search by Name or Frame
-    // Name options also show frame to be specific? Or just Name?
-    // User requested "Name + Frame" format in name input.
-
     let nameOptions = $derived(
-        CHAR_DATABASE.map((c) => ({
-            label: c.frame ? `${c.name}: ${c.frame}` : c.name, // Name: Frame or Name
-            value: c.name,
-            data: c,
-        })),
+        CHAR_DATABASE.map((c) => {
+            const frameDisplay =
+                appState.lang === "ru" ? c.frame : c.enFrame || c.frame;
+            const nameDisplay = c.name; // Keep RU name for now or translate if available
+            return {
+                label: frameDisplay
+                    ? `${nameDisplay}: ${frameDisplay}`
+                    : nameDisplay,
+                value: nameDisplay,
+                data: c,
+            };
+        }),
     );
 
     let frameOptions = $derived(
-        CHAR_DATABASE.map((c) => ({
-            label: c.frame ? `${c.name}: ${c.frame}` : c.name,
-            value: c.frame,
-            data: c,
-        })),
+        CHAR_DATABASE.map((c) => {
+            const frameDisplay =
+                appState.lang === "ru" ? c.frame : c.enFrame || c.frame;
+            const nameDisplay = c.name;
+            return {
+                label: frameDisplay
+                    ? `${nameDisplay}: ${frameDisplay}`
+                    : nameDisplay,
+                value: frameDisplay,
+                data: c,
+            };
+        }),
     );
 
     function onNameSelect(opt) {
-        // opt is object {label, value, data}
         if (opt.data) {
             fillCharacterData(opt.data);
         } else {
@@ -37,7 +47,6 @@
     }
 
     function onFrameSelect(opt) {
-        // opt is the object { label, value, data }
         if (opt.data) {
             fillCharacterData(opt.data);
         }
@@ -54,7 +63,7 @@
                 name="char-name"
                 class="char-name-input"
                 bind:value={appState.char}
-                placeholder="ИМЯ"
+                placeholder={t("change_char")}
                 options={nameOptions}
                 onSelect={onNameSelect}
                 showOnFocus={false}
@@ -67,7 +76,7 @@
                 name="frame-name"
                 class="frame-name-input"
                 bind:value={appState.frame}
-                placeholder="ФРЕЙМ"
+                placeholder={t("frame")}
                 options={frameOptions}
                 onSelect={onFrameSelect}
                 showOnFocus={false}

@@ -1,25 +1,37 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import Combobox from "./ui/Combobox.svelte";
-    import { WEAPON_IMAGES, CUB_IMAGES } from "$lib/data.js";
+    import {
+        WEAPON_IMAGES,
+        CUB_IMAGES,
+        ELEMENT_NAMES,
+        CLASS_NAMES,
+    } from "$lib/data.js";
+    import { t } from "$lib/i18n.js";
 
-    // Options
-    const CLASS_OPTIONS = [
-        "Атакующий",
-        "Поддержка",
-        "Танк",
-        "Авангард",
-        "Амплифаер",
-        "Унифрейм",
-    ];
+    // Options mapping with localized labels
+    let classOptions = $derived(
+        Object.keys(CLASS_NAMES[appState.lang]).map((key) => ({
+            label: CLASS_NAMES[appState.lang][key],
+            value: CLASS_NAMES["ru"][key], // Keep RU as internal value for backwards compatibility
+        })),
+    );
 
-    const ELEMENT_OPTIONS = ["Физический", "Огонь", "Лед", "Молния", "Тьма"];
+    let elementOptions = $derived(
+        Object.keys(ELEMENT_NAMES[appState.lang]).map((key) => ({
+            label: ELEMENT_NAMES[appState.lang][key],
+            value: ELEMENT_NAMES["ru"][key],
+        })),
+    );
 
     const RANK_OPTIONS = ["B", "A", "S", "SS", "SSS", "SSS+"];
 
-    // Element + loose affixes
-    const AFFIX_OPTIONS = [
-        ...ELEMENT_OPTIONS,
+    // Combine element names for affix options
+    let affixOptions = $derived([
+        ...Object.keys(ELEMENT_NAMES[appState.lang]).map((key) => ({
+            label: ELEMENT_NAMES[appState.lang][key],
+            value: ELEMENT_NAMES["ru"][key],
+        })),
         "Burn",
         "Dark",
         "Fire",
@@ -31,18 +43,16 @@
         "Slash",
         "Thunder",
         "Umbra",
-    ];
+    ]);
 
     const WEAPON_OPTIONS = Object.keys(WEAPON_IMAGES).sort();
     const CUB_OPTIONS = Object.keys(CUB_IMAGES).sort();
 </script>
 
 <div class="stats-container {appState.char ? '' : 'ui-locked'}">
-    <!-- Row 1: Main Stats -->
     <div class="stats-row main-stats-row">
-        <!-- Class -->
         <div class="stat-box">
-            <span class="stat-label">КЛАСС</span>
+            <span class="stat-label">{t("class")}</span>
             {#if appState.classImg}
                 <img
                     class="stat-icon"
@@ -58,13 +68,12 @@
                     class="stat-input"
                     bind:value={appState.class}
                     placeholder="-"
-                    options={CLASS_OPTIONS}
+                    options={classOptions}
                 />
             </div>
         </div>
-        <!-- Element -->
         <div class="stat-box">
-            <span class="stat-label">СТИХИЯ</span>
+            <span class="stat-label">{t("element")}</span>
             {#if appState.elementImg}
                 <img
                     class="stat-icon"
@@ -80,13 +89,12 @@
                     class="stat-input"
                     bind:value={appState.element}
                     placeholder="-"
-                    options={ELEMENT_OPTIONS}
+                    options={elementOptions}
                 />
             </div>
         </div>
-        <!-- Weapon -->
         <div class="stat-box">
-            <span class="stat-label">ОРУЖИЕ</span>
+            <span class="stat-label">{t("weapon")}</span>
             {#if appState.weaponImg}
                 <img
                     id="weapon-img"
@@ -104,21 +112,14 @@
                     bind:value={appState.weapon}
                     placeholder="-"
                     options={WEAPON_OPTIONS}
-                    onSelect={(opt) => {
-                        // If selecting a real weapon name, we might want to store it in weaponReal
-                        // But appState logic currently uses weapon as fallback.
-                        // For now just binding value is enough to show image if it matches.
-                    }}
                 />
             </div>
         </div>
     </div>
 
-    <!-- Row 2: Extra Data -->
     <div class="stats-row">
-        <!-- Affix -->
         <div class="stat-box">
-            <span class="stat-label">АФФИКС</span>
+            <span class="stat-label">{t("affix")}</span>
             {#if appState.affixImg}
                 <img
                     id="affix-img"
@@ -135,13 +136,12 @@
                     class="stat-input"
                     bind:value={appState.affix}
                     placeholder="-"
-                    options={AFFIX_OPTIONS}
+                    options={affixOptions}
                 />
             </div>
         </div>
-        <!-- Pet/CUB -->
         <div class="stat-box">
-            <span class="stat-label">ПИТОМЕЦ / CUB</span>
+            <span class="stat-label">{t("cub")}</span>
             {#if appState.cubImg}
                 <img
                     id="cub-img"
@@ -162,9 +162,8 @@
                 />
             </div>
         </div>
-        <!-- Rank -->
         <div class="stat-box rank-box">
-            <span class="stat-label">РАНГ</span>
+            <span class="stat-label">{t("rank")}</span>
             <div class="combobox-container">
                 <Combobox
                     name="char-rank"

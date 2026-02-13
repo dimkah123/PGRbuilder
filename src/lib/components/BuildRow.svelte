@@ -5,15 +5,17 @@
     import ResonanceSelect from "./ResonanceSelect.svelte";
     import Combobox from "./ui/Combobox.svelte";
     import { MEMORY_NAMES } from "$lib/data.js";
+    import { t } from "$lib/i18n.js";
 
     let { build, index } = $props();
 
-    const RES_SKILL_TOP_OPTIONS = [
-        "+15 АТК",
+    let resSkillTopOptions = $derived([
+        t("atk_15"),
         "Red Orb",
         "Blue Orb",
         "Yellow Orb",
-    ];
+    ]);
+
     const RES_SKILL_BOTTOM_OPTIONS = [
         "Core Passive",
         "Signature Move",
@@ -63,7 +65,7 @@
             name="build-title"
             type="text"
             bind:value={build.title}
-            placeholder="ВВЕДИТЕ НАЗВАНИЕ"
+            placeholder={t("enter_title")}
             autocomplete="off"
         />
     </div>
@@ -121,7 +123,7 @@
                 name="build-harm"
                 class="harm-input"
                 bind:value={build.harm}
-                placeholder="ГАРМ"
+                placeholder={t("harm")}
                 options={MEMORY_NAMES}
                 showOnFocus={false}
                 strict={true}
@@ -132,7 +134,7 @@
     <!-- 3. Resonance -->
     <div class="res-col">
         <div class="res-group">
-            <div class="res-label">ВЕРХ. РЕЗОНАНС</div>
+            <div class="res-label">{t("top_res")}</div>
             <div class="res-row">
                 <ResonanceSelect bind:value={build.resTopSlot} />
                 <div class="combobox-container res-combobox">
@@ -140,14 +142,14 @@
                         name="build-res-top-skill"
                         class="res-skill-input"
                         bind:value={build.resTopSkill}
-                        placeholder="НАВЫК"
-                        options={RES_SKILL_TOP_OPTIONS}
+                        placeholder={t("skill")}
+                        options={resSkillTopOptions}
                     />
                 </div>
             </div>
         </div>
         <div class="res-group">
-            <div class="res-label">НИЖН. РЕЗОНАНС</div>
+            <div class="res-label">{t("bot_res")}</div>
             <div class="res-row">
                 <ResonanceSelect bind:value={build.resBotSlot} />
                 <div class="combobox-container res-combobox">
@@ -155,7 +157,7 @@
                         name="build-res-bot-skill"
                         class="res-skill-input"
                         bind:value={build.resBotSkill}
-                        placeholder="НАВЫК"
+                        placeholder={t("skill")}
                         options={RES_SKILL_BOTTOM_OPTIONS}
                     />
                 </div>
@@ -164,7 +166,7 @@
 
         <!-- Weapon Resonance -->
         <div class="weapon-res-group">
-            <div class="res-label">РЕЗОНАНСЫ ОРУЖИЯ</div>
+            <div class="res-label">{t("weapon_res_title")}</div>
             <div class="weapon-res-row">
                 {#each [0, 1, 2] as wIndex}
                     <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -208,7 +210,7 @@
 
     <!-- 4. Description -->
     <div class="tac-box">
-        <div class="tac-header">ТАКТИЧЕСКИЙ АНАЛИЗ</div>
+        <div class="tac-header">{t("tactical_analysis")}</div>
         <div class="rich-editor-container">
             <!-- ContentEditable logic needs careful Svelte implementation or just textarea -->
             <RichTextEditor bind:value={build.desc} />

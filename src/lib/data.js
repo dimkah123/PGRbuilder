@@ -89,6 +89,44 @@ export const ELEMENT_IMAGES = {
     "umbra": "Image/Elements/UMBRA.webp"
 };
 
+export const ELEMENT_NAMES = {
+    ru: {
+        "phys": "Физический",
+        "fire": "Огонь",
+        "ice": "Лед",
+        "thunder": "Молния",
+        "dark": "Тьма",
+        "-": "-"
+    },
+    en: {
+        "phys": "Physical",
+        "fire": "Fire",
+        "ice": "Ice",
+        "thunder": "Lightning",
+        "dark": "Dark",
+        "-": "-"
+    }
+};
+
+export const CLASS_NAMES = {
+    ru: {
+        "attacker": "Атакующий",
+        "tank": "Танк",
+        "support": "Поддержка",
+        "amplifier": "Амплифаер",
+        "vanguard": "Авангард",
+        "-": "-"
+    },
+    en: {
+        "attacker": "Attacker",
+        "tank": "Tank",
+        "support": "Support",
+        "amplifier": "Amplifier",
+        "vanguard": "Vanguard",
+        "-": "-"
+    }
+};
+
 export const CLASS_IMAGES = {
     "amplifier": "Image/Classes/Amplifier.webp",
     "annihilator": "Image/Classes/Annihilator.webp",

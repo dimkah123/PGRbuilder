@@ -90,7 +90,19 @@ class AppState {
     get affixImg() { return ASSET_MAP[this.affix.toLowerCase()] || ''; }
     get cubImg() { return ASSET_MAP[(this.cubReal || this.cub).toLowerCase()] || ''; }
 
+    lang = $state('ru');
+
+    toggleLanguage() {
+        this.lang = this.lang === 'ru' ? 'en' : 'ru';
+        localStorage.setItem('pgr_lang', this.lang);
+        // Dispatch update for reactive components if needed, though $state covers it
+    }
+
     constructor() {
+        if (typeof window !== 'undefined') {
+            const savedLang = localStorage.getItem('pgr_lang');
+            if (savedLang) this.lang = savedLang;
+        }
     }
 
     addBuild() {
@@ -103,6 +115,7 @@ class AppState {
 
     serialize() {
         return {
+            lang: this.lang,
             char: this.char,
             frame: this.frame,
             enFrame: this.enFrame,
@@ -119,6 +132,7 @@ class AppState {
 
     hydrate(data) {
         if (!data) return;
+        if (data.lang) this.lang = data.lang;
         this.char = data.char || '';
         this.frame = data.frame || '';
         this.enFrame = data.enFrame || '';
