@@ -18,7 +18,9 @@
 
 <div class="top-nav">
     <div class="nav-left">
-        <span>GRAY RAVEN DATABASE</span> // СБОРКА КОНСТРУКТА
+        <span>GRAY RAVEN DATABASE</span><span class="desktop-status-text">
+            // СБОРКА КОНСТРУКТА</span
+        >
     </div>
     <div class="nav-right">
         <!-- Mobile Tools Menu -->
@@ -52,7 +54,7 @@
             {isLightMode ? "DARK MODE" : "LIGHT MODE"}
         </button>
         <div class="desktop-status">
-            СИСТЕМА: ОНЛАЙН
+            <span>СИСТЕМА: ОНЛАЙН</span>
             <div class="status-dot"></div>
         </div>
     </div>
@@ -107,5 +109,15 @@
         .desktop-status {
             display: none; /* Hide status text on mobile to save space */
         }
+
+        .desktop-status-text {
+            display: none;
+        }
+    }
+
+    .desktop-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 </style>

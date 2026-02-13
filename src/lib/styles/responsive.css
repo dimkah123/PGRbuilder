@@ -65,14 +65,17 @@
         font-size: 0.75rem;
         justify-content: space-between;
         gap: 10px;
-        height: 40px;
+        height: auto;
         min-height: 40px;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        width: 100vw;
+        width: 100%;
         box-sizing: border-box;
+        flex-wrap: wrap;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 
     .nav-left span {
