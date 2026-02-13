@@ -531,6 +531,8 @@
     background: rgba(255, 255, 255, 0.01);
     overflow: hidden;
     max-width: 100%;
+    min-width: 250px;
+    /* Ensure it wraps if space is tight */
 }
 
 /* Corner Brackets for Tech Look */
