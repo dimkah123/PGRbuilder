@@ -74,7 +74,16 @@ const translations = {
         msg_not_found: "Сборка не найдена (ID: {id})",
         msg_load_error: "Ошибка загрузки: ",
         disruption: "Дизинтеграция",
-        recent: "НЕДАВНИЕ"
+        recent: "НЕДАВНИЕ",
+        theme: "ТЕМА",
+        guide: "ИНФО",
+        guide_title: "РУКОВОДСТВО ПОЛЬЗОВАТЕЛЯ",
+        guide_autocomplete_title: "АВТОЗАПОЛНЕНИЕ",
+        guide_autocomplete_desc: "Работает в полях ввода имени персонажа, фрейма, памяти и в блоке 'Тактический Анализ'. Начните вводить (минимум 2 символа), чтобы увидеть подсказки.",
+        guide_highlight_title: "ПОДСВЕТКА И ПОДСКАЗКИ",
+        guide_highlight_desc: "Имена персонажей и воспоминаний в тексте анализа автоматически подсвечиваются. Наведите курсор, чтобы увидеть подробную информацию.",
+        guide_editing_title: "РЕДАКТИРОВАНИЕ ТЕКСТА",
+        guide_editing_desc: "Выделите любой текст в блоке анализа, чтобы открыть панель форматирования: жирный шрифт, курсив, цвет текста."
     },
     en: {
         tools: "TOOLS",
@@ -149,7 +158,16 @@ const translations = {
         msg_not_found: "Build not found (ID: {id})",
         msg_load_error: "Load error: ",
         disruption: "Disruption",
-        recent: "RECENT"
+        recent: "RECENT",
+        theme: "THEME",
+        guide: "INFO",
+        guide_title: "USER GUIDE",
+        guide_autocomplete_title: "AUTOCOMPLETE",
+        guide_autocomplete_desc: "Works in Character Name, Frame, Memory fields, and 'Tactical Analysis'. Start typing (min 2 chars) to see suggestions.",
+        guide_highlight_title: "HIGHLIGHTS & TOOLTIPS",
+        guide_highlight_desc: "Character and memory names within the analysis text are automatically highlighted. Hover over them to see details.",
+        guide_editing_title: "TEXT EDITING",
+        guide_editing_desc: "Select any text in the analysis block to reveal the formatting toolbar: Bold, Italic, Text Color."
     }
 };
 

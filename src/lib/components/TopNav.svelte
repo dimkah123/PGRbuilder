@@ -6,6 +6,7 @@
     let {
         onSave,
         onExport,
+        onGuide,
         onSettings,
         onToggleTheme,
         isLightMode,
@@ -43,14 +44,19 @@
                     >
                 {/key}
             </button>
-            <button class="btn nav-btn" onclick={onSettings}>
-                {#key appState.lang}
-                    <span in:fade={{ duration: 300 }}>{t("settings")}</span>
-                {/key}
-            </button>
             <button class="btn nav-btn" onclick={onExport}>
                 {#key appState.lang}
                     <span in:fade={{ duration: 300 }}>{t("save_png")}</span>
+                {/key}
+            </button>
+            <button class="btn nav-btn" onclick={onGuide}>
+                {#key appState.lang}
+                    <span in:fade={{ duration: 300 }}>{t("guide")}</span>
+                {/key}
+            </button>
+            <button class="btn nav-btn" onclick={onSettings}>
+                {#key appState.lang}
+                    <span in:fade={{ duration: 300 }}>{t("settings")}</span>
                 {/key}
             </button>
         </div>
@@ -86,6 +92,9 @@
                     </button>
                     <button onclick={() => handleToolClick(onExport)}
                         >{t("save_png")}</button
+                    >
+                    <button onclick={() => handleToolClick(onGuide)}
+                        >{t("guide")}</button
                     >
                 </div>
             {/if}

@@ -12,6 +12,7 @@
     import WeaponResonanceModal from "$lib/components/modals/WeaponResonanceModal.svelte";
     import ColorPicker from "$lib/components/modals/ColorPicker.svelte";
     import SettingsModal from "$lib/components/modals/SettingsModal.svelte";
+    import GuideModal from "$lib/components/modals/GuideModal.svelte";
 
     // Utils
     import {
@@ -25,6 +26,7 @@
     let saveBtnState = $state({ textKey: "create_link", style: "new" });
     let appContainer = $state(); // binding
     let settingsModal = $state(); // binding
+    let guideModal = $state(); // binding
 
     function toggleTheme() {
         // Add transition class
@@ -112,6 +114,7 @@
     onSave={handleSave}
     onExport={() => handleExport(appState.char || "UNIT")}
     onSettings={() => settingsModal.open()}
+    onGuide={() => guideModal.open()}
     onToggleTheme={toggleTheme}
     {isLightMode}
     {saveBtnState}
@@ -140,6 +143,7 @@
 <WeaponResonanceModal />
 <ColorPicker />
 <SettingsModal bind:this={settingsModal} {toggleTheme} {isLightMode} />
+<GuideModal bind:this={guideModal} />
 
 <style>
     /* Styles are mostly global in app.css */

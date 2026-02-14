@@ -7,9 +7,11 @@
         MEMORY_DATABASE,
     } from "$lib/data.js";
     import { t } from "$lib/i18n.js";
+    import { flip } from "svelte/animate";
 
     let searchQuery = $state("");
     let searchInput = $state();
+    let isCompact = $state(false);
 
     $effect(() => {
         if (searchInput) {
@@ -37,6 +39,10 @@
                 star,
                 file: `Image/Memories/Memory-${name}-Icon-${activeSlotIndex}.webp`,
                 effects: memData ? memData.effects : null,
+                hp: memData?.hp,
+                crit: memData?.crit,
+                atk: memData?.atk,
+                def: memData?.def,
             };
         };
 
@@ -93,14 +99,30 @@
                 </h3>
                 <button class="modal-close" onclick={close}>X</button>
             </div>
-            <input
-                name="memory-search"
-                type="text"
-                class="modal-search"
-                bind:value={searchQuery}
-                placeholder={t("search")}
-                bind:this={searchInput}
-            />
+            <div class="search-row">
+                <div class="search-box">
+                    <input
+                        bind:this={searchInput}
+                        type="text"
+                        class="modal-search"
+                        placeholder={t("search")}
+                        bind:value={searchQuery}
+                    />
+                    {#if searchQuery}
+                        <button
+                            class="clear-search"
+                            onclick={() => (searchQuery = "")}>✕</button
+                        >
+                    {/if}
+                </div>
+                <button
+                    class="view-toggle-btn"
+                    onclick={() => (isCompact = !isCompact)}
+                    title={isCompact ? "Show Details" : "Compact View"}
+                >
+                    {isCompact ? "👁️" : "≣"}
+                </button>
+            </div>
 
             <div class="modal-body">
                 {#each memoryGroups as group}
@@ -111,10 +133,15 @@
                         >
                             {group.title}
                         </div>
-                        <div class="modal-grid">
-                            {#each group.items as mem}
+                        <div
+                            class="modal-grid {isCompact
+                                ? 'compact-grid'
+                                : 'detail-grid'}"
+                        >
+                            {#each group.items as mem (mem.name)}
                                 <div
                                     class="mem-option"
+                                    animate:flip={{ duration: 300 }}
                                     class:disabled={isHarmRequest &&
                                         mem.star === 5}
                                     onclick={() =>
@@ -133,8 +160,8 @@
                                           "5-star cannot be used for harmonization"
                                         : ""}
                                 >
-                                    <div class="mem-opt-left">
-                                        <div class="mem-opt-img-wrapper">
+                                    <div class="mem-opt-header">
+                                        <div class="mem-img-wrap">
                                             <img
                                                 class="mem-opt-img"
                                                 src={mem.file}
@@ -149,11 +176,11 @@
                                                 </div>
                                             {/if}
                                         </div>
-                                        <span>{mem.name}</span>
+                                        <span class="mem-name">{mem.name}</span>
                                     </div>
-                                    {#if mem.effects && (mem.effects.twoPiece[appState.lang] || mem.effects.fourPiece[appState.lang])}
-                                        <div class="mem-opt-right">
-                                            {#if mem.effects.twoPiece[appState.lang]}
+                                    {#if !isCompact && mem.effects && (mem.effects.twoPiece[appState.lang] || mem.effects.twoPiece["en"] || mem.effects.fourPiece[appState.lang] || mem.effects.fourPiece["en"])}
+                                        <div class="mem-effects-wrap">
+                                            {#if mem.effects.twoPiece[appState.lang] || mem.effects.twoPiece["en"]}
                                                 <div class="mem-effect">
                                                     <span
                                                         class="mem-effect-label"
@@ -163,11 +190,15 @@
                                                         class="mem-effect-text"
                                                         >{mem.effects.twoPiece[
                                                             appState.lang
-                                                        ]}</span
+                                                        ] ||
+                                                            mem.effects
+                                                                .twoPiece[
+                                                                "en"
+                                                            ]}</span
                                                     >
                                                 </div>
                                             {/if}
-                                            {#if mem.effects.fourPiece[appState.lang]}
+                                            {#if mem.effects.fourPiece[appState.lang] || mem.effects.fourPiece["en"]}
                                                 <div class="mem-effect">
                                                     <span
                                                         class="mem-effect-label"
@@ -177,7 +208,11 @@
                                                         class="mem-effect-text"
                                                         >{mem.effects.fourPiece[
                                                             appState.lang
-                                                        ]}</span
+                                                        ] ||
+                                                            mem.effects
+                                                                .fourPiece[
+                                                                "en"
+                                                            ]}</span
                                                     >
                                                 </div>
                                             {/if}
@@ -194,17 +229,155 @@
 {/if}
 
 <style>
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .modal-header h3 {
+        margin: 0;
+        flex-shrink: 0;
+    }
+    .modal-header .modal-close {
+        margin-left: 10px;
+    }
+    .search-row {
+        display: grid;
+        grid-template-columns: 1fr 36px; /* Search box takes space, button fixed square width */
+        gap: 10px;
+        align-items: center; /* Strict vertical centering for row items */
+        padding: 15px 20px; /* Match header horizontal padding (20px) and increase vertical (15px) */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        box-sizing: border-box; /* Fix width overflow */
+    }
+    .search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 36px; /* Explicit item height */
+        margin: 0; /* Prevent shifts */
+    }
+    .search-box input {
+        width: 100%;
+        height: 100%; /* Fill the search-box container */
+        padding-right: 30px; /* Space for clear button */
+        box-sizing: border-box;
+        margin: 0; /* Prevent shifts */
+    }
+
+    .modal-search {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 0 12px; /* Horizontal padding only */
+        font-family: var(--font-tech);
+        font-size: 0.9rem;
+        line-height: 34px; /* Matches height (36px) minus borders (2px) */
+        outline: none;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+        display: block; /* Standard display */
+        margin: 0; /* Prevent shifts */
+    }
+    .modal-search:focus {
+        border-color: var(--accent-red);
+        background: rgba(0, 0, 0, 0.6);
+    }
+    .search-box .clear-search {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0 5px;
+    }
     .modal-body {
-        max-height: 70vh;
+        max-height: 85vh; /* Increase height for more content visibility */
         overflow-y: auto;
         padding-right: 10px;
+        padding-bottom: 30px; /* Add padding to prevent clipping at bottom */
     }
+    /* Grid Layouts - applied to .modal-grid */
+    .modal-body :global(.modal-grid.compact-grid) {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    }
+
+    .modal-body :global(.modal-grid.detail-grid) {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    }
+
+    /* Default fallback */
     .modal-body :global(.modal-grid) {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-gap: 10px;
     }
-    .modal-body :global(.mem-option) {
-        flex-direction: row;
-        align-items: flex-start;
+
+    /* Override global .modal-grid if needed, but here we use specific classes */
+    .modal-body :global(.modal-grid) {
+        /* Reset this to allow our dynamic classes to work if .mem-list has .modal-grid */
+        grid-template-columns: unset;
+    }
+
+    .mem-option {
+        display: block;
+        overflow: hidden; /* clearfix for floated mem-opt-left */
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        height: auto;
+        min-height: 0;
+        text-align: left;
+    }
+    .mem-option:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Compact View Adjustments */
+    :global(.compact-grid) .mem-option {
+        text-align: center;
+        min-height: 120px;
+    }
+
+    :global(.compact-grid) .mem-opt-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .view-toggle-btn {
+        background: transparent;
+        border: 1px solid #444;
+        color: #fff;
+        width: 36px; /* Match search height (square) */
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 0;
+        font-size: 1.2rem;
+        margin-right: 0; /* Remove margin, handled by parent flex gap */
+        transition: 0.2s;
+        flex-shrink: 0;
+        box-sizing: border-box; /* Ensure border is included in height */
+    }
+    .view-toggle-btn:hover {
+        border-color: var(--accent-red);
+        color: var(--accent-red);
     }
     .memory-group-section {
         margin-bottom: 20px;
@@ -215,7 +388,7 @@
         color: var(--accent-red);
         font-size: 1.1rem;
         font-weight: bold;
-        margin: 20px 0 10px 15px;
+        margin: 12px 0 2px 15px; /* Minimal bottom spacing */
         text-shadow: 0 0 10px rgba(255, 62, 62, 0.4);
         white-space: nowrap;
     }
@@ -233,7 +406,7 @@
     .memory-group-title.five-star::after {
         background: rgba(255, 180, 0, 0.2);
     }
-    .mem-opt-img-wrapper {
+    .mem-img-wrap {
         position: relative;
         width: 65px;
         min-width: 65px;
@@ -264,40 +437,55 @@
         transform: none;
         border-color: transparent;
     }
-    .mem-opt-left {
+    .mem-opt-header {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        gap: 6px;
-        min-width: 70px;
-        flex-shrink: 0;
+        gap: 8px;
+        margin-bottom: 6px;
     }
-    .mem-opt-right {
+    .mem-opt-header .mem-img-wrap {
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+    }
+    .mem-opt-header .mem-opt-img {
+        width: 36px;
+        height: 36px;
+        border-radius: 4px;
+    }
+    .mem-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .mem-effects-wrap {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        flex: 1;
-        min-width: 0;
-        border-left: 1px solid rgba(255, 255, 255, 0.06);
-        padding-left: 8px;
+        gap: 4px;
     }
+
     .mem-effect {
         text-align: left;
     }
     .mem-effect-label {
-        display: block;
+        display: inline;
         color: var(--accent-red);
-        font-size: 0.55rem;
+        font-size: 0.7rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 1px;
+        margin-right: 6px;
     }
     .mem-effect-text {
-        display: block;
-        color: #999;
-        font-size: 0.6rem;
-        line-height: 1.25;
+        display: inline;
+        color: #ccc;
+        font-size: 0.8rem;
+        line-height: 1.5;
         font-family: var(--font-body);
     }
 </style>

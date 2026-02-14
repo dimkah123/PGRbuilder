@@ -40,8 +40,8 @@
     let acPos = $state({ top: 0, left: 0 });
     let acVisible = $derived(acItems.length > 0);
 
-    // Build autocomplete terms from all highlightable keywords (3+ chars only)
-    const AUTOCOMPLETE_TERMS = [
+    // Build autocomplete terms dynamically from databases + static keywords
+    const STATIC_TERMS = [
         "Ignition",
         "Plasma",
         "Slash",
@@ -87,266 +87,42 @@
         "Shock Saturation",
         "Dead Line Timing",
         "Overload Signal",
-        "Lucia",
-        "Liv",
-        "Nanami",
-        "Lee",
-        "Watanabe",
-        "Bianca",
-        "Karenina",
-        "Kamui",
-        "Ayla",
-        "Sophia",
-        "Chrome",
-        "Camu",
-        "Rosetta",
-        "Changyu",
-        "Luna",
-        "Wanshi",
-        "Selena",
-        "Roland",
-        "Pulao",
-        "Haicma",
-        "Noan",
-        "Bambinata",
-        "Hanying",
-        "Noctis",
-        "Alisa",
-        "Lamia",
-        "Teddy",
-        "Bridget",
-        "Yata",
-        "Ishmael",
-        "Lilith",
-        "Jetavi",
-        "Dante",
-        "Vergil",
-        "Discord",
-        "Veronika",
-        "BLACK★ROCK SHOOTER",
-        "Люсия",
-        "Лив",
-        "Нанами",
-        "Ватанабэ",
-        "Бьянка",
-        "Каренина",
-        "Камуи",
-        "Айла",
-        "София",
-        "Хром",
-        "Каму",
-        "Розетта",
-        "Чангю",
-        "Цюй",
-        "Луна",
-        "Ваньши",
-        "Селена",
-        "Роланд",
-        "Пулао",
-        "Хайкма",
-        "Ноан",
-        "Бамбината",
-        "Ханьин",
-        "Ноктис",
-        "Алиса",
-        "Ламия",
-        "Тедди",
-        "Бриджит",
-        "Ята",
-        "Ишмаэль",
-        "Лилит",
-        "Джетави",
-        "Данте",
-        "Дискорд",
-        "Вероника",
-        "Aegis",
-        "Arca",
-        "Arclight",
-        "Ardeo",
-        "Astral",
-        "Bastion",
-        "Brilliance",
-        "Capriccio",
-        "Crepuscule",
-        "Crimson Abyss",
-        "Crimson Weave",
-        "Crocotta",
-        "Daemonissa",
-        "Dawn",
-        "Daybreak",
-        "Decryptor",
-        "Echo",
-        "Eclipse",
-        "Ember",
-        "Empyrea",
-        "Entropy",
-        "Epitaph",
-        "Feral",
-        "Flambeau",
-        "Fulgor",
-        "Garnet",
-        "Geiravor",
-        "Glory",
-        "Hyperreal",
-        "Hypnos",
-        "Indomitus",
-        "Kaleido",
-        "Laurel",
-        "Limpidity",
-        "Lost Lullaby",
-        "Lotus",
-        "Lucid Dreamer",
-        "Lux",
-        "Oblivion",
-        "Ornate Bell",
-        "Parhelion",
-        "Pavo",
-        "Pianissimo",
-        "Plume",
-        "Pulse",
-        "Pyropath",
-        "Qilin",
-        "Radiant Daybreak",
-        "Remote Star",
-        "Rigor",
-        "Rozen",
-        "Secator",
-        "Shukra",
-        "Silverfang",
-        "Solacetune",
-        "Spectre",
-        "Startrail",
-        "Stigmata",
-        "Storm",
-        "Tempest",
-        "Tenebrion",
-        "Veiled Star",
-        "Veritas",
-        "Vitrum",
-        "XXI",
-        "Zitherwoe",
-        "Dragontoll",
-        "Scire",
-        "Аегис",
-        "Арка",
-        "Арклайт",
-        "Ардео",
-        "Астрал",
-        "Бастион",
-        "Брилианс",
-        "Каприччио",
-        "Крепускул",
-        "Кримзон Абисс",
-        "Кримзон Вейв",
-        "Крокотта",
-        "Демонисса",
-        "Давн",
-        "Дейбрейкер",
-        "Декриптор",
-        "Эхо",
-        "Эклипс",
-        "Эмбер",
-        "Эмпирей",
-        "Энтропи",
-        "Эпитаф",
-        "Фламбеа",
-        "Фулгор",
-        "Гарнет",
-        "Гейравёр",
-        "Глори",
-        "Гиперреал",
-        "Гипнос",
-        "Индормитус",
-        "Калеидо",
-        "Лаурель",
-        "Лимпидити",
-        "Лост Лулаби",
-        "Лотус",
-        "Лусид Дример",
-        "Люкс",
-        "Обливион",
-        "Пархелион",
-        "Паво",
-        "Пианиссимо",
-        "Плюм",
-        "Пульс",
-        "Пироат",
-        "Цилинь",
-        "Ригор",
-        "Розен",
-        "Секатор",
-        "Шукра",
-        "Сильверфанг",
-        "Соласетюн",
-        "Спектр",
-        "Стартрейл",
-        "Стигмата",
-        "Шторм",
-        "Темпест",
-        "Тенебрион",
-        "Вейлед Стар",
-        "Веритас",
-        "Витрум",
-        "Зитервоу",
-        "Драгонтол",
-        "Скайр",
-        "Chang Wuzi",
-        "Chen Jiyuan",
-        "Da Vinci",
-        "DaVinci",
-        "Ji Bo'an",
-        "Ji Boan",
-        "Philip II",
-        "PhilipII",
-        "Aline",
-        "Alphonse",
-        "Barcelo",
-        "Bathlon",
-        "Boone",
-        "Bunsen",
-        "Burana",
-        "Catherine",
-        "Charlotte",
-        "Cleopatra",
-        "Condelina",
-        "Cottie",
-        "Darwin",
-        "Derketo",
-        "Diesel",
-        "Einsteina",
-        "Elizabeth",
-        "Flamel",
-        "Fran",
-        "Frederick",
-        "Guinevere",
-        "Hanna",
-        "Heisen",
-        "Heraclitus",
-        "Herschell",
-        "Hervor",
-        "Jeanne",
-        "Keats",
-        "Klenova",
-        "Leeuwenhoek",
-        "Liston",
-        "Natasha",
-        "Nimue",
-        "Patton",
-        "Poincare",
-        "Seraphine",
-        "Shakespeare",
-        "Signa",
-        "Sothoth",
-        "Tifa",
-        "Turing",
-        "Unimate",
-        "Wilde",
     ];
 
+    // Count how many frames each character name has
+    const enNameCount = {};
+    const ruNameCount = {};
+    for (const c of CHAR_DATABASE) {
+        if (c.enName) enNameCount[c.enName] = (enNameCount[c.enName] || 0) + 1;
+        if (c.name) ruNameCount[c.name] = (ruNameCount[c.name] || 0) + 1;
+    }
+
+    // Generate character terms: "Name: Frame" combos + bare names (only for single-frame chars)
+    const charTerms = new Set();
+    for (const c of CHAR_DATABASE) {
+        // Bare frames are always useful
+        if (c.enFrame) charTerms.add(c.enFrame);
+        if (c.frame) charTerms.add(c.frame);
+        // Combined "Name: Frame" variants (what players actually reference)
+        if (c.enName && c.enFrame) charTerms.add(`${c.enName}: ${c.enFrame}`);
+        if (c.name && c.frame) charTerms.add(`${c.name}: ${c.frame}`);
+        // Only add bare name if character has exactly 1 frame
+        if (c.enName && enNameCount[c.enName] === 1) charTerms.add(c.enName);
+        if (c.name && ruNameCount[c.name] === 1) charTerms.add(c.name);
+    }
+
+    // Generate memory terms from database
+    const memTerms = new Set();
+    for (const m of MEMORY_DATABASE) {
+        if (m.name) memTerms.add(m.name);
+    }
+
+    const AUTOCOMPLETE_TERMS = [...STATIC_TERMS, ...charTerms, ...memTerms];
+
     const HIGHLIGHT_PATTERNS =
-        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])((?:S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|DaVinci|Ji Bo'an|Ji Boan|Philip II|PhilipII|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
+        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])((?:S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|Da Vinci|Ji Bo'an|Ji Boan|Philip II|Philip II|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
     const HIGHLIGHT_ONLY =
-        /^(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|DaVinci|Ji Bo'an|Ji Boan|Philip II|PhilipII|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?$/i;
+        /^(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|Da Vinci|Ji Bo'an|Ji Boan|Philip II|Philip II|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?$/i;
 
     // Initial Content
     $effect(() => {
@@ -449,7 +225,16 @@
         const q = current.word.toLowerCase();
         const matches = AUTOCOMPLETE_TERMS.filter(
             (t) => t.toLowerCase().startsWith(q) && t.toLowerCase() !== q,
-        ).slice(0, 8);
+        )
+            // Prioritize combined "Name: Frame" terms over bare names
+            .sort((a, b) => {
+                const aHasColon = a.includes(": ");
+                const bHasColon = b.includes(": ");
+                if (aHasColon && !bHasColon) return -1;
+                if (!aHasColon && bHasColon) return 1;
+                return a.localeCompare(b);
+            })
+            .slice(0, 12);
         if (matches.length === 0) {
             acItems = [];
             return;
@@ -565,7 +350,18 @@
                         (c.enFrame &&
                             c.enFrame.toLowerCase() === text.toLowerCase()),
                 );
-                if (char) {
+                // Skip tooltip for bare multi-frame character names
+                const isBareName =
+                    char &&
+                    ((char.name &&
+                        char.name.toLowerCase() === text.toLowerCase()) ||
+                        (char.enName &&
+                            char.enName.toLowerCase() === text.toLowerCase()));
+                const isMultiFrame =
+                    isBareName &&
+                    ((char.enName && enNameCount[char.enName] > 1) ||
+                        (char.name && ruNameCount[char.name] > 1));
+                if (char && !isMultiFrame) {
                     const rect = target.getBoundingClientRect();
                     const newX = rect.left + rect.width / 2;
                     const fitsAbove = rect.top > 200;

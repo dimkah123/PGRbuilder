@@ -8,10 +8,10 @@
     let isOpen = $state(false);
 
     // Default values matching CSS
-    let charWidth = $state(1000);
-    let memWidth = $state(1000);
-    let wresWidth = $state(1200);
-    let wresCols = $state(8);
+    let charWidth = $state(1500);
+    let memWidth = $state(1500);
+    let wresWidth = $state(1000);
+    let wresCols = $state(4);
 
     function open() {
         isOpen = true;
@@ -26,10 +26,10 @@
         const stored = localStorage.getItem("pgr-builder-settings-v5");
         if (stored) {
             const data = JSON.parse(stored);
-            charWidth = data.charWidth || 1000;
-            memWidth = data.memWidth || 1000;
-            wresWidth = data.wresWidth || 1200;
-            wresCols = data.wresCols || 8;
+            charWidth = data.charWidth || 1500;
+            memWidth = data.memWidth || 1500;
+            wresWidth = data.wresWidth || 1000;
+            wresCols = data.wresCols || 4;
         }
         applySettings();
     }
@@ -56,10 +56,10 @@
     }
 
     function resetDefaults() {
-        charWidth = 1000;
-        memWidth = 1000;
-        wresWidth = 1200;
-        wresCols = 8;
+        charWidth = 1500;
+        memWidth = 1500;
+        wresWidth = 1000;
+        wresCols = 4;
         saveSettings();
     }
 
