@@ -293,6 +293,8 @@
         }
     }
 
+    let isMouseDown = false;
+
     function handleMouseOver(e) {
         const target =
             e.target.closest(".char-highlight") ||
@@ -300,6 +302,11 @@
         if (target) {
             clearTimeout(tooltipTimer);
 
+            // Suppress tooltips while selecting text (mouse drag or existing selection)
+            if (isMouseDown) {
+                tooltip.show = false;
+                return;
+            }
             const selection = window.getSelection();
             if (selection && selection.toString().trim().length > 0) {
                 tooltip.show = false;
@@ -826,6 +833,13 @@
     class="rich-editor-wrapper"
     onmouseover={handleMouseOver}
     onmouseout={handleMouseOut}
+    onmousedown={() => {
+        isMouseDown = true;
+        tooltip.show = false;
+    }}
+    onmouseup={() => {
+        isMouseDown = false;
+    }}
     role="presentation"
 >
     <div
