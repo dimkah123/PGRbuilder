@@ -2,6 +2,15 @@
     import { appState } from "$lib/state.svelte.js";
     import { onMount } from "svelte";
     import { t } from "$lib/i18n.js";
+    import {
+        CHAR_DATABASE,
+        CHARACTER_IMAGES,
+        ASSET_MAP,
+        ELEMENT_NAMES,
+        CLASS_NAMES,
+        ELEMENT_IMAGES,
+        CLASS_IMAGES,
+    } from "$lib/data.js";
 
     let { value = $bindable("") } = $props();
 
@@ -12,14 +21,20 @@
     let isBold = $state(false);
     let isItalic = $state(false);
 
-    const HIGHLIGHT_PATTERNS =
-        /\b(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?)(?![a-zA-Z0-9\+])/g;
-    const RANK_ONLY = /^(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?)$/;
+    // Tooltip State
+    let tooltip = $state({
+        show: false,
+        x: 0,
+        y: 0,
+        flipped: false,
+        data: null,
+    });
+    let tooltipTimer;
 
-    const AFFIX_PATTERNS =
-        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])(Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
-    const AFFIX_ONLY =
-        /^(Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal)$/i;
+    const HIGHLIGHT_PATTERNS =
+        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])((?:S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр):?)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
+    const HIGHLIGHT_ONLY =
+        /^(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр):?$/i;
 
     // Initial Content
     $effect(() => {
@@ -55,11 +70,8 @@
 
                 if (isHighlight) {
                     const text = container.textContent;
-                    const isRank =
-                        container.classList.contains("rank-highlight");
-                    const validator = isRank ? RANK_ONLY : AFFIX_ONLY;
 
-                    if (!validator.test(text)) {
+                    if (!HIGHLIGHT_ONLY.test(text)) {
                         const pos = getCaretPosition(editor);
                         container.replaceWith(document.createTextNode(text));
                         editor.innerHTML = editor.innerHTML;
@@ -97,6 +109,71 @@
         highlightTimer = setTimeout(autoHighlight, 30);
     }
 
+    function handleMouseOver(e) {
+        const target = e.target.closest(".char-highlight");
+        if (target) {
+            clearTimeout(tooltipTimer);
+
+            // Check for selection - if user is selecting text, don't show tooltip
+            const selection = window.getSelection();
+            if (selection && selection.toString().trim().length > 0) {
+                tooltip.show = false;
+                return;
+            }
+
+            const text = (
+                target.textContent.endsWith(":")
+                    ? target.textContent.slice(0, -1)
+                    : target.textContent
+            ).trim();
+
+            const char = CHAR_DATABASE.find(
+                (c) =>
+                    (c.name && c.name.toLowerCase() === text.toLowerCase()) ||
+                    (c.enName &&
+                        c.enName.toLowerCase() === text.toLowerCase()) ||
+                    (c.frame && c.frame.toLowerCase() === text.toLowerCase()) ||
+                    (c.enFrame &&
+                        c.enFrame.toLowerCase() === text.toLowerCase()),
+            );
+
+            if (char) {
+                // Update position even if same data to follow smooth movement if needed,
+                // but keep data to avoid flicker
+                const rect = target.getBoundingClientRect();
+                const newX = rect.left + rect.width / 2;
+                const newY = rect.top - 15;
+
+                if (
+                    !tooltip.show ||
+                    tooltip.data !== char ||
+                    Math.abs(tooltip.x - newX) > 5
+                ) {
+                    tooltip = {
+                        show: true,
+                        x: newX,
+                        y: newY,
+                        flipped: false,
+                        data: char,
+                    };
+                }
+            }
+        }
+    }
+
+    function handleMouseOut(e) {
+        // Only trigger hide if moving to something that isn't a highlight
+        const to = e.relatedTarget;
+        if (to && to.closest && to.closest(".char-highlight")) {
+            return;
+        }
+
+        clearTimeout(tooltipTimer);
+        tooltipTimer = setTimeout(() => {
+            tooltip.show = false;
+        }, 150); // Slightly longer delay for stability
+    }
+
     let highlightTimer;
     function autoHighlight() {
         if (!editor) return;
@@ -118,18 +195,12 @@
                 color = el.style.color.toLowerCase().replace(/\s/g, "");
             }
 
-            const isRankColor =
-                color === "rgb(255,153,0)" || color === "#ff9900";
-            const isAffixColor =
-                color === "rgb(0,255,255)" ||
-                color === "#00ffff" ||
-                color === "rgb(0,255,153)" ||
-                color === "#00ff99";
+            const isOrange = color === "rgb(255,153,0)" || color === "#ff9900";
 
             if (
                 !el.classList.contains("rank-highlight") &&
                 !el.classList.contains("affix-highlight") &&
-                (isRankColor || isAffixColor)
+                isOrange
             ) {
                 if (el.tagName === "FONT") {
                     // Replace <font> with its children
@@ -158,11 +229,9 @@
         ];
         existing.forEach((span) => {
             const text = span.textContent;
-            const isRank = span.classList.contains("rank-highlight");
-            const validator = isRank ? RANK_ONLY : AFFIX_ONLY;
 
             // If empty or doesn't match the pattern fully anymore, unwrap
-            if (!text || !validator.test(text)) {
+            if (!text || !HIGHLIGHT_ONLY.test(text)) {
                 // If it's just empty, remove it completely
                 if (!text) {
                     span.remove();
@@ -173,7 +242,7 @@
             }
         });
 
-        // 3. Wrap new matches (Ranks first, then Affixes)
+        // 3. Wrap new matches (Now consolidated)
         const walk = (node) => {
             if (node.nodeType === 3) {
                 const parent = node.parentNode;
@@ -186,38 +255,36 @@
                     return;
 
                 const text = node.textContent;
-                let html = text;
-                let textChanged = false;
-
-                // Highlight Ranks (Orange)
                 HIGHLIGHT_PATTERNS.lastIndex = 0;
-                if (HIGHLIGHT_PATTERNS.test(text)) {
-                    html = html.replace(
-                        HIGHLIGHT_PATTERNS,
-                        '<span class="rank-highlight" style="color:#ff9900; font-weight:bold;">$1</span>',
-                    );
-                    textChanged = true;
-                }
-
-                // Highlight Affixes (Orange)
-                AFFIX_PATTERNS.lastIndex = 0;
-                if (AFFIX_PATTERNS.test(text)) {
-                    // We use a temporary placeholder or careful replacement to avoid nested spans
-                    // Since ranks and affixes are likely distinct strings, simple replace works if we haven't wrapped the whole node yet
-                    html = html.replace(AFFIX_PATTERNS, (match) => {
-                        // Check if this match is already inside a rank-highlight span we just created
-                        // (not very likely in PGR context, but good practice)
-                        return `<span class="affix-highlight" style="color:#ff9900; font-weight:bold;">${match}</span>`;
-                    });
-                    textChanged = true;
-                }
-
-                if (textChanged) {
-                    const wrapper = document.createElement("span");
-                    wrapper.innerHTML = html;
-                    node.replaceWith(...wrapper.childNodes);
-                    changed = true;
-                }
+                const wrapper = document.createElement("span");
+                wrapper.innerHTML = text.replace(
+                    HIGHLIGHT_PATTERNS,
+                    (match) => {
+                        // Identify if match is a character/frame to add tooltip class
+                        const cleanMatch = match.endsWith(":")
+                            ? match.slice(0, -1)
+                            : match;
+                        const isChar = CHAR_DATABASE.some(
+                            (c) =>
+                                (c.name &&
+                                    c.name.toLowerCase() ===
+                                        cleanMatch.toLowerCase()) ||
+                                (c.enName &&
+                                    c.enName.toLowerCase() ===
+                                        cleanMatch.toLowerCase()) ||
+                                (c.frame &&
+                                    c.frame.toLowerCase() ===
+                                        cleanMatch.toLowerCase()) ||
+                                (c.enFrame &&
+                                    c.enFrame.toLowerCase() ===
+                                        cleanMatch.toLowerCase()),
+                        );
+                        const extraClass = isChar ? " char-highlight" : "";
+                        return `<span class="rank-highlight${extraClass}" style="color:#ff9900; font-weight:bold;">${match}</span>`;
+                    },
+                );
+                node.replaceWith(...wrapper.childNodes);
+                changed = true;
             } else {
                 [...node.childNodes].forEach(walk);
             }
@@ -516,7 +583,13 @@
     }}
 />
 
-<div class="rich-editor-container">
+<!-- svelte-ignore a11y_mouse_events_have_key_events -->
+<div
+    class="rich-editor-wrapper"
+    onmouseover={handleMouseOver}
+    onmouseout={handleMouseOut}
+    role="presentation"
+>
     <div
         class="rich-textarea"
         contenteditable="true"
@@ -740,6 +813,115 @@
             >
         </div>
     {/if}
+
+    {#if tooltip.show && tooltip.data}
+        {@const elementKey = Object.keys(ELEMENT_NAMES.en).find(
+            (k) =>
+                ELEMENT_NAMES.en[k] === tooltip.data.element ||
+                ELEMENT_NAMES.ru[k] === tooltip.data.element,
+        )}
+        {@const classKey = Object.keys(CLASS_NAMES.en).find(
+            (k) =>
+                CLASS_NAMES.en[k] === tooltip.data.class ||
+                CLASS_NAMES.ru[k] === tooltip.data.class,
+        )}
+        {@const affixKey = tooltip.data.affix
+            ? Object.keys(ELEMENT_NAMES.en).find(
+                  (k) =>
+                      ELEMENT_NAMES.en[k] === tooltip.data.affix ||
+                      ELEMENT_NAMES.ru[k] === tooltip.data.affix,
+              )
+            : null}
+        <div
+            use:portal
+            class="char-tooltip {tooltip.flipped ? 'flipped' : ''}"
+            style="top: {tooltip.y}px; left: {tooltip.x}px; position: fixed;"
+        >
+            <div class="tooltip-inner">
+                <div class="tooltip-portrait">
+                    <img
+                        src={ASSET_MAP[
+                            tooltip.data.enFrame?.toLowerCase() ||
+                                tooltip.data.frame?.toLowerCase()
+                        ]}
+                        alt={tooltip.data.name}
+                    />
+                </div>
+                <div class="tooltip-info">
+                    <div class="tooltip-header">
+                        <div class="tooltip-name-row">
+                            <div class="tooltip-name">
+                                {appState.lang === "en"
+                                    ? tooltip.data.enName || tooltip.data.name
+                                    : tooltip.data.name}
+                            </div>
+                            {#if tooltip.data.rank}
+                                <div class="rank-badge-header">
+                                    {tooltip.data.rank}
+                                </div>
+                            {/if}
+                        </div>
+                        <div class="tooltip-frame">
+                            {appState.lang === "en"
+                                ? tooltip.data.enFrame || tooltip.data.frame
+                                : tooltip.data.frame}
+                        </div>
+                    </div>
+
+                    <div class="tooltip-rows">
+                        <!-- Row 1: Element + Rank -->
+                        <div class="tooltip-row">
+                            <div class="tooltip-stat">
+                                <img
+                                    src={ELEMENT_IMAGES[elementKey]}
+                                    alt="element"
+                                    class="stat-icon"
+                                />
+                                <span
+                                    >{ELEMENT_NAMES[appState.lang][
+                                        elementKey
+                                    ] || tooltip.data.element}</span
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Affix (if any) -->
+                        {#if tooltip.data.affix}
+                            <div class="tooltip-row">
+                                <div class="tooltip-stat">
+                                    <img
+                                        src={ELEMENT_IMAGES[affixKey]}
+                                        alt="affix"
+                                        class="stat-icon"
+                                    />
+                                    <span
+                                        >{ELEMENT_NAMES[appState.lang][
+                                            affixKey
+                                        ] || tooltip.data.affix}</span
+                                    >
+                                </div>
+                            </div>
+                        {/if}
+
+                        <!-- Row 3: Class -->
+                        <div class="tooltip-row">
+                            <div class="tooltip-stat">
+                                <img
+                                    src={CLASS_IMAGES[classKey]}
+                                    alt="class"
+                                    class="stat-icon"
+                                />
+                                <span
+                                    >{CLASS_NAMES[appState.lang][classKey] ||
+                                        tooltip.data.class}</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -829,5 +1011,141 @@
         color: #ff9900 !important;
         font-weight: bold;
         text-shadow: 0 0 10px rgba(255, 153, 0, 0.3);
+    }
+
+    .rich-editor-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Tooltip styling */
+    .char-tooltip {
+        position: fixed;
+        transform: translate(-50%, -100%);
+        z-index: 10000;
+        pointer-events: none;
+        animation: tooltipAppear 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+    @keyframes tooltipAppear {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -90%) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -100%) scale(1);
+        }
+    }
+
+    .tooltip-inner {
+        background: rgba(10, 10, 15, 0.98);
+        border: 1px solid var(--accent-red);
+        border-radius: 4px;
+        padding: 6px; /* Reduced padding */
+        display: flex;
+        gap: 12px;
+        box-shadow:
+            0 15px 45px rgba(0, 0, 0, 0.9),
+            0 0 30px rgba(255, 60, 60, 0.2);
+        backdrop-filter: blur(12px);
+        min-width: unset; /* Remove min-width to avoid empty space */
+        max-width: 320px;
+    }
+
+    .tooltip-portrait {
+        width: 100px; /* Increased size */
+        height: 135px; /* Increased size for vertical coverage */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: transparent;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .tooltip-portrait img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .tooltip-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align content to top */
+        flex: 1;
+        padding: 4px 6px 4px 0;
+    }
+
+    .tooltip-header {
+        margin-bottom: 8px;
+    }
+
+    .tooltip-name-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-wrap: wrap; /* Handle long names */
+    }
+
+    .tooltip-name {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.1;
+    }
+
+    .rank-badge-header {
+        background: rgba(255, 60, 60, 0.15);
+        border: 1px solid rgba(255, 60, 60, 0.4);
+        color: var(--accent-red);
+        font-weight: 900;
+        font-size: 0.75rem;
+        padding: 0px 5px;
+        border-radius: 2px;
+        text-shadow: 0 0 8px rgba(255, 60, 60, 0.4);
+        transform: translateY(-1px);
+    }
+
+    .tooltip-frame {
+        color: var(--accent-red);
+        font-size: 0.85rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        opacity: 0.9;
+    }
+
+    .tooltip-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: auto; /* Push stats to bottom for balance */
+    }
+
+    .tooltip-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 6px;
+    }
+
+    .tooltip-stat {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 2px 6px;
+        border-radius: 2px;
+        font-size: 0.95rem;
+        color: #ddd;
+    }
+
+    .stat-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    :global(.char-highlight) {
+        cursor: help;
     }
 </style>
