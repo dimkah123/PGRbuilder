@@ -1,6 +1,11 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
-    import { MEMORY_6STAR, MEMORY_5STAR, MEMORY_NAMES } from "$lib/data.js";
+    import {
+        MEMORY_6STAR,
+        MEMORY_5STAR,
+        MEMORY_NAMES,
+        MEMORY_DATABASE,
+    } from "$lib/data.js";
     import { t } from "$lib/i18n.js";
 
     let searchQuery = $state("");
@@ -25,11 +30,15 @@
 
         const filterFn = (name) => name.toLowerCase().includes(lowerQ);
 
-        const mapFn = (name, star) => ({
-            name,
-            star,
-            file: `Image/Memories/Memory-${name}-Icon-${activeSlotIndex}.webp`,
-        });
+        const mapFn = (name, star) => {
+            const memData = MEMORY_DATABASE.find((m) => m.name === name);
+            return {
+                name,
+                star,
+                file: `Image/Memories/Memory-${name}-Icon-${activeSlotIndex}.webp`,
+                effects: memData ? memData.effects : null,
+            };
+        };
 
         const g6 = MEMORY_6STAR.filter(filterFn).map((n) => mapFn(n, 6));
         const g5 = MEMORY_5STAR.filter(filterFn).map((n) => mapFn(n, 5));
@@ -124,22 +133,56 @@
                                           "5-star cannot be used for harmonization"
                                         : ""}
                                 >
-                                    <div class="mem-opt-img-wrapper">
-                                        <img
-                                            class="mem-opt-img"
-                                            src={mem.file}
-                                            alt={mem.name}
-                                            onerror={(e) =>
-                                                (e.target.src =
-                                                    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
-                                        />
-                                        {#if isHarmRequest && mem.star === 5}
-                                            <div class="mem-lock-overlay">
-                                                🔒
-                                            </div>
-                                        {/if}
+                                    <div class="mem-opt-left">
+                                        <div class="mem-opt-img-wrapper">
+                                            <img
+                                                class="mem-opt-img"
+                                                src={mem.file}
+                                                alt={mem.name}
+                                                onerror={(e) =>
+                                                    (e.target.src =
+                                                        "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
+                                            />
+                                            {#if isHarmRequest && mem.star === 5}
+                                                <div class="mem-lock-overlay">
+                                                    🔒
+                                                </div>
+                                            {/if}
+                                        </div>
+                                        <span>{mem.name}</span>
                                     </div>
-                                    <span>{mem.name}</span>
+                                    {#if mem.effects && (mem.effects.twoPiece[appState.lang] || mem.effects.fourPiece[appState.lang])}
+                                        <div class="mem-opt-right">
+                                            {#if mem.effects.twoPiece[appState.lang]}
+                                                <div class="mem-effect">
+                                                    <span
+                                                        class="mem-effect-label"
+                                                        >2-Set</span
+                                                    >
+                                                    <span
+                                                        class="mem-effect-text"
+                                                        >{mem.effects.twoPiece[
+                                                            appState.lang
+                                                        ]}</span
+                                                    >
+                                                </div>
+                                            {/if}
+                                            {#if mem.effects.fourPiece[appState.lang]}
+                                                <div class="mem-effect">
+                                                    <span
+                                                        class="mem-effect-label"
+                                                        >4-Set</span
+                                                    >
+                                                    <span
+                                                        class="mem-effect-text"
+                                                        >{mem.effects.fourPiece[
+                                                            appState.lang
+                                                        ]}</span
+                                                    >
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    {/if}
                                 </div>
                             {/each}
                         </div>
@@ -155,6 +198,13 @@
         max-height: 70vh;
         overflow-y: auto;
         padding-right: 10px;
+    }
+    .modal-body :global(.modal-grid) {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    .modal-body :global(.mem-option) {
+        flex-direction: row;
+        align-items: flex-start;
     }
     .memory-group-section {
         margin-bottom: 20px;
@@ -185,7 +235,8 @@
     }
     .mem-opt-img-wrapper {
         position: relative;
-        width: 100%;
+        width: 65px;
+        min-width: 65px;
         display: flex;
         justify-content: center;
     }
@@ -212,5 +263,41 @@
         background: transparent;
         transform: none;
         border-color: transparent;
+    }
+    .mem-opt-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        min-width: 70px;
+        flex-shrink: 0;
+    }
+    .mem-opt-right {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+        min-width: 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.06);
+        padding-left: 8px;
+    }
+    .mem-effect {
+        text-align: left;
+    }
+    .mem-effect-label {
+        display: block;
+        color: var(--accent-red);
+        font-size: 0.55rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1px;
+    }
+    .mem-effect-text {
+        display: block;
+        color: #999;
+        font-size: 0.6rem;
+        line-height: 1.25;
+        font-family: var(--font-body);
     }
 </style>

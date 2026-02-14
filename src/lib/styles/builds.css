@@ -532,7 +532,8 @@
     overflow: hidden;
     max-width: 100%;
     min-width: 250px;
-    /* Ensure it wraps if space is tight */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Corner Brackets for Tech Look */

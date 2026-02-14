@@ -121,6 +121,8 @@
     flex-direction: column;
     background: transparent;
     position: relative;
+    flex: 1;
+    min-height: 0;
 }
 
 /* Floating Toolbar (Bold, Italic, Color) */
@@ -336,6 +338,8 @@
     overflow-wrap: break-word;
     overflow-x: hidden;
     max-width: 100%;
+    min-height: 80px;
+    cursor: text;
 }
 
 .rich-textarea:focus {
@@ -626,7 +630,6 @@
     padding: 15px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    /* Increased to 110px for 65px icons */
     grid-auto-rows: max-content;
     align-content: start;
     gap: 10px;
@@ -641,7 +644,6 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    /* Slightly more gap */
     transition: all 0.2s;
 }
 

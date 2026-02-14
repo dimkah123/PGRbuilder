@@ -10,6 +10,8 @@
         CLASS_NAMES,
         ELEMENT_IMAGES,
         CLASS_IMAGES,
+        MEMORY_DATABASE,
+        MEMORY_IMAGES,
     } from "$lib/data.js";
 
     let { value = $bindable("") } = $props();
@@ -28,13 +30,323 @@
         y: 0,
         flipped: false,
         data: null,
+        type: null,
     });
     let tooltipTimer;
 
+    // Autocomplete State
+    let acItems = $state([]);
+    let acIndex = $state(0);
+    let acPos = $state({ top: 0, left: 0 });
+    let acVisible = $derived(acItems.length > 0);
+
+    // Build autocomplete terms from all highlightable keywords (3+ chars only)
+    const AUTOCOMPLETE_TERMS = [
+        "Ignition",
+        "Plasma",
+        "Slash",
+        "Umbra",
+        "Freez",
+        "Raydiance",
+        "Disruption",
+        "Физический",
+        "Огонь",
+        "Лед",
+        "Молния",
+        "Тьма",
+        "Нихил",
+        "Дезинтеграция",
+        "Горение",
+        "Плазма",
+        "Слеш",
+        "Тень",
+        "Заморозка",
+        "Рейдианс",
+        "Общий",
+        "Core Passive",
+        "Signature Move",
+        "Class Passive",
+        "Red Orb",
+        "Blue Orb",
+        "Yellow Orb",
+        "Glorious Afterglow",
+        "Glorious Spear",
+        "Honed Gel",
+        "Peaceful Radiant",
+        "Stellar Magnetic Rail",
+        "Superconducting Axial Ray",
+        "Absolute Defense",
+        "Boundaty's Annihilation",
+        "Domain Deconstuction",
+        "Gravity Barrier",
+        "Resonant Echo",
+        "Incandescence",
+        "Matrix Lightning",
+        "Nsec Transmission",
+        "Shock Echo",
+        "Shock Saturation",
+        "Dead Line Timing",
+        "Overload Signal",
+        "Lucia",
+        "Liv",
+        "Nanami",
+        "Lee",
+        "Watanabe",
+        "Bianca",
+        "Karenina",
+        "Kamui",
+        "Ayla",
+        "Sophia",
+        "Chrome",
+        "Camu",
+        "Rosetta",
+        "Changyu",
+        "Luna",
+        "Wanshi",
+        "Selena",
+        "Roland",
+        "Pulao",
+        "Haicma",
+        "Noan",
+        "Bambinata",
+        "Hanying",
+        "Noctis",
+        "Alisa",
+        "Lamia",
+        "Teddy",
+        "Bridget",
+        "Yata",
+        "Ishmael",
+        "Lilith",
+        "Jetavi",
+        "Dante",
+        "Vergil",
+        "Discord",
+        "Veronika",
+        "BLACK★ROCK SHOOTER",
+        "Люсия",
+        "Лив",
+        "Нанами",
+        "Ватанабэ",
+        "Бьянка",
+        "Каренина",
+        "Камуи",
+        "Айла",
+        "София",
+        "Хром",
+        "Каму",
+        "Розетта",
+        "Чангю",
+        "Цюй",
+        "Луна",
+        "Ваньши",
+        "Селена",
+        "Роланд",
+        "Пулао",
+        "Хайкма",
+        "Ноан",
+        "Бамбината",
+        "Ханьин",
+        "Ноктис",
+        "Алиса",
+        "Ламия",
+        "Тедди",
+        "Бриджит",
+        "Ята",
+        "Ишмаэль",
+        "Лилит",
+        "Джетави",
+        "Данте",
+        "Дискорд",
+        "Вероника",
+        "Aegis",
+        "Arca",
+        "Arclight",
+        "Ardeo",
+        "Astral",
+        "Bastion",
+        "Brilliance",
+        "Capriccio",
+        "Crepuscule",
+        "Crimson Abyss",
+        "Crimson Weave",
+        "Crocotta",
+        "Daemonissa",
+        "Dawn",
+        "Daybreak",
+        "Decryptor",
+        "Echo",
+        "Eclipse",
+        "Ember",
+        "Empyrea",
+        "Entropy",
+        "Epitaph",
+        "Feral",
+        "Flambeau",
+        "Fulgor",
+        "Garnet",
+        "Geiravor",
+        "Glory",
+        "Hyperreal",
+        "Hypnos",
+        "Indomitus",
+        "Kaleido",
+        "Laurel",
+        "Limpidity",
+        "Lost Lullaby",
+        "Lotus",
+        "Lucid Dreamer",
+        "Lux",
+        "Oblivion",
+        "Ornate Bell",
+        "Parhelion",
+        "Pavo",
+        "Pianissimo",
+        "Plume",
+        "Pulse",
+        "Pyropath",
+        "Qilin",
+        "Radiant Daybreak",
+        "Remote Star",
+        "Rigor",
+        "Rozen",
+        "Secator",
+        "Shukra",
+        "Silverfang",
+        "Solacetune",
+        "Spectre",
+        "Startrail",
+        "Stigmata",
+        "Storm",
+        "Tempest",
+        "Tenebrion",
+        "Veiled Star",
+        "Veritas",
+        "Vitrum",
+        "XXI",
+        "Zitherwoe",
+        "Dragontoll",
+        "Scire",
+        "Аегис",
+        "Арка",
+        "Арклайт",
+        "Ардео",
+        "Астрал",
+        "Бастион",
+        "Брилианс",
+        "Каприччио",
+        "Крепускул",
+        "Кримзон Абисс",
+        "Кримзон Вейв",
+        "Крокотта",
+        "Демонисса",
+        "Давн",
+        "Дейбрейкер",
+        "Декриптор",
+        "Эхо",
+        "Эклипс",
+        "Эмбер",
+        "Эмпирей",
+        "Энтропи",
+        "Эпитаф",
+        "Фламбеа",
+        "Фулгор",
+        "Гарнет",
+        "Гейравёр",
+        "Глори",
+        "Гиперреал",
+        "Гипнос",
+        "Индормитус",
+        "Калеидо",
+        "Лаурель",
+        "Лимпидити",
+        "Лост Лулаби",
+        "Лотус",
+        "Лусид Дример",
+        "Люкс",
+        "Обливион",
+        "Пархелион",
+        "Паво",
+        "Пианиссимо",
+        "Плюм",
+        "Пульс",
+        "Пироат",
+        "Цилинь",
+        "Ригор",
+        "Розен",
+        "Секатор",
+        "Шукра",
+        "Сильверфанг",
+        "Соласетюн",
+        "Спектр",
+        "Стартрейл",
+        "Стигмата",
+        "Шторм",
+        "Темпест",
+        "Тенебрион",
+        "Вейлед Стар",
+        "Веритас",
+        "Витрум",
+        "Зитервоу",
+        "Драгонтол",
+        "Скайр",
+        "Chang Wuzi",
+        "Chen Jiyuan",
+        "Da Vinci",
+        "DaVinci",
+        "Ji Bo'an",
+        "Ji Boan",
+        "Philip II",
+        "PhilipII",
+        "Aline",
+        "Alphonse",
+        "Barcelo",
+        "Bathlon",
+        "Boone",
+        "Bunsen",
+        "Burana",
+        "Catherine",
+        "Charlotte",
+        "Cleopatra",
+        "Condelina",
+        "Cottie",
+        "Darwin",
+        "Derketo",
+        "Diesel",
+        "Einsteina",
+        "Elizabeth",
+        "Flamel",
+        "Fran",
+        "Frederick",
+        "Guinevere",
+        "Hanna",
+        "Heisen",
+        "Heraclitus",
+        "Herschell",
+        "Hervor",
+        "Jeanne",
+        "Keats",
+        "Klenova",
+        "Leeuwenhoek",
+        "Liston",
+        "Natasha",
+        "Nimue",
+        "Patton",
+        "Poincare",
+        "Seraphine",
+        "Shakespeare",
+        "Signa",
+        "Sothoth",
+        "Tifa",
+        "Turing",
+        "Unimate",
+        "Wilde",
+    ];
+
     const HIGHLIGHT_PATTERNS =
-        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])((?:S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр):?)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
+        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])((?:S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|DaVinci|Ji Bo'an|Ji Boan|Philip II|PhilipII|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
     const HIGHLIGHT_ONLY =
-        /^(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр):?$/i;
+        /^(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|DaVinci|Ji Bo'an|Ji Boan|Philip II|PhilipII|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?$/i;
 
     // Initial Content
     $effect(() => {
@@ -107,14 +419,102 @@
         // 3. Debounce auto-highlighting
         clearTimeout(highlightTimer);
         highlightTimer = setTimeout(autoHighlight, 30);
+
+        // 4. Autocomplete
+        updateAutocomplete();
+    }
+
+    function getCurrentWord() {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return null;
+        const range = sel.getRangeAt(0);
+        let node = range.startContainer;
+        if (node.nodeType !== 3) return null;
+        const text = node.textContent;
+        const offset = range.startOffset;
+        // Walk backwards to find word start
+        let start = offset;
+        while (start > 0 && !/\s/.test(text[start - 1])) start--;
+        const word = text.substring(start, offset);
+        if (word.length < 2) return null;
+        return { word, node, start, end: offset };
+    }
+
+    function updateAutocomplete() {
+        const current = getCurrentWord();
+        if (!current) {
+            acItems = [];
+            return;
+        }
+        const q = current.word.toLowerCase();
+        const matches = AUTOCOMPLETE_TERMS.filter(
+            (t) => t.toLowerCase().startsWith(q) && t.toLowerCase() !== q,
+        ).slice(0, 8);
+        if (matches.length === 0) {
+            acItems = [];
+            return;
+        }
+        // Get caret position for dropdown
+        const sel = window.getSelection();
+        const range = sel.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        acPos = { top: rect.bottom + 4, left: rect.left };
+        acIndex = 0;
+        acItems = matches;
+    }
+
+    function selectAutocomplete(term) {
+        const current = getCurrentWord();
+        if (!current) return;
+        const { node, start, end } = current;
+        const text = node.textContent;
+        node.textContent =
+            text.substring(0, start) + term + " " + text.substring(end);
+        // Place caret after inserted term + space
+        const sel = window.getSelection();
+        const newRange = document.createRange();
+        newRange.setStart(node, start + term.length + 1);
+        newRange.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(newRange);
+        acItems = [];
+        value = editor.innerHTML;
+        clearTimeout(highlightTimer);
+        highlightTimer = setTimeout(autoHighlight, 30);
+    }
+
+    function handleEditorKeydown(e) {
+        if (acVisible) {
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                acIndex = (acIndex + 1) % acItems.length;
+                return;
+            }
+            if (e.key === "ArrowUp") {
+                e.preventDefault();
+                acIndex = (acIndex - 1 + acItems.length) % acItems.length;
+                return;
+            }
+            if (e.key === "Enter" || e.key === "Tab") {
+                e.preventDefault();
+                selectAutocomplete(acItems[acIndex]);
+                return;
+            }
+            if (e.key === "Escape") {
+                e.preventDefault();
+                acItems = [];
+                return;
+            }
+        }
     }
 
     function handleMouseOver(e) {
-        const target = e.target.closest(".char-highlight");
+        const target =
+            e.target.closest(".char-highlight") ||
+            e.target.closest(".memory-highlight");
         if (target) {
             clearTimeout(tooltipTimer);
 
-            // Check for selection - if user is selecting text, don't show tooltip
             const selection = window.getSelection();
             if (selection && selection.toString().trim().length > 0) {
                 tooltip.show = false;
@@ -127,35 +527,63 @@
                     : target.textContent
             ).trim();
 
-            const char = CHAR_DATABASE.find(
-                (c) =>
-                    (c.name && c.name.toLowerCase() === text.toLowerCase()) ||
-                    (c.enName &&
-                        c.enName.toLowerCase() === text.toLowerCase()) ||
-                    (c.frame && c.frame.toLowerCase() === text.toLowerCase()) ||
-                    (c.enFrame &&
-                        c.enFrame.toLowerCase() === text.toLowerCase()),
-            );
+            const isMemoryEl = target.classList.contains("memory-highlight");
 
-            if (char) {
-                // Update position even if same data to follow smooth movement if needed,
-                // but keep data to avoid flicker
-                const rect = target.getBoundingClientRect();
-                const newX = rect.left + rect.width / 2;
-                const newY = rect.top - 15;
-
-                if (
-                    !tooltip.show ||
-                    tooltip.data !== char ||
-                    Math.abs(tooltip.x - newX) > 5
-                ) {
-                    tooltip = {
-                        show: true,
-                        x: newX,
-                        y: newY,
-                        flipped: false,
-                        data: char,
-                    };
+            if (isMemoryEl) {
+                const memory = MEMORY_DATABASE.find(
+                    (m) => m.name.toLowerCase() === text.toLowerCase(),
+                );
+                if (memory) {
+                    const rect = target.getBoundingClientRect();
+                    const newX = rect.left + rect.width / 2;
+                    const fitsAbove = rect.top > 200;
+                    const newY = fitsAbove ? rect.top - 15 : rect.bottom + 15;
+                    if (
+                        !tooltip.show ||
+                        tooltip.data !== memory ||
+                        Math.abs(tooltip.x - newX) > 5
+                    ) {
+                        tooltip = {
+                            show: true,
+                            x: newX,
+                            y: newY,
+                            flipped: !fitsAbove,
+                            data: memory,
+                            type: "memory",
+                        };
+                    }
+                }
+            } else {
+                const char = CHAR_DATABASE.find(
+                    (c) =>
+                        (c.name &&
+                            c.name.toLowerCase() === text.toLowerCase()) ||
+                        (c.enName &&
+                            c.enName.toLowerCase() === text.toLowerCase()) ||
+                        (c.frame &&
+                            c.frame.toLowerCase() === text.toLowerCase()) ||
+                        (c.enFrame &&
+                            c.enFrame.toLowerCase() === text.toLowerCase()),
+                );
+                if (char) {
+                    const rect = target.getBoundingClientRect();
+                    const newX = rect.left + rect.width / 2;
+                    const fitsAbove = rect.top > 200;
+                    const newY = fitsAbove ? rect.top - 15 : rect.bottom + 15;
+                    if (
+                        !tooltip.show ||
+                        tooltip.data !== char ||
+                        Math.abs(tooltip.x - newX) > 5
+                    ) {
+                        tooltip = {
+                            show: true,
+                            x: newX,
+                            y: newY,
+                            flipped: !fitsAbove,
+                            data: char,
+                            type: "char",
+                        };
+                    }
                 }
             }
         }
@@ -164,7 +592,11 @@
     function handleMouseOut(e) {
         // Only trigger hide if moving to something that isn't a highlight
         const to = e.relatedTarget;
-        if (to && to.closest && to.closest(".char-highlight")) {
+        if (
+            to &&
+            to.closest &&
+            (to.closest(".char-highlight") || to.closest(".memory-highlight"))
+        ) {
             return;
         }
 
@@ -260,7 +692,6 @@
                 wrapper.innerHTML = text.replace(
                     HIGHLIGHT_PATTERNS,
                     (match) => {
-                        // Identify if match is a character/frame to add tooltip class
                         const cleanMatch = match.endsWith(":")
                             ? match.slice(0, -1)
                             : match;
@@ -279,7 +710,18 @@
                                     c.enFrame.toLowerCase() ===
                                         cleanMatch.toLowerCase()),
                         );
-                        const extraClass = isChar ? " char-highlight" : "";
+                        const isMemory =
+                            !isChar &&
+                            MEMORY_DATABASE.some(
+                                (m) =>
+                                    m.name.toLowerCase() ===
+                                    cleanMatch.toLowerCase(),
+                            );
+                        const extraClass = isChar
+                            ? " char-highlight"
+                            : isMemory
+                              ? " memory-highlight"
+                              : "";
                         return `<span class="rank-highlight${extraClass}" style="color:#ff9900; font-weight:bold;">${match}</span>`;
                     },
                 );
@@ -596,11 +1038,35 @@
         bind:this={editor}
         use:initialContent
         oninput={handleInput}
+        onkeydown={handleEditorKeydown}
         role="textbox"
         tabindex="0"
         spellcheck="false"
         aria-label="Tactical analysis editor"
     ></div>
+
+    {#if acVisible}
+        <div
+            class="ac-dropdown"
+            style="top: {acPos.top}px; left: {acPos.left}px; position: fixed;"
+        >
+            {#each acItems as item, i}
+                <div
+                    class="ac-item"
+                    class:active={i === acIndex}
+                    onmousedown={(e) => {
+                        e.preventDefault();
+                        selectAutocomplete(item);
+                    }}
+                    role="option"
+                    tabindex="-1"
+                    aria-selected={i === acIndex}
+                >
+                    {item}
+                </div>
+            {/each}
+        </div>
+    {/if}
 
     {#if showToolbar}
         <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -815,112 +1281,176 @@
     {/if}
 
     {#if tooltip.show && tooltip.data}
-        {@const elementKey = Object.keys(ELEMENT_NAMES.en).find(
-            (k) =>
-                ELEMENT_NAMES.en[k] === tooltip.data.element ||
-                ELEMENT_NAMES.ru[k] === tooltip.data.element,
-        )}
-        {@const classKey = Object.keys(CLASS_NAMES.en).find(
-            (k) =>
-                CLASS_NAMES.en[k] === tooltip.data.class ||
-                CLASS_NAMES.ru[k] === tooltip.data.class,
-        )}
-        {@const affixKey = tooltip.data.affix
-            ? Object.keys(ELEMENT_NAMES.en).find(
-                  (k) =>
-                      ELEMENT_NAMES.en[k] === tooltip.data.affix ||
-                      ELEMENT_NAMES.ru[k] === tooltip.data.affix,
-              )
-            : null}
-        <div
-            use:portal
-            class="char-tooltip {tooltip.flipped ? 'flipped' : ''}"
-            style="top: {tooltip.y}px; left: {tooltip.x}px; position: fixed;"
-        >
-            <div class="tooltip-inner">
-                <div class="tooltip-portrait">
-                    <img
-                        src={ASSET_MAP[
-                            tooltip.data.enFrame?.toLowerCase() ||
-                                tooltip.data.frame?.toLowerCase()
-                        ]}
-                        alt={tooltip.data.name}
-                    />
-                </div>
-                <div class="tooltip-info">
-                    <div class="tooltip-header">
-                        <div class="tooltip-name-row">
-                            <div class="tooltip-name">
-                                {appState.lang === "en"
-                                    ? tooltip.data.enName || tooltip.data.name
-                                    : tooltip.data.name}
-                            </div>
-                            {#if tooltip.data.rank}
-                                <div class="rank-badge-header">
-                                    {tooltip.data.rank}
-                                </div>
-                            {/if}
-                        </div>
-                        <div class="tooltip-frame">
-                            {appState.lang === "en"
-                                ? tooltip.data.enFrame || tooltip.data.frame
-                                : tooltip.data.frame}
-                        </div>
+        {#if tooltip.type === "char"}
+            {@const elementKey = Object.keys(ELEMENT_NAMES.en).find(
+                (k) =>
+                    ELEMENT_NAMES.en[k] === tooltip.data.element ||
+                    ELEMENT_NAMES.ru[k] === tooltip.data.element,
+            )}
+            {@const classKey = Object.keys(CLASS_NAMES.en).find(
+                (k) =>
+                    CLASS_NAMES.en[k] === tooltip.data.class ||
+                    CLASS_NAMES.ru[k] === tooltip.data.class,
+            )}
+            {@const affixKey = tooltip.data.affix
+                ? Object.keys(ELEMENT_NAMES.en).find(
+                      (k) =>
+                          ELEMENT_NAMES.en[k] === tooltip.data.affix ||
+                          ELEMENT_NAMES.ru[k] === tooltip.data.affix,
+                  )
+                : null}
+            <div
+                use:portal
+                class="char-tooltip {tooltip.flipped ? 'flipped' : ''}"
+                style="top: {tooltip.y}px; left: {tooltip.x}px; position: fixed;"
+            >
+                <div class="tooltip-inner">
+                    <div class="tooltip-portrait">
+                        <img
+                            src={ASSET_MAP[
+                                tooltip.data.enFrame?.toLowerCase() ||
+                                    tooltip.data.frame?.toLowerCase()
+                            ]}
+                            alt={tooltip.data.name}
+                        />
                     </div>
-
-                    <div class="tooltip-rows">
-                        <!-- Row 1: Element + Rank -->
-                        <div class="tooltip-row">
-                            <div class="tooltip-stat">
-                                <img
-                                    src={ELEMENT_IMAGES[elementKey]}
-                                    alt="element"
-                                    class="stat-icon"
-                                />
-                                <span
-                                    >{ELEMENT_NAMES[appState.lang][
-                                        elementKey
-                                    ] || tooltip.data.element}</span
-                                >
+                    <div class="tooltip-info">
+                        <div class="tooltip-header">
+                            <div class="tooltip-name-row">
+                                <div class="tooltip-name">
+                                    {appState.lang === "en"
+                                        ? tooltip.data.enName ||
+                                          tooltip.data.name
+                                        : tooltip.data.name}
+                                </div>
+                                {#if tooltip.data.rank}
+                                    <div class="rank-badge-header">
+                                        {tooltip.data.rank}
+                                    </div>
+                                {/if}
+                            </div>
+                            <div class="tooltip-frame">
+                                {appState.lang === "en"
+                                    ? tooltip.data.enFrame || tooltip.data.frame
+                                    : tooltip.data.frame}
                             </div>
                         </div>
 
-                        <!-- Row 2: Affix (if any) -->
-                        {#if tooltip.data.affix}
+                        <div class="tooltip-rows">
+                            <!-- Row 1: Element + Rank -->
                             <div class="tooltip-row">
                                 <div class="tooltip-stat">
                                     <img
-                                        src={ELEMENT_IMAGES[affixKey]}
-                                        alt="affix"
+                                        src={ELEMENT_IMAGES[elementKey]}
+                                        alt="element"
                                         class="stat-icon"
                                     />
                                     <span
                                         >{ELEMENT_NAMES[appState.lang][
-                                            affixKey
-                                        ] || tooltip.data.affix}</span
+                                            elementKey
+                                        ] || tooltip.data.element}</span
                                     >
                                 </div>
                             </div>
-                        {/if}
 
-                        <!-- Row 3: Class -->
-                        <div class="tooltip-row">
-                            <div class="tooltip-stat">
-                                <img
-                                    src={CLASS_IMAGES[classKey]}
-                                    alt="class"
-                                    class="stat-icon"
-                                />
-                                <span
-                                    >{CLASS_NAMES[appState.lang][classKey] ||
-                                        tooltip.data.class}</span
-                                >
+                            <!-- Row 2: Affix (if any) -->
+                            {#if tooltip.data.affix}
+                                <div class="tooltip-row">
+                                    <div class="tooltip-stat">
+                                        <img
+                                            src={ELEMENT_IMAGES[affixKey]}
+                                            alt="affix"
+                                            class="stat-icon"
+                                        />
+                                        <span
+                                            >{ELEMENT_NAMES[appState.lang][
+                                                affixKey
+                                            ] || tooltip.data.affix}</span
+                                        >
+                                    </div>
+                                </div>
+                            {/if}
+
+                            <!-- Row 3: Class -->
+                            <div class="tooltip-row">
+                                <div class="tooltip-stat">
+                                    <img
+                                        src={CLASS_IMAGES[classKey]}
+                                        alt="class"
+                                        class="stat-icon"
+                                    />
+                                    <span
+                                        >{CLASS_NAMES[appState.lang][
+                                            classKey
+                                        ] || tooltip.data.class}</span
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {:else if tooltip.type === "memory"}
+            <div
+                use:portal
+                class="char-tooltip {tooltip.flipped ? 'flipped' : ''}"
+                style="top: {tooltip.y}px; left: {tooltip.x}px; position: fixed;"
+            >
+                <div class="memory-tooltip-inner">
+                    <div class="memory-tooltip-left">
+                        <div class="memory-tooltip-name">
+                            {tooltip.data.name}
+                        </div>
+                        <div class="memory-portrait">
+                            <img
+                                src={MEMORY_IMAGES[
+                                    tooltip.data.name.toLowerCase()
+                                ]}
+                                alt={tooltip.data.name}
+                            />
+                        </div>
+                        <div class="memory-stats">
+                            <span class="memory-stat"
+                                >HP <b>{tooltip.data.hp}</b></span
+                            >
+                            <span class="memory-stat"
+                                >CRIT <b>{tooltip.data.crit}</b></span
+                            >
+                            <span class="memory-stat"
+                                >ATK <b>{tooltip.data.atk}</b></span
+                            >
+                            <span class="memory-stat"
+                                >DEF <b>{tooltip.data.def}</b></span
+                            >
+                        </div>
+                    </div>
+                    {#if tooltip.data.effects.twoPiece[appState.lang] || tooltip.data.effects.fourPiece[appState.lang]}
+                        <div class="memory-tooltip-right">
+                            {#if tooltip.data.effects.twoPiece[appState.lang]}
+                                <div class="memory-effect">
+                                    <div class="memory-effect-label">2-Set</div>
+                                    <div class="memory-effect-text">
+                                        {tooltip.data.effects.twoPiece[
+                                            appState.lang
+                                        ]}
+                                    </div>
+                                </div>
+                            {/if}
+                            {#if tooltip.data.effects.fourPiece[appState.lang]}
+                                <div class="memory-effect">
+                                    <div class="memory-effect-label">4-Set</div>
+                                    <div class="memory-effect-text">
+                                        {tooltip.data.effects.fourPiece[
+                                            appState.lang
+                                        ]}
+                                    </div>
+                                </div>
+                            {/if}
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        {/if}
     {/if}
 </div>
 
@@ -1017,6 +1547,8 @@
         position: relative;
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     /* Tooltip styling */
@@ -1027,6 +1559,12 @@
         pointer-events: none;
         animation: tooltipAppear 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     }
+
+    .char-tooltip.flipped {
+        transform: translate(-50%, 0%);
+        animation: tooltipAppearFlipped 0.2s
+            cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
     @keyframes tooltipAppear {
         from {
             opacity: 0;
@@ -1035,6 +1573,17 @@
         to {
             opacity: 1;
             transform: translate(-50%, -100%) scale(1);
+        }
+    }
+
+    @keyframes tooltipAppearFlipped {
+        from {
+            opacity: 0;
+            transform: translate(-50%, 10%) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0%) scale(1);
         }
     }
 
@@ -1147,5 +1696,145 @@
 
     :global(.char-highlight) {
         cursor: help;
+    }
+
+    :global(.memory-highlight) {
+        cursor: help;
+    }
+
+    .memory-tooltip-inner {
+        background: rgba(10, 10, 15, 0.98);
+        border: 1px solid var(--accent-red);
+        border-radius: 4px;
+        padding: 8px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 10px;
+        box-shadow:
+            0 15px 45px rgba(0, 0, 0, 0.9),
+            0 0 30px rgba(255, 60, 60, 0.2);
+        backdrop-filter: blur(12px);
+        max-width: 520px;
+    }
+
+    .memory-tooltip-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+
+    .memory-tooltip-right {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        padding-left: 10px;
+    }
+
+    .memory-tooltip-name {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-align: center;
+        line-height: 1.1;
+    }
+
+    .memory-portrait {
+        width: 72px;
+        height: 72px;
+        border-radius: 4px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .memory-portrait img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .memory-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px 12px;
+    }
+
+    .memory-stat {
+        color: #999;
+        font-size: 0.75rem;
+        letter-spacing: 0.3px;
+    }
+
+    .memory-stat b {
+        color: #eee;
+        font-weight: bold;
+        margin-left: 4px;
+    }
+
+    .memory-effect-label {
+        color: var(--accent-red);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+
+    .memory-effect-text {
+        color: #bbb;
+        font-size: 0.8rem;
+        line-height: 1.35;
+        text-align: left;
+    }
+
+    /* Autocomplete dropdown */
+    .ac-dropdown {
+        z-index: 10001;
+        background: rgba(15, 15, 20, 0.98);
+        border: 1px solid var(--accent-red);
+        border-radius: 4px;
+        min-width: 180px;
+        max-width: 320px;
+        max-height: 260px;
+        overflow-y: auto;
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.8),
+            0 0 15px rgba(255, 60, 60, 0.15);
+        backdrop-filter: blur(10px);
+        animation: acFadeIn 0.12s ease-out;
+    }
+    @keyframes acFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-4px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .ac-item {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        color: #ccc;
+        cursor: pointer;
+        font-family: var(--font-tech);
+        white-space: nowrap;
+        transition:
+            background 0.1s,
+            color 0.1s;
+    }
+    .ac-item:hover,
+    .ac-item.active {
+        background: rgba(255, 60, 60, 0.15);
+        color: #fff;
+    }
+    .ac-item.active {
+        border-left: 2px solid var(--accent-red);
     }
 </style>
