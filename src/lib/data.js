@@ -745,10 +745,10 @@ export const CHAR_DATABASE = [
         cub: "Jet Jaeger"
     },
     {
-        name: "Хаикма",
+        name: "Хайкма",
         enName: "Haicma",
-        frame: "",
-        enFrame: "Starveil",
+        frame: "Вейлед Стар",
+        enFrame: "Veiled Star",
         rank: "S",
         element: "Лед",
         class: "Авангард",
