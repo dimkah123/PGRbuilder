@@ -112,6 +112,8 @@
     onSave={handleSave}
     onExport={() => handleExport(appState.char || "UNIT")}
     onSettings={() => settingsModal.open()}
+    onToggleTheme={toggleTheme}
+    {isLightMode}
     {saveBtnState}
 />
 

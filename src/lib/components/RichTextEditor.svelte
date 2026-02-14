@@ -12,6 +12,15 @@
     let isBold = $state(false);
     let isItalic = $state(false);
 
+    const HIGHLIGHT_PATTERNS =
+        /\b(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?)(?![a-zA-Z0-9\+])/g;
+    const RANK_ONLY = /^(S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?)$/;
+
+    const AFFIX_PATTERNS =
+        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])(Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
+    const AFFIX_ONLY =
+        /^(Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal)$/i;
+
     // Initial Content
     $effect(() => {
         if (editor && editor.innerHTML !== value) {
@@ -24,6 +33,238 @@
     function handleInput() {
         value = editor.innerHTML;
         updateToolbarState();
+
+        // 1. Synchronous "Escape" from highlight
+        // If caret is inside a highlight span and user types something non-matching (like '+'),
+        // immediately unwrap to prevent flicker
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            let container = range.commonAncestorContainer;
+            if (container.nodeType === 3) container = container.parentNode;
+
+            if (container.classList) {
+                const color = container.style.color
+                    .toLowerCase()
+                    .replace(/\s/g, "");
+                const isOrange =
+                    color === "rgb(255,153,0)" || color === "#ff9900";
+                const isHighlight =
+                    container.classList.contains("rank-highlight") ||
+                    container.classList.contains("affix-highlight");
+
+                if (isHighlight) {
+                    const text = container.textContent;
+                    const isRank =
+                        container.classList.contains("rank-highlight");
+                    const validator = isRank ? RANK_ONLY : AFFIX_ONLY;
+
+                    if (!validator.test(text)) {
+                        const pos = getCaretPosition(editor);
+                        container.replaceWith(document.createTextNode(text));
+                        editor.innerHTML = editor.innerHTML;
+                        setCaretPosition(editor, pos);
+                        value = editor.innerHTML;
+                    }
+                } else if (isOrange) {
+                    // Sticky color detected on a non-highlight element
+                    const pos = getCaretPosition(editor);
+                    container.style.color = "";
+                    if (!container.getAttribute("style"))
+                        container.removeAttribute("style");
+                    // If it was a font tag or empty span, autoHighlight will handle it,
+                    // but we can try an immediate innerHTML refresh to kill the 'state'
+                    editor.innerHTML = editor.innerHTML;
+                    setCaretPosition(editor, pos);
+                    value = editor.innerHTML;
+                }
+            }
+        }
+
+        // 2. Cleanup empty editor to prevent sticky styles
+        if (
+            editor.innerText.trim() === "" &&
+            (editor.innerHTML.includes("<span") ||
+                editor.innerHTML.includes("style="))
+        ) {
+            editor.innerHTML = "";
+            editor.removeAttribute("style");
+            value = "";
+        }
+
+        // 3. Debounce auto-highlighting
+        clearTimeout(highlightTimer);
+        highlightTimer = setTimeout(autoHighlight, 30);
+    }
+
+    let highlightTimer;
+    function autoHighlight() {
+        if (!editor) return;
+
+        const temp = document.createElement("div");
+        temp.innerHTML = editor.innerHTML;
+        let changed = false;
+
+        // 1. Cleanup sticky browser colors (including <font> tags and inline styles)
+        const colorful = [
+            ...temp.querySelectorAll('[style*="color"]'),
+            ...temp.querySelectorAll("font[color]"),
+        ];
+        colorful.forEach((el) => {
+            let color = "";
+            if (el.tagName === "FONT") {
+                color = el.getAttribute("color").toLowerCase();
+            } else {
+                color = el.style.color.toLowerCase().replace(/\s/g, "");
+            }
+
+            const isRankColor =
+                color === "rgb(255,153,0)" || color === "#ff9900";
+            const isAffixColor =
+                color === "rgb(0,255,255)" ||
+                color === "#00ffff" ||
+                color === "rgb(0,255,153)" ||
+                color === "#00ff99";
+
+            if (
+                !el.classList.contains("rank-highlight") &&
+                !el.classList.contains("affix-highlight") &&
+                (isRankColor || isAffixColor)
+            ) {
+                if (el.tagName === "FONT") {
+                    // Replace <font> with its children
+                    const text = el.textContent;
+                    el.replaceWith(document.createTextNode(text));
+                } else {
+                    el.style.color = "";
+                    if (!el.getAttribute("style")) el.removeAttribute("style");
+                    // If it's a span with no other purpose, unwrap it
+                    if (
+                        el.tagName === "SPAN" &&
+                        !el.className &&
+                        !el.getAttribute("style")
+                    ) {
+                        el.replaceWith(...el.childNodes);
+                    }
+                }
+                changed = true;
+            }
+        });
+
+        // 2. Unwrap/Fix invalid highlights and purge empty ones
+        const existing = [
+            ...temp.querySelectorAll(".rank-highlight"),
+            ...temp.querySelectorAll(".affix-highlight"),
+        ];
+        existing.forEach((span) => {
+            const text = span.textContent;
+            const isRank = span.classList.contains("rank-highlight");
+            const validator = isRank ? RANK_ONLY : AFFIX_ONLY;
+
+            // If empty or doesn't match the pattern fully anymore, unwrap
+            if (!text || !validator.test(text)) {
+                // If it's just empty, remove it completely
+                if (!text) {
+                    span.remove();
+                } else {
+                    span.replaceWith(document.createTextNode(text));
+                }
+                changed = true;
+            }
+        });
+
+        // 3. Wrap new matches (Ranks first, then Affixes)
+        const walk = (node) => {
+            if (node.nodeType === 3) {
+                const parent = node.parentNode;
+                if (
+                    parent &&
+                    parent.classList &&
+                    (parent.classList.contains("rank-highlight") ||
+                        parent.classList.contains("affix-highlight"))
+                )
+                    return;
+
+                const text = node.textContent;
+                let html = text;
+                let textChanged = false;
+
+                // Highlight Ranks (Orange)
+                HIGHLIGHT_PATTERNS.lastIndex = 0;
+                if (HIGHLIGHT_PATTERNS.test(text)) {
+                    html = html.replace(
+                        HIGHLIGHT_PATTERNS,
+                        '<span class="rank-highlight" style="color:#ff9900; font-weight:bold;">$1</span>',
+                    );
+                    textChanged = true;
+                }
+
+                // Highlight Affixes (Orange)
+                AFFIX_PATTERNS.lastIndex = 0;
+                if (AFFIX_PATTERNS.test(text)) {
+                    // We use a temporary placeholder or careful replacement to avoid nested spans
+                    // Since ranks and affixes are likely distinct strings, simple replace works if we haven't wrapped the whole node yet
+                    html = html.replace(AFFIX_PATTERNS, (match) => {
+                        // Check if this match is already inside a rank-highlight span we just created
+                        // (not very likely in PGR context, but good practice)
+                        return `<span class="affix-highlight" style="color:#ff9900; font-weight:bold;">${match}</span>`;
+                    });
+                    textChanged = true;
+                }
+
+                if (textChanged) {
+                    const wrapper = document.createElement("span");
+                    wrapper.innerHTML = html;
+                    node.replaceWith(...wrapper.childNodes);
+                    changed = true;
+                }
+            } else {
+                [...node.childNodes].forEach(walk);
+            }
+        };
+        walk(temp);
+
+        if (changed) {
+            const pos = getCaretPosition(editor);
+            editor.innerHTML = temp.innerHTML;
+            setCaretPosition(editor, pos);
+            value = editor.innerHTML;
+        }
+    }
+
+    function getCaretPosition(element) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return 0;
+        const range = selection.getRangeAt(0);
+        const preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        return preCaretRange.toString().length;
+    }
+
+    function setCaretPosition(element, pos) {
+        const range = document.createRange();
+        const sel = window.getSelection();
+        let charCount = 0;
+        const walk = (node) => {
+            if (node.nodeType === 3) {
+                const len = node.textContent.length;
+                if (charCount + len >= pos) {
+                    range.setStart(node, pos - charCount);
+                    range.collapse(true);
+                    return true;
+                }
+                charCount += len;
+            } else {
+                for (let child of node.childNodes) {
+                    if (walk(child)) return true;
+                }
+            }
+            return false;
+        };
+        walk(element);
+        sel.removeAllRanges();
+        sel.addRange(range);
     }
 
     function updateToolbarState() {
@@ -574,5 +815,19 @@
         border-radius: 50%;
         border: 1px solid #555;
         overflow: hidden;
+    }
+    .rich-textarea {
+        color: #ccc;
+    }
+
+    :global(.rich-textarea .rank-highlight) {
+        color: #ff9900 !important;
+        font-weight: bold;
+    }
+
+    :global(.rich-textarea .affix-highlight) {
+        color: #ff9900 !important;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(255, 153, 0, 0.3);
     }
 </style>

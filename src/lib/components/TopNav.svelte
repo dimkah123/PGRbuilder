@@ -3,7 +3,14 @@
     import { t } from "$lib/i18n.js";
     import { fade } from "svelte/transition";
 
-    let { onSave, onExport, onSettings, saveBtnState } = $props();
+    let {
+        onSave,
+        onExport,
+        onSettings,
+        onToggleTheme,
+        isLightMode,
+        saveBtnState,
+    } = $props();
     let isToolsOpen = $state(false);
 
     function handleToolClick(action) {
@@ -74,9 +81,9 @@
                     <button onclick={() => handleToolClick(onSave)}
                         >{t("create_link")}</button
                     >
-                    <button onclick={() => handleToolClick(onSettings)}
-                        >{t("settings")}</button
-                    >
+                    <button onclick={() => handleToolClick(onToggleTheme)}>
+                        {isLightMode ? t("dark_mode") : t("light_mode")}
+                    </button>
                     <button onclick={() => handleToolClick(onExport)}
                         >{t("save_png")}</button
                     >

@@ -281,6 +281,7 @@ export const CUB_IMAGES = {
     "jet jaeger": "Image/CUB/Jet Jaeger.webp",
     "levvi": "Image/CUB/Levvi.webp",
     "mirageblades": "Image/CUB/MirageBlades.webp",
+    "mirage blades": "Image/CUB/MirageBlades.webp",
     "motorbolt": "Image/CUB/Motorbolt.webp",
     "nitor": "Image/CUB/Nitor.webp",
     "noctiluca": "Image/CUB/Noctiluca.webp",
@@ -294,15 +295,22 @@ export const CUB_IMAGES = {
     "wrathfang": "Image/CUB/Wrathfang.webp"
 };
 
-export const MEMORY_NAMES = [
-    "Aife", "Aline", "Alphonse", "Barcelo", "Bathlon", "Boone", "Burana", "Catherine",
+export const MEMORY_6STAR = [
+    "Aline", "Alphonse", "Barcelo", "Bathlon", "Boone", "Burana", "Catherine",
     "Chang Wuzi", "Charlotte", "Chen Jiyuan", "Cleopatra", "Condelina", "Cottie", "Darwin",
-    "DaVinci", "Derketo", "Diesel", "Einsteina", "Elizabeth", "Erwin", "Flamel", "Fran",
-    "Frederick", "Gloria", "Guinevere", "Hanna", "Heisen", "Heraclitus", "Herschell", "Hervor",
-    "Ike", "Jeanne", "Ji Boan", "Keats", "Klenova", "Leeuwenhoek", "Liston", "Mozart", "Natasha",
-    "Patton", "PhilipII", "Poincare", "Richelieu", "Samantha", "Seraphine", "Shakespeare",
-    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Voltaire", "Wilde"
+    "DaVinci", "Derketo", "Diesel", "Einsteina", "Elizabeth", "Flamel", "Fran",
+    "Frederick", "Guinevere", "Hanna", "Heisen", "Heraclitus", "Herschell", "Hervor",
+    "Jeanne", "Ji Boan", "Keats", "Klenova", "Leeuwenhoek", "Liston", "Natasha",
+    "Patton", "PhilipII", "Poincare", "Seraphine", "Shakespeare",
+    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde"
 ];
+
+export const MEMORY_5STAR = [
+    "Aife", "Ike", "Voltaire", "Gloria", "Richelieu", "Samantha", "Mozart", "Carrielynn"
+];
+
+// Combined list for ID stability (Used in serialization)
+export const MEMORY_NAMES = [...MEMORY_6STAR, ...MEMORY_5STAR];
 
 export const TERMINOLOGY_DB = {
     "матрица": "Специальная способность, активируемая при уклонении. Замедляет время и позволяет использовать орбы без затрат (или с бонусами).",
