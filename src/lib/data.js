@@ -127,6 +127,8 @@ export const ELEMENT_NAMES = {
     }
 };
 
+export const RANK_OPTIONS = ["B", "A", "S"];
+
 export const CLASS_NAMES = {
     ru: {
         "attacker": "Атакующий",

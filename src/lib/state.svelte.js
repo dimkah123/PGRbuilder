@@ -1,4 +1,4 @@
-import { ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX, CHAR_DATABASE, ELEMENT_NAMES, CLASS_NAMES } from './data.js';
+import { ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX, CHAR_DATABASE, ELEMENT_NAMES, CLASS_NAMES, MEMORY_NAMES, WEAPON_RESONANCES, RANK_OPTIONS } from './data.js';
 
 function createBuild() {
     return {
@@ -160,24 +160,78 @@ class AppState {
     }
 
     serialize() {
+        // Compact Format
         return {
-            lang: this.lang,
-            char: this.char,
-            frame: this.frame,
-            enFrame: this.enFrame,
-            rank: this.rank,
-            element: this.element,
-            class: this.class,
-            weapon: this.weaponReal || this.weapon,
-            affix: this.affix,
-            cub: this.cubReal || this.cub,
-            posCode: this.posCode,
-            builds: $state.snapshot(this.builds)
+            v: 2, // version
+            l: this.lang === 'ru' ? 0 : 1,
+            c: CHAR_DATABASE.findIndex(c => c.enFrame === this.enFrame || c.frame === this.frame),
+            r: RANK_OPTIONS.indexOf(this.rank),
+            w: this.weaponReal || this.weapon,
+            a: findLocalizedKey(ELEMENT_NAMES, this.affix) || this.affix,
+            cb: this.cubReal || this.cub,
+            pc: this.posCode,
+            b: this.builds.map(b => ({
+                t: b.title,
+                m: b.mems.map(m => MEMORY_NAMES.indexOf(m)),
+                h: MEMORY_NAMES.indexOf(b.harm),
+                rt: b.resTopSlot,
+                rts: b.resTopSkill,
+                rb: b.resBotSlot,
+                rbs: b.resBotSkill,
+                d: b.desc,
+                wr: b.wRes.map(r => r ? WEAPON_RESONANCES.findIndex(wr => wr.name === r.name) : null)
+            }))
         };
     }
 
     hydrate(data) {
         if (!data) return;
+
+        // Detect Version/Format
+        if (data.v === 2) {
+            this.lang = data.l === 0 ? 'ru' : 'en';
+            const charEntry = CHAR_DATABASE[data.c];
+            if (charEntry) {
+                const isEn = this.lang === 'en';
+                this.char = isEn ? charEntry.enName || charEntry.name : charEntry.name;
+                this.frame = isEn ? charEntry.enFrame || charEntry.frame : charEntry.frame;
+                this.enFrame = charEntry.enFrame;
+                this.element = ELEMENT_NAMES[this.lang][findLocalizedKey(ELEMENT_NAMES, charEntry.element)] || charEntry.element;
+                this._class = CLASS_NAMES[this.lang][findLocalizedKey(CLASS_NAMES, charEntry.class)] || charEntry.class;
+                this.affix = ELEMENT_NAMES[this.lang][data.a] || data.a || '-';
+            }
+            this.rank = RANK_OPTIONS[data.r] || '';
+            this.posCode = data.pc || '';
+
+            // Weapons/CUB
+            this.weaponReal = data.w || '';
+            const isEn = this.lang === 'en';
+            this.weapon = (this.weaponReal && ASSET_MAP[this.weaponReal.toLowerCase()])
+                ? (isEn ? 'SIGNATURE' : 'СИГНАТУРНОЕ')
+                : (this.weaponReal || '-');
+
+            this.cubReal = data.cb || '';
+            this.cub = (this.cubReal && ASSET_MAP[this.cubReal.toLowerCase()])
+                ? (isEn ? 'SIGNATURE' : 'СИГНАТУРНЫЙ')
+                : (this.cubReal || '-');
+
+            if (data.b && Array.isArray(data.b)) {
+                this.builds = data.b.map(b => ({
+                    ...createBuild(),
+                    title: b.t || '',
+                    mems: (b.m || []).map(idx => MEMORY_NAMES[idx] || ''),
+                    harm: MEMORY_NAMES[b.h] || '',
+                    resTopSlot: b.rt || '',
+                    resTopSkill: b.rts || '',
+                    resBotSlot: b.rb || '',
+                    resBotSkill: b.rbs || '',
+                    desc: b.d || '',
+                    wRes: (b.wr || [null, null, null]).map(idx => idx !== null ? WEAPON_RESONANCES[idx] : null)
+                }));
+            }
+            return;
+        }
+
         if (data.lang) this.lang = data.lang;
         this.char = data.char || '';
         this.frame = data.frame || '';
