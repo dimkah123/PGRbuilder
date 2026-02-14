@@ -1,6 +1,7 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import { t } from "$lib/i18n.js";
+    import { fade } from "svelte/transition";
 
     let { onSave, onExport, onSettings, saveBtnState } = $props();
     let isToolsOpen = $state(false);
@@ -13,9 +14,12 @@
 
 <div class="top-nav">
     <div class="nav-left">
-        <span>GRAY RAVEN DATABASE</span><span class="desktop-status-text">
-            // {t("build_constructor")}</span
-        >
+        <span>GRAY RAVEN DATABASE</span>
+        {#key appState.lang}
+            <span class="desktop-status-text" in:fade={{ duration: 300 }}>
+                // {t("build_constructor")}</span
+            >
+        {/key}
     </div>
     <div class="nav-right">
         <!-- Desktop Actions -->
@@ -26,14 +30,22 @@
                     : ''}"
                 onclick={onSave}
             >
-                {t(saveBtnState.textKey)}
+                {#key appState.lang}
+                    <span in:fade={{ duration: 300 }}
+                        >{t(saveBtnState.textKey)}</span
+                    >
+                {/key}
             </button>
-            <button class="btn nav-btn" onclick={onSettings}
-                >{t("settings")}</button
-            >
-            <button class="btn nav-btn" onclick={onExport}
-                >{t("save_png")}</button
-            >
+            <button class="btn nav-btn" onclick={onSettings}>
+                {#key appState.lang}
+                    <span in:fade={{ duration: 300 }}>{t("settings")}</span>
+                {/key}
+            </button>
+            <button class="btn nav-btn" onclick={onExport}>
+                {#key appState.lang}
+                    <span in:fade={{ duration: 300 }}>{t("save_png")}</span>
+                {/key}
+            </button>
         </div>
 
         <div class="nav-separator"></div>
@@ -53,7 +65,9 @@
                 class="btn tools-toggle"
                 onclick={() => (isToolsOpen = !isToolsOpen)}
             >
-                {t("tools")}
+                {#key appState.lang}
+                    <span in:fade={{ duration: 300 }}>{t("tools")}</span>
+                {/key}
             </button>
             {#if isToolsOpen}
                 <div class="tools-dropdown">

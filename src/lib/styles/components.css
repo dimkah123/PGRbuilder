@@ -84,7 +84,8 @@
 }
 
 .wres-item.disabled {
-    opacity: 0.3;
+    opacity: 0.25;
+    filter: grayscale(1);
     cursor: not-allowed;
 }
 

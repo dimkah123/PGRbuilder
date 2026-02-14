@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import { t } from "$lib/i18n.js";
 
     let { color = "#FFFFFF", onapply, onclose } = $props();
 
@@ -187,7 +188,6 @@
         cachedRect = null;
         window.removeEventListener("mousemove", handleMouseMove);
         window.removeEventListener("mouseup", handleMouseUp);
-        onclose?.();
     }
 
     function apply() {
@@ -321,7 +321,7 @@
         <!-- Recent Colors (Not implemented in this view, likely passed as props if needed, or kept simple) -->
         <div class="cp-row" style="margin-top:5px;">
             <span class="cp-label" style="margin-right:5px; line-height:20px;"
-                >НЕДАВНИЕ :</span
+                >{t("recent")} :</span
             >
         </div>
     </div>

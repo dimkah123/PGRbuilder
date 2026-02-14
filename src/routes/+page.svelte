@@ -23,8 +23,8 @@
 
     let isLightMode = $state(false);
     let saveBtnState = $state({ textKey: "create_link", style: "new" });
-    let appContainer; // binding
-    let settingsModal; // binding
+    let appContainer = $state(); // binding
+    let settingsModal = $state(); // binding
 
     function toggleTheme() {
         // Add transition class
@@ -76,6 +76,18 @@
         }
     }
 
+    let isLangChanging = $state(false);
+
+    $effect(() => {
+        // Pulse when language changes
+        const currentLang = appState.lang;
+        isLangChanging = true;
+        const timer = setTimeout(() => {
+            isLangChanging = false;
+        }, 600);
+        return () => clearTimeout(timer);
+    });
+
     onMount(() => {
         // Init URL Load
         loadFromUrl().then(() => {
@@ -105,8 +117,9 @@
 
 <div
     class="app-container"
+    class:lang-changing={isLangChanging}
     bind:this={appContainer}
-    style="opacity: {appState.isLoading ? 0 : 1}; transition: opacity 0.2s;"
+    style="opacity: {appState.isLoading ? 0 : 1};"
 >
     <div class="page-corner pc-tl"></div>
     <div class="page-corner pc-tr"></div>
@@ -128,4 +141,55 @@
 
 <style>
     /* Styles are mostly global in app.css */
+
+    :global(.lang-changing span),
+    :global(.lang-changing label),
+    :global(.lang-changing .stat-label),
+    :global(.lang-changing .res-label),
+    :global(.lang-changing .tac-header),
+    :global(.lang-changing .section-header span) {
+        animation: holographic-refresh-inline 0.6s ease-in-out;
+    }
+
+    :global(.lang-changing input),
+    :global(.lang-changing .stat-value),
+    :global(.lang-changing .build-title),
+    :global(.lang-changing .add-build-wide-btn) {
+        animation: holographic-refresh-block 0.6s ease-in-out;
+    }
+
+    @keyframes holographic-refresh-inline {
+        0% {
+            opacity: 1;
+            filter: blur(0px);
+        }
+        30% {
+            opacity: 0.5;
+            filter: blur(4px);
+            color: var(--accent-red);
+        }
+        100% {
+            opacity: 1;
+            filter: blur(0px);
+        }
+    }
+
+    @keyframes holographic-refresh-block {
+        0% {
+            opacity: 1;
+            filter: blur(0px);
+            transform: scale(1);
+        }
+        30% {
+            opacity: 0.5;
+            filter: blur(4px);
+            transform: scale(1.02);
+            color: var(--accent-red);
+        }
+        100% {
+            opacity: 1;
+            filter: blur(0px);
+            transform: scale(1);
+        }
+    }
 </style>

@@ -2,25 +2,26 @@
     import { appState } from "$lib/state.svelte.js";
     import { WEAPON_RESONANCES, CLASS_TO_PREFIX } from "$lib/data.js";
     import { t } from "$lib/i18n.js";
+    import { fade } from "svelte/transition";
+
+    // Derived used names for easy lookup
+    let usedNames = $derived.by(() => {
+        const buildIndex = appState.modalData?.buildIndex;
+        const currentBuild =
+            buildIndex !== undefined ? appState.builds[buildIndex] : null;
+        return (
+            currentBuild?.wRes
+                ?.filter((r) => r && typeof r === "object")
+                .map((r) => r.name) || []
+        );
+    });
 
     // Derived filtering logic
     let availableResonances = $derived.by(() => {
         const charClass = appState.class || "";
         const prefix = CLASS_TO_PREFIX[charClass];
 
-        // Get used resonances in this build
-        const buildIndex = appState.modalData?.buildIndex;
-        const currentBuild =
-            buildIndex !== undefined ? appState.builds[buildIndex] : null;
-        const usedNames =
-            currentBuild?.wRes
-                ?.filter((r) => r && typeof r === "object")
-                .map((r) => r.name) || [];
-
         return WEAPON_RESONANCES.filter((res) => {
-            // Skip if already used in this build
-            if (usedNames.includes(res.name)) return false;
-
             if (res.prefix === "UN") return true;
             if (!prefix) return true; // Show all if no class
             if (prefix === "UNI") return true;
@@ -69,20 +70,28 @@
             tabindex="-1"
         >
             <div class="modal-header">
-                <h3 id="modal-title">{t("weapon_res_selection")}</h3>
+                {#key appState.lang}
+                    <h3 id="modal-title" in:fade={{ duration: 300 }}>
+                        {t("weapon_res_selection")}
+                    </h3>
+                {/key}
                 <button class="modal-close" onclick={close}>X</button>
             </div>
 
             <div class="wres-grid">
                 {#each availableResonances as res}
+                    {@const isUsed = usedNames.includes(res.name)}
                     <div
                         class="wres-item"
-                        onclick={() => selectResonance(res)}
+                        class:disabled={isUsed}
+                        onclick={() => !isUsed && selectResonance(res)}
                         onkeydown={(e) =>
+                            !isUsed &&
                             (e.key === "Enter" || e.key === " ") &&
                             selectResonance(res)}
                         role="button"
-                        tabindex="0"
+                        tabindex={isUsed ? -1 : 0}
+                        aria-disabled={isUsed}
                     >
                         <img src={res.file} alt={res.name} />
                         <span>{res.name}</span>

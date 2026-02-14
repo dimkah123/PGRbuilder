@@ -74,7 +74,7 @@ export const CHARACTER_IMAGES = [
 ];
 
 export const ELEMENT_IMAGES = {
-    "burn": "Image/Elements/BURN.webp",
+    "Ignition": "Image/Elements/Ignition.webp",
     "dark": "Image/Elements/DARK.webp",
     "fire": "Image/Elements/FIRE.webp",
     "freez": "Image/Elements/FREEZ.webp",
@@ -98,13 +98,14 @@ export const ELEMENT_NAMES = {
         "thunder": "Молния",
         "dark": "Тьма",
         "nihl": "Нихил",
-        "dis": "Дизинтеграция",
-        "burn": "Горение",
+        "dis": "Дезинтеграция",
+        "Ignition": "Горение",
         "plasma": "Плазма",
         "slash": "Слеш",
         "umbra": "Тень",
         "freez": "Заморозка",
         "light": "Рейдианс",
+        "general": "Общий",
         "-": "-"
     },
     en: {
@@ -115,12 +116,13 @@ export const ELEMENT_NAMES = {
         "dark": "Dark",
         "nihl": "Nihil",
         "dis": "Disruption",
-        "burn": "Burn",
+        "Ignition": "Ignition",
         "plasma": "Plasma",
         "slash": "Slash",
         "umbra": "Umbra",
         "freez": "Freez",
         "light": "Raydiance",
+        "general": "General",
         "-": "-"
     }
 };
@@ -132,9 +134,8 @@ export const CLASS_NAMES = {
         "support": "Поддержка",
         "amplifier": "Амплифаер",
         "vanguard": "Авангард",
-        "vanguard": "Авангард",
         "observer": "Наблюдатель",
-        "disruption": "Дизинтегратор",
+        "disruption": "Дезинтегратор",
         "-": "-"
     },
     en: {
@@ -142,7 +143,6 @@ export const CLASS_NAMES = {
         "tank": "Tank",
         "support": "Support",
         "amplifier": "Amplifier",
-        "vanguard": "Vanguard",
         "vanguard": "Vanguard",
         "observer": "Observer",
         "disruption": "Disruption",
@@ -154,10 +154,8 @@ export const CLASS_IMAGES = {
     "amplifier": "Image/Classes/Amplifier.webp",
     "annihilator": "Image/Classes/Annihilator.webp",
     "attacker": "Image/Classes/Attacker.webp",
-    "annihilator": "Image/Classes/Annihilator.webp",
-    "attacker": "Image/Classes/Attacker.webp",
-    "observer": "Image/Elements/GENERAL.webp",
-    "disruption": "Image/Classes/Observer.webp",
+    "observer": "Image/Classes/Observer.webp",
+    "disruption": "Image/Classes/Observer.webp", // Disruption often uses Observer or unique icon
     "support": "Image/Classes/Support.webp",
     "tank": "Image/Classes/Tank.webp",
     "uniframe": "Image/Classes/Uniframe.webp",
@@ -241,6 +239,7 @@ export const WEAPON_IMAGES = {
     "yamato": "Image/Weapons/Yamato.webp",
     "zeroscale": "Image/Weapons/ZeroScale.webp",
     "rock cannon": "Image/Weapons/★Rock Cannon.webp",
+    "★rock cannon": "Image/Weapons/★Rock Cannon.webp",
     "crimson birch": "Image/Weapons/Crimson Birch.webp",
     "tranquil doll’s voice": "Image/Weapons/Tranquil Doll's Voice.webp",
     "inverse - chimera": "Image/Weapons/Inverse Chimera.webp",
@@ -929,6 +928,7 @@ export const CHAR_DATABASE = [
         element: "Нихил",
         class: "Атакующий",
         weapon: "Reconstruction of Law",
+        affix: "Дезинтеграция",
         cub: "Guardrake"
     },
     {
@@ -996,7 +996,7 @@ export const CHAR_DATABASE = [
         element: "Молния",
         class: "Танк",
         weapon: "Starlight Glare",
-        affix: "Burn",
+        affix: "Ignition",
         cub: "Bramble Angler"
     },
     {
@@ -1008,7 +1008,7 @@ export const CHAR_DATABASE = [
         element: "Нихил",
         class: "Наблюдатель",
         weapon: "Alpha-Omega",
-        affix: "Дизинтеграция",
+        affix: "Дезинтеграция",
         cub: "Diamaton"
     },
     {
@@ -1066,7 +1066,7 @@ export const CHAR_DATABASE = [
         element: "Огонь",
         class: "Атакующий",
         weapon: "Devil Sword Dante",
-        affix: "Burn",
+        affix: "Ignition",
         cub: "Cavaliere"
     },
     {
@@ -1090,7 +1090,7 @@ export const CHAR_DATABASE = [
         element: "Тьма",
         class: "Атакующий",
         weapon: "Aurora",
-        affix: "Light",
+        affix: "Рейдианс",
         cub: "Noctiluca"
     },
     {
@@ -1113,7 +1113,7 @@ export const CHAR_DATABASE = [
         element: "Физический",
         class: "Амплифаер",
         weapon: "Empyrean Wrath",
-        affix: "Burn",
+        affix: "Ignition",
         cub: "Scaled Rampart"
     },
     {

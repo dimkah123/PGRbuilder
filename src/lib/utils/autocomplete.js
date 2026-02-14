@@ -1,4 +1,4 @@
-import { appState } from '$lib/state.svelte.js';
+import { appState, findLocalizedKey } from '$lib/state.svelte.js';
 import { CHAR_DATABASE, ASSET_MAP, CHARACTER_IMAGES, CLASS_TO_PREFIX, ELEMENT_NAMES, CLASS_NAMES } from '$lib/data.js';
 
 export function fillCharacterData(charEntry) {
@@ -11,11 +11,11 @@ export function fillCharacterData(charEntry) {
     appState.rank = charEntry.rank || 'SSS+';
 
     // Element update
-    const elementKey = Object.keys(ELEMENT_NAMES['ru']).find(k => ELEMENT_NAMES['ru'][k] === charEntry.element);
+    const elementKey = findLocalizedKey(ELEMENT_NAMES, charEntry.element);
     appState.element = elementKey ? ELEMENT_NAMES[appState.lang][elementKey] : (charEntry.element || '-');
 
     // class update
-    const classKey = Object.keys(CLASS_NAMES['ru']).find(k => CLASS_NAMES['ru'][k] === charEntry.class);
+    const classKey = findLocalizedKey(CLASS_NAMES, charEntry.class);
     appState.class = classKey ? CLASS_NAMES[appState.lang][classKey] : (charEntry.class || '-');
 
     // Weapon
@@ -36,7 +36,9 @@ export function fillCharacterData(charEntry) {
         appState.cub = '-';
     }
 
-    appState.affix = charEntry.affix || '-';
+    // Affix update
+    const affixKey = findLocalizedKey(ELEMENT_NAMES, charEntry.affix);
+    appState.affix = affixKey ? ELEMENT_NAMES[appState.lang][affixKey] : (charEntry.affix || '-');
 
     // Legacy Logic: Moved to AppState.class setter
 }

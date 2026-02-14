@@ -267,11 +267,7 @@
 <svelte:document
     onselectionchange={updateToolbarPos}
     onmousedown={(e) => {
-        if (
-            toolbar &&
-            !toolbar.contains(e.target) &&
-            !editor.contains(e.target)
-        ) {
+        if (toolbar && !toolbar.contains(e.target)) {
             if (activeDropdown && !e.target.closest(".rte-dropdown")) {
                 closeDropdowns();
             }

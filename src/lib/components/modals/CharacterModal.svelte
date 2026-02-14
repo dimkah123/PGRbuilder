@@ -2,6 +2,7 @@
     import { appState } from "$lib/state.svelte.js";
     import { CHAR_DATABASE, CHARACTER_IMAGES, ASSET_MAP } from "$lib/data.js";
     import { t } from "$lib/i18n.js";
+    import { fillCharacterData } from "$lib/utils/autocomplete.js";
 
     let searchQuery = $state("");
     let charList = $state([]);
@@ -52,37 +53,7 @@
         );
 
         if (dbEntry) {
-            const isEn = appState.lang === "en";
-            appState.char = isEn
-                ? dbEntry.enName || dbEntry.name
-                : dbEntry.name;
-            appState.frame = isEn
-                ? dbEntry.enFrame || dbEntry.frame
-                : dbEntry.frame;
-            appState.enFrame = dbEntry.enFrame;
-            appState.rank = dbEntry.rank;
-            appState.element = dbEntry.element;
-            appState.class = dbEntry.class;
-
-            const weaponName = (dbEntry.weapon || "").toLowerCase().trim();
-            if (weaponName && ASSET_MAP[weaponName]) {
-                appState.weapon = t("signature");
-                appState.weaponReal = dbEntry.weapon;
-            } else {
-                appState.weapon = dbEntry.weapon || "-";
-                appState.weaponReal = "";
-            }
-
-            const cubName = (dbEntry.cub || "").toLowerCase().trim();
-            if (cubName && ASSET_MAP[cubName]) {
-                appState.cub = t("signature_cub");
-                appState.cubReal = dbEntry.cub;
-            } else {
-                appState.cub = dbEntry.cub || "-";
-                appState.cubReal = "";
-            }
-
-            appState.affix = dbEntry.affix || "-";
+            fillCharacterData(dbEntry);
         } else {
             appState.frame = imgData.frame;
             appState.enFrame = imgData.frame;

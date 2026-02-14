@@ -73,7 +73,8 @@ const translations = {
         msg_saved_id: "Сборка сохранена! ID: {id}\nСсылка автоматически скопирована.",
         msg_not_found: "Сборка не найдена (ID: {id})",
         msg_load_error: "Ошибка загрузки: ",
-        disruption: "Дизинтеграция"
+        disruption: "Дизинтеграция",
+        recent: "НЕДАВНИЕ"
     },
     en: {
         tools: "TOOLS",
@@ -147,7 +148,8 @@ const translations = {
         msg_saved_id: "Build saved! ID: {id}\nThe link has been automatically copied.",
         msg_not_found: "Build not found (ID: {id})",
         msg_load_error: "Load error: ",
-        disruption: "Disruption"
+        disruption: "Disruption",
+        recent: "RECENT"
     }
 };
 

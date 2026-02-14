@@ -14,6 +14,16 @@ function createBuild() {
     };
 }
 
+// Helper to find key in localized objects (exported for sharing with autocomplete.js)
+export const findLocalizedKey = (obj, val) => {
+    if (!val || val === '-') return null;
+    for (let l in obj) {
+        const k = Object.keys(obj[l]).find(key => obj[l][key].toLowerCase() === val.toLowerCase());
+        if (k) return k;
+    }
+    return null;
+};
+
 class AppState {
     // Character Info
     isLoading = $state(true);
@@ -114,22 +124,16 @@ class AppState {
         }
 
         // Migrate Element
-        const elementKey = Object.keys(ELEMENT_NAMES[oldLang]).find(k => ELEMENT_NAMES[oldLang][k] === this.element);
-        if (elementKey) {
-            this.element = ELEMENT_NAMES[this.lang][elementKey];
-        }
+        const elementKey = findLocalizedKey(ELEMENT_NAMES, this.element);
+        if (elementKey) this.element = ELEMENT_NAMES[this.lang][elementKey];
 
         // Migrate Class
-        const classKey = Object.keys(CLASS_NAMES[oldLang]).find(k => CLASS_NAMES[oldLang][k] === this._class);
-        if (classKey) {
-            this._class = CLASS_NAMES[this.lang][classKey];
-        }
+        const classKey = findLocalizedKey(CLASS_NAMES, this._class);
+        if (classKey) this._class = CLASS_NAMES[this.lang][classKey];
 
         // Migrate Affix
-        const affixKey = Object.keys(ELEMENT_NAMES[oldLang]).find(k => ELEMENT_NAMES[oldLang][k] === this.affix);
-        if (affixKey) {
-            this.affix = ELEMENT_NAMES[this.lang][affixKey];
-        }
+        const affixKey = findLocalizedKey(ELEMENT_NAMES, this.affix);
+        if (affixKey) this.affix = ELEMENT_NAMES[this.lang][affixKey];
 
         // Localize "Signature" labels if active
         if (this.weapon === 'СИГНАТУРНОЕ' || this.weapon === 'SIGNATURE') {
@@ -179,8 +183,12 @@ class AppState {
         this.frame = data.frame || '';
         this.enFrame = data.enFrame || '';
         this.rank = data.rank || '';
-        this.element = data.element || '';
-        this.class = data.class || '';
+
+        const eKey = findLocalizedKey(ELEMENT_NAMES, data.element);
+        this.element = eKey ? ELEMENT_NAMES[this.lang][eKey] : (data.element || '');
+
+        const cKey = findLocalizedKey(CLASS_NAMES, data.class);
+        this.class = cKey ? CLASS_NAMES[this.lang][cKey] : (data.class || '');
 
         // Handle Weapon/CUB (Store real name, display logic handled in component usually)
         const isEn = this.lang === 'en';
@@ -189,7 +197,8 @@ class AppState {
             ? (isEn ? 'SIGNATURE' : 'СИГНАТУРНОЕ')
             : (data.weapon || '-');
 
-        this.affix = data.affix || '';
+        const aKey = findLocalizedKey(ELEMENT_NAMES, data.affix);
+        this.affix = aKey ? ELEMENT_NAMES[this.lang][aKey] : (data.affix || '');
 
         this.cubReal = data.cub || '';
         this.cub = (data.cub && ASSET_MAP[data.cub.toLowerCase()])
