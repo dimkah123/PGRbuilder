@@ -131,6 +131,11 @@
     border-color: #444;
 }
 
+.mem-cell.has-item .mem-box {
+    border-color: #d0d0d0;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
 /* Memory Level Input */
 .mem-input {
     width: 100%;

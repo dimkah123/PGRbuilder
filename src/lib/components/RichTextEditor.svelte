@@ -707,7 +707,7 @@
             hr.style.width = "100%";
             hr.style.height = "1px";
             hr.style.background = "#333";
-            hr.style.margin = "10px 0";
+            hr.style.margin = "3px 0";
 
             const pAfter = document.createElement("div");
             pAfter.innerHTML = "<br>";

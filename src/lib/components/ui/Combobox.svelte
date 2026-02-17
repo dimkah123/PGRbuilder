@@ -178,7 +178,7 @@
         cursor: pointer;
         border-bottom: 1px solid #333;
         font-size: 0.9rem;
-        color: #ccc;
+        color: #d0d0d0;
         text-align: left;
     }
     .combobox-item:hover,

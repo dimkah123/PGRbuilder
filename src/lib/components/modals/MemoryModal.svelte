@@ -11,7 +11,7 @@
 
     let searchQuery = $state("");
     let searchInput = $state();
-    let isCompact = $state(false);
+    let isCompact = $state(true);
 
     $effect(() => {
         if (searchInput) {
@@ -471,13 +471,15 @@
         height: 36px;
         border-radius: 4px;
     }
-    .mem-name {
+    .mem-option .mem-name {
         font-size: 0.85rem;
         font-weight: 600;
         line-height: 1.2;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: #d0d0d0 !important;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
     }
 
     .mem-effects-wrap {

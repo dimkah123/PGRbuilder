@@ -309,7 +309,7 @@ export const MEMORY_6STAR = [
     "Frederick", "Guinevere", "Hanna", "Heisen", "Heraclitus", "Herschell", "Hervor",
     "Jeanne", "Ji Boan", "Keats", "Klenova", "Leeuwenhoek", "Liston", "Natasha",
     "Patton", "Philip II", "Poincare", "Seraphine", "Shakespeare",
-    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde"
+    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Nimue", "Bunsen"
 ];
 
 export const MEMORY_5STAR = [
@@ -423,6 +423,8 @@ export const MEMORY_IMAGES = {
     "keats": "Image/Memories/Memory-Keats-Icon-1.webp",
     "natasha": "Image/Memories/Memory-Natasha-Icon-1.webp",
     "poincare": "Image/Memories/Memory-Poincare-Icon-1.webp",
+    "nimue": "Image/Memories/Memory-Nimue-Icon-1.webp",
+    "bunsen": "Image/Memories/Memory-Bunsen-Icon-1.webp"
 };
 
 export const TERMINOLOGY_DB = {
