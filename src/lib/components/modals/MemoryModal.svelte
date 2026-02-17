@@ -333,7 +333,11 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 4px;
         padding: 10px;
-        transition: all 0.3s ease;
+        transition:
+            transform 0.2s ease,
+            background 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
         cursor: pointer;
         position: relative;
         height: auto;
@@ -356,6 +360,19 @@
     :global(.compact-grid) .mem-opt-header {
         flex-direction: column;
         align-items: center;
+        gap: 8px;
+    }
+
+    /* Increase specificity to override default scoped styles */
+    :global(.compact-grid) .mem-opt-header .mem-opt-img {
+        width: 64px;
+        height: 64px;
+    }
+
+    :global(.compact-grid) .mem-opt-header .mem-img-wrap {
+        width: 64px;
+        min-width: 64px;
+        height: 64px;
     }
 
     .view-toggle-btn {
