@@ -8,9 +8,13 @@
     import "$lib/styles/themes.css";
     import "$lib/styles/responsive.css";
     import LoadingScreen from "$lib/components/LoadingScreen.svelte";
-    import { Analytics } from "@vercel/analytics/sveltekit";
+    import { injectAnalytics } from "@vercel/analytics/sveltekit";
+    import { onMount } from "svelte";
+
+    onMount(() => {
+        injectAnalytics();
+    });
 </script>
 
-<Analytics />
 <LoadingScreen />
 <slot />
