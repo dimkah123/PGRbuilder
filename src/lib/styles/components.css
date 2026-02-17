@@ -357,26 +357,8 @@
     position: relative;
 }
 
-/* Tooltip on hover for terms */
-.term-highlight:hover::after {
-    content: attr(data-desc);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid var(--accent-red);
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    width: max-content;
-    max-width: 250px;
-    z-index: 1000;
-    white-space: normal;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
-    pointer-events: none;
-}
+/* Tooltip on hover for terms - REMOVED (Handled by RichTextEditor) */
+/* .term-highlight:hover::after { ... } */
 
 .separator-line {
     display: block;
