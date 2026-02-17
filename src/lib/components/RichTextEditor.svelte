@@ -87,6 +87,9 @@
         "Shock Saturation",
         "Dead Line Timing",
         "Overload Signal",
+        "War Zone",
+        "WZ",
+        "PPC",
     ];
 
     // Count how many frames each character name has
