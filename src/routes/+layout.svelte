@@ -8,7 +8,9 @@
     import "$lib/styles/themes.css";
     import "$lib/styles/responsive.css";
     import LoadingScreen from "$lib/components/LoadingScreen.svelte";
+    import { Analytics } from "@vercel/analytics/sveltekit";
 </script>
 
+<Analytics />
 <LoadingScreen />
 <slot />
