@@ -429,164 +429,608 @@ export const MEMORY_IMAGES = {
 
 export const TERMINOLOGY_DB = {
     // Общие понятия
-    "дпс": "DPS - персонаж, наносящий основной урон.",
-    "dps": "DPS - персонаж, наносящий основной урон.",
-    "саб-дпс": "Sub DPS - персонаж, наносящий вспомогательный урон.",
-    "sub dps": "Sub DPS - персонаж, наносящий вспомогательный урон.",
-    "атакер": "Attacker - игровой класс, наносящий основной урон в группе.",
-    "attacker": "Attacker - игровой класс, наносящий основной урон в группе.",
-    "танк": "Tank - игровой класс, снижающий сопротивление к стихиям у противника и наносящий дополнительный урон.",
-    "tank": "Tank - игровой класс, снижающий сопротивление к стихиям у противника и наносящий дополнительный урон.",
-    "амп": "Amplifier - игровой класс, исцеляет, увеличивает урон группы, а также наносит доп. урон.",
-    "amplifier": "Amplifier - игровой класс, исцеляет, увеличивает урон группы, а также наносит доп. урон.",
-    "сет": "Set - набор чего-либо. Например, набор (сет) мемори на персонажа.",
-    "set": "Set - набор чего-либо. Например, набор (сет) мемори на персонажа.",
-    "бк": "BC (Black Card) - основная валюта для получения персонажей в баннерах.",
-    "bc": "BC (Black Card) - основная валюта для получения персонажей в баннерах.",
-    "black card": "BC (Black Card) - основная валюта для получения персонажей в баннерах.",
-    "крутки": "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
-    "роллы": "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
-    "пулы": "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
-    "выкручивать": "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
-    "pulls": "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
-    "гайки": "Cogs - валюта, которая расходуется на прокачку персонажей.",
-    "cogs": "Cogs - валюта, которая расходуется на прокачку персонажей.",
-    "рк": "RC (Rainbow Card) - донат-валюта для покупки скинов в игровом магазине.",
-    "rc": "RC (Rainbow Card) - донат-валюта для покупки скинов в игровом магазине.",
-    "rainbow card": "RC (Rainbow Card) - донат-валюта для покупки скинов в игровом магазине.",
-    "скины": "Skins - облики, меняющие внешний вид ваших персонажей.",
-    "skins": "Skins - облики, меняющие внешний вид ваших персонажей.",
-    "мета": "Meta - это текущий набор персонажей или тактик, которые считаются наиболее эффективными в данный момент.",
-    "meta": "Meta - это текущий набор персонажей или тактик, которые считаются наиболее эффективными в данный момент.",
-    "метадрочер": "Игрок, который играет только персонажами высокой эффективности.",
-    "ф2п": "F2P (Free-to-Play) - игра без обязательного внесения денежных средств (доната).",
-    "f2p": "F2P (Free-to-Play) - игра без обязательного внесения денежных средств (доната).",
-    "free-to-play": "F2P (Free-to-Play) - игра без обязательного внесения денежных средств (доната).",
-    "депнуть": "Действие, при котором вы донатите, если вам не хватило ресурсов на персонажа (или его повышения ранга).",
-    "додеп": "Действие, при котором вы донатите, если вам не хватило ресурсов на персонажа (или его повышения ранга).",
-    "донат": "Вложение реальных денежных средств в игру (покупка игровых ценностей).",
-    "донатер": "Игрок, вкладывающий реальные деньги в игру.",
-    "кит": "Игрок, вкладывающий большие суммы реальных денег в игру.",
-    "солон": "Solon Lee - генеральный директор Kuro Games.",
-    "solon": "Solon Lee - генеральный директор Kuro Games.",
-    "solon lee": "Solon Lee - генеральный директор Kuro Games.",
-    "инвест": "Invest - вложения в ваш игровой аккаунт. (Low invest SS0 R0/R1, Mid invest SS3 R1/R2, High invest SSS R2/R3).",
-    "invest": "Invest - вложения в ваш игровой аккаунт. (Low invest SS0 R0/R1, Mid invest SS3 R1/R2, High invest SSS R2/R3).",
+    "дпс": {
+        ru: "DPS - персонаж, наносящий основной урон.",
+        en: "DPS - Damage Per Second, the main damage dealer."
+    },
+    "dps": {
+        ru: "DPS - персонаж, наносящий основной урон.",
+        en: "DPS - Damage Per Second, the main damage dealer."
+    },
+    "саб-дпс": {
+        ru: "Sub DPS - персонаж, наносящий вспомогательный урон.",
+        en: "Sub DPS - Character dealing auxiliary damage/burst."
+    },
+    "sub dps": {
+        ru: "Sub DPS - персонаж, наносящий вспомогательный урон.",
+        en: "Sub DPS - Character dealing auxiliary damage/burst."
+    },
+    "атакер": {
+        ru: "Attacker - игровой класс, наносящий основной урон в группе.",
+        en: "Attacker - Class realizing the most damage in the party."
+    },
+    "attacker": {
+        ru: "Attacker - игровой класс, наносящий основной урон в группе.",
+        en: "Attacker - Class realizing the most damage in the party."
+    },
+    "танк": {
+        ru: "Tank - игровой класс, снижающий сопротивление к стихиям у противника и наносящий дополнительный урон.",
+        en: "Tank - Class that shreds enemy elemental resistance and deals sub-damage."
+    },
+    "tank": {
+        ru: "Tank - игровой класс, снижающий сопротивление к стихиям у противника и наносящий дополнительный урон.",
+        en: "Tank - Class that shreds enemy elemental resistance and deals sub-damage."
+    },
+    "амп": {
+        ru: "Amplifier - игровой класс, исцеляет, увеличивает урон группы, а также наносит доп. урон.",
+        en: "Amplifier - Class that heals, buffs party damage, and deals sub-damage."
+    },
+    "amplifier": {
+        ru: "Amplifier - игровой класс, исцеляет, увеличивает урон группы, а также наносит доп. урон.",
+        en: "Amplifier - Class that heals, buffs party damage, and deals sub-damage."
+    },
+    "сет": {
+        ru: "Set - набор чего-либо. Например, набор (сет) мемори на персонажа.",
+        en: "Set - A collection of items. E.g., a memory set on a character."
+    },
+    "set": {
+        ru: "Set - набор чего-либо. Например, набор (сет) мемори на персонажа.",
+        en: "Set - A collection of items. E.g., a memory set on a character."
+    },
+    "бк": {
+        ru: "BC (Black Card) - основная валюта для получения персонажей в баннерах.",
+        en: "BC (Black Card) - Main currency to pull characters from banners."
+    },
+    "bc": {
+        ru: "BC (Black Card) - основная валюта для получения персонажей в баннерах.",
+        en: "BC (Black Card) - Main currency to pull characters from banners."
+    },
+    "black card": {
+        ru: "BC (Black Card) - основная валюта для получения персонажей в баннерах.",
+        en: "BC (Black Card) - Main currency to pull characters from banners."
+    },
+    "крутки": {
+        ru: "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
+        en: "Pulls - Spending currency (BC/RC) on a banner to get a character or weapon."
+    },
+    "роллы": {
+        ru: "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
+        en: "Pulls - Spending currency (BC/RC) on a banner to get a character or weapon."
+    },
+    "пулы": {
+        ru: "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
+        en: "Pulls - Spending currency (BC/RC) on a banner to get a character or weapon."
+    },
+    "выкручивать": {
+        ru: "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
+        en: "Pulls - Spending currency (BC/RC) on a banner to get a character or weapon."
+    },
+    "pulls": {
+        ru: "Pulls - действие, при котором вы тратите валюту (БК/РК) в баннер персонажа с целью получить персонажа или его фирменное оружие.",
+        en: "Pulls - Spending currency (BC/RC) on a banner to get a character or weapon."
+    },
+    "гайки": {
+        ru: "Cogs - валюта, которая расходуется на прокачку персонажей.",
+        en: "Cogs - Currency used for leveling up characters and equipment."
+    },
+    "cogs": {
+        ru: "Cogs - валюта, которая расходуется на прокачку персонажей.",
+        en: "Cogs - Currency used for leveling up characters and equipment."
+    },
+    "рк": {
+        ru: "RC (Rainbow Card) - донат-валюта для покупки скинов в игровом магазине.",
+        en: "RC (Rainbow Card) - Paid currency for buying skins and packs."
+    },
+    "rc": {
+        ru: "RC (Rainbow Card) - донат-валюта для покупки скинов в игровом магазине.",
+        en: "RC (Rainbow Card) - Paid currency for buying skins and packs."
+    },
+    "rainbow card": {
+        ru: "RC (Rainbow Card) - донат-валюта для покупки скинов в игровом магазине.",
+        en: "RC (Rainbow Card) - Paid currency for buying skins and packs."
+    },
+    "скины": {
+        ru: "Skins - облики, меняющие внешний вид ваших персонажей.",
+        en: "Skins - Costumes that change your character's appearance."
+    },
+    "skins": {
+        ru: "Skins - облики, меняющие внешний вид ваших персонажей.",
+        en: "Skins - Costumes that change your character's appearance."
+    },
+    "мета": {
+        ru: "Meta - это текущий набор персонажей или тактик, которые считаются наиболее эффективными в данный момент.",
+        en: "Meta - The most effective characters or tactics currently available."
+    },
+    "meta": {
+        ru: "Meta - это текущий набор персонажей или тактик, которые считаются наиболее эффективными в данный момент.",
+        en: "Meta - The most effective characters or tactics currently available."
+    },
+    "метадрочер": {
+        ru: "Игрок, который играет только персонажами высокой эффективности.",
+        en: "Meta-slave - A player who only plays high-efficiency characters."
+    },
+    "ф2п": {
+        ru: "F2P (Free-to-Play) - игра без обязательного внесения денежных средств (доната).",
+        en: "F2P (Free-to-Play) - Playing without spending real money."
+    },
+    "f2p": {
+        ru: "F2P (Free-to-Play) - игра без обязательного внесения денежных средств (доната).",
+        en: "F2P (Free-to-Play) - Playing without spending real money."
+    },
+    "free-to-play": {
+        ru: "F2P (Free-to-Play) - игра без обязательного внесения денежных средств (доната).",
+        en: "F2P (Free-to-Play) - Playing without spending real money."
+    },
+    "депнуть": {
+        ru: "Действие, при котором вы донатите, если вам не хватило ресурсов на персонажа (или его повышения ранга).",
+        en: "To Top-up - Spending money to get more resources/pulls."
+    },
+    "додеп": {
+        ru: "Действие, при котором вы донатите, если вам не хватило ресурсов на персонажа (или его повышения ранга).",
+        en: "To Top-up - Spending money to get more resources/pulls."
+    },
+    "донат": {
+        ru: "Вложение реальных денежных средств в игру (покупка игровых ценностей).",
+        en: "Donation/Top-up - Investing real money into the game."
+    },
+    "донатер": {
+        ru: "Игрок, вкладывающий реальные деньги в игру.",
+        en: "Spender - A player who invests real money into the game."
+    },
+    "кит": {
+        ru: "Игрок, вкладывающий большие суммы реальных денег в игру.",
+        en: "Whale - A player who invests large amounts of money into the game."
+    },
+    "солон": {
+        ru: "Solon Lee - генеральный директор Kuro Games.",
+        en: "Solon Lee - CEO of Kuro Games."
+    },
+    "solon": {
+        ru: "Solon Lee - генеральный директор Kuro Games.",
+        en: "Solon Lee - CEO of Kuro Games."
+    },
+    "solon lee": {
+        ru: "Solon Lee - генеральный директор Kuro Games.",
+        en: "Solon Lee - CEO of Kuro Games."
+    },
+    "инвест": {
+        ru: "Invest - вложения в ваш игровой аккаунт. (Low invest SS0 R0/R1, Mid invest SS3 R1/R2, High invest SSS R2/R3).",
+        en: "Invest - Investment level in account. (Low invest SS0 R0/R1, Mid invest SS3 R1/R2, High invest SSS R2/R3)."
+    },
+    "invest": {
+        ru: "Invest - вложения в ваш игровой аккаунт. (Low invest SS0 R0/R1, Mid invest SS3 R1/R2, High invest SSS R2/R3).",
+        en: "Invest - Investment level in account. (Low invest SS0 R0/R1, Mid invest SS3 R1/R2, High invest SSS R2/R3)."
+    },
 
     // Режимы
-    "wz": "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
-    "вз": "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
-    "варзона": "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
-    "war zone": "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
-    "погода": "Weather - баффы на отдельные стейджи в варзоне. (Например, +50% к урону от огня, когда ХП ниже 40%).",
-    "weather": "Weather - баффы на отдельные стейджи в варзоне. (Например, +50% к урону от огня, когда ХП ниже 40%).",
-    "стейдж": "Stage - игровая миссия.",
-    "stage": "Stage - игровая миссия.",
-    "норман": "Norman Revival Plan - игровой еженедельный режим во вкладке \"Challenge\".",
-    "клетка": "PPC (Phantom Pain Cage) - игровой еженедельный режим во вкладке \"Challenge\".",
-    "ppc": "PPC (Phantom Pain Cage) - игровой еженедельный режим во вкладке \"Challenge\".",
-    "ппк": "PPC (Phantom Pain Cage) - игровой еженедельный режим во вкладке \"Challenge\".",
-    "клеш": "Clash Reflection - игровой еженедельный режим во вкладке \"Challenge\".",
-    "стронгхолд": "Stronghold - постоянный игровой режим для продвинутых игроков во вкладке \"Challenge\".",
-    "рогалик": "Серия игровых постоянных режимов в стиле Roguelike (Cursed Waves, Derived from Matrix, Awakening Tundra и др.).",
-    "экспедиции": "Редкий игровой режим, который доступен в гильдии (Command Bureau).",
+    "wz": {
+        ru: "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "War Zone - Weekly challenge mode."
+    },
+    "вз": {
+        ru: "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "War Zone - Weekly challenge mode."
+    },
+    "варзона": {
+        ru: "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "War Zone - Weekly challenge mode."
+    },
+    "war zone": {
+        ru: "War Zone - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "War Zone - Weekly challenge mode."
+    },
+    "погода": {
+        ru: "Weather - баффы на отдельные стейджи в варзоне. (Например, +50% к урону от огня, когда ХП ниже 40%).",
+        en: "Weather - Buffs on specific War Zone stages (e.g., +50% Fire DMG)."
+    },
+    "weather": {
+        ru: "Weather - баффы на отдельные стейджи в варзоне. (Например, +50% к урону от огня, когда ХП ниже 40%).",
+        en: "Weather - Buffs on specific War Zone stages (e.g., +50% Fire DMG)."
+    },
+    "стейдж": {
+        ru: "Stage - игровая миссия.",
+        en: "Stage - Game mission/level."
+    },
+    "stage": {
+        ru: "Stage - игровая миссия.",
+        en: "Stage - Game mission/level."
+    },
+    "норман": {
+        ru: "Norman Revival Plan - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "Norman Revival Plan - Weekly challenge mode."
+    },
+    "клетка": {
+        ru: "PPC (Phantom Pain Cage) - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "PPC (Phantom Pain Cage) - Weekly boss challenge mode."
+    },
+    "ppc": {
+        ru: "PPC (Phantom Pain Cage) - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "PPC (Phantom Pain Cage) - Weekly boss challenge mode."
+    },
+    "ппк": {
+        ru: "PPC (Phantom Pain Cage) - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "PPC (Phantom Pain Cage) - Weekly boss challenge mode."
+    },
+    "клеш": {
+        ru: "Clash Reflection - игровой еженедельный режим во вкладке \"Challenge\".",
+        en: "Clash Reflection - Weekly challenge mode."
+    },
+    "стронгхолд": {
+        ru: "Stronghold - постоянный игровой режим для продвинутых игроков во вкладке \"Challenge\".",
+        en: "Stronghold - Permanent advanced challenge mode."
+    },
+    "рогалик": {
+        ru: "Серия игровых постоянных режимов в стиле Roguelike (Cursed Waves, Derived from Matrix, Awakening Tundra и др.).",
+        en: "Roguelike modes (Cursed Waves, Derived from Matrix, Awakening Tundra, etc.)."
+    },
+    "экспедиции": {
+        ru: "Редкий игровой режим, который доступен в гильдии (Command Bureau).",
+        en: "Expedition - A rare mode available in the Command Bureau (Guild)."
+    },
 
     // Элементы/стихии
-    "аффикс": "Вторичный элемент персонажа, можно посмотреть в описании навыков.",
-    "плазма": "Plasma Beam - аффикс персонажа, можно посмотреть в описании навыков.",
-    "игнишн": "Ignition - аффикс персонажа, можно посмотреть в описании навыков.",
-    "горение": "Ignition - аффикс персонажа, можно посмотреть в описании навыков.",
-    "burn": "Ignition - аффикс персонажа, можно посмотреть в описании навыков.",
-    "труслеш": "Ultima Slash - аффикс персонажа, можно посмотреть в описании навыков.",
-    "ультима слеш": "Ultima Slash - аффикс персонажа, можно посмотреть в описании навыков.",
-    "слеш": "Ultima Slash - аффикс персонажа, можно посмотреть в описании навыков.",
-    "глоу": "Raydiance - аффикс персонажа, можно посмотреть в описании навыков.",
-    "сияние": "Raydiance - аффикс персонажа, можно посмотреть в описании навыков.",
-    "рэйдианс": "Raydiance - аффикс персонажа, можно посмотреть в описании навыков.",
-    "глацио": "Glaciation - аффикс персонажа, можно посмотреть в описании навыков.",
-    "даркфлоу": "Darkflow - аффикс персонажа, можно посмотреть в описании навыков.",
-    "войд": "Nihil - основной из 6 элементов, представленных в игре.",
-    "нигил": "Nihil - основной из 6 элементов, представленных в игре.",
-    "физа": "Команда физического элемента.",
+    "аффикс": {
+        ru: "Вторичный элемент персонажа, можно посмотреть в описании навыков.",
+        en: "Affix - Secondary element/trait, visible in skill descriptions."
+    },
+    "плазма": {
+        ru: "Plasma Beam - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Plasma Beam - Character affix, visible in skill descriptions."
+    },
+    "игнишн": {
+        ru: "Ignition - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Ignition - Character affix, visible in skill descriptions."
+    },
+    "горение": {
+        ru: "Ignition - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Ignition - Character affix, visible in skill descriptions."
+    },
+    "burn": {
+        ru: "Ignition - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Ignition - Character affix, visible in skill descriptions."
+    },
+    "труслеш": {
+        ru: "Ultima Slash - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Ultima Slash - Character affix, visible in skill descriptions."
+    },
+    "ультима слеш": {
+        ru: "Ultima Slash - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Ultima Slash - Character affix, visible in skill descriptions."
+    },
+    "слеш": {
+        ru: "Ultima Slash - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Ultima Slash - Character affix, visible in skill descriptions."
+    },
+    "глоу": {
+        ru: "Raydiance - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Raydiance - Character affix, visible in skill descriptions."
+    },
+    "сияние": {
+        ru: "Raydiance - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Raydiance - Character affix, visible in skill descriptions."
+    },
+    "рэйдианс": {
+        ru: "Raydiance - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Raydiance - Character affix, visible in skill descriptions."
+    },
+    "глацио": {
+        ru: "Glaciation - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Glaciation - Character affix, visible in skill descriptions."
+    },
+    "даркфлоу": {
+        ru: "Darkflow - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Darkflow - Character affix, visible in skill descriptions."
+    },
+    "войд": {
+        ru: "Nihil - основной из 6 элементов, представленных в игре.",
+        en: "Nihil - One of the 6 main elements."
+    },
+    "нигил": {
+        ru: "Nihil - основной из 6 элементов, представленных в игре.",
+        en: "Nihil - One of the 6 main elements."
+    },
+    "физа": {
+        ru: "Команда физического элемента.",
+        en: "Physical - Physical element team/damage."
+    },
 
     // Персонажи
-    "конструкт": "Construct/Omniframe - основные элементальные персонажи.",
-    "омнифрейм": "Construct/Omniframe - основные элементальные персонажи.",
-    "юнифрейм": "Uniframe - старые и забытые персонажи (вкладка Vanguards). Пример - Camu: Crocotta.",
-    "шарды": "Shards - осколки, используемые для повышения ранга персонажа (S -> SS -> SS3 -> SSS).",
-    "shards": "Shards - осколки, используемые для повышения ранга персонажа (S -> SS -> SS3 -> SSS).",
-    "эска": "Персонаж, имеющий изначальный ранг S.",
-    "ашка": "Персонаж, имеющий изначальный ранг А.",
-    "сс": "Обозначение ранга SS.",
-    "ссс": "Обозначение ранга SSS.",
-    "с+": "Обозначение ранга SSS+.",
-    "ы": "Обозначение ранга S (на русской раскладке).",
-    "ыы": "Обозначение ранга SS (на русской раскладке).",
-    "ыыы": "Обозначение ранга SSS (на русской раскладке).",
-    "с5": "Обозначение контрольной точки ранга (S5).",
-    "сс3": "Обозначение контрольной точки ранга (SS3).",
-    "ссс6": "Обозначение контрольной точки ранга (SSS6).",
-    "пассивка": "Пассивный навык персонажа.",
-    "скилл": "Навык персонажа.",
-    "ишма": "Ishmael - игровой персонаж.",
-    "изма": "Ishmael - игровой персонаж.",
-    "обливион": "Luna: Oblivion.",
-    "стартрейл": "Nanami: Startrail (также известна как Mecha-Nanami).",
-    "гейравор": "Vera: Geiravor.",
-    "пианиссимо": "Selena: Pianissimo (Amplifier).",
-    "эмпирей": "Liv: Empyrea.",
-    "кв": "CW (Lucia: Crimson Weave).",
-    "crimson weave": "Lucia: Crimson Weave.",
-    "дарен": "Karenina: Scire (Dark Karenina).",
+    "конструкт": {
+        ru: "Construct/Omniframe - основные элементальные персонажи.",
+        en: "Construct/Omniframe - Main elemental characters."
+    },
+    "омнифрейм": {
+        ru: "Construct/Omniframe - основные элементальные персонажи.",
+        en: "Construct/Omniframe - Main elemental characters."
+    },
+    "юнифрейм": {
+        ru: "Uniframe - старые и забытые персонажи (вкладка Vanguards). Пример - Camu: Crocotta.",
+        en: "Uniframe - Older/Alternative characters (Vanguards tab). E.g. Camu: Crocotta."
+    },
+    "шарды": {
+        ru: "Shards - осколки, используемые для повышения ранга персонажа (S -> SS -> SS3 -> SSS).",
+        en: "Shards - Fragments used to rank up characters (S -> SS -> SS3 -> SSS)."
+    },
+    "shards": {
+        ru: "Shards - осколки, используемые для повышения ранга персонажа (S -> SS -> SS3 -> SSS).",
+        en: "Shards - Fragments used to rank up characters (S -> SS -> SS3 -> SSS)."
+    },
+    "эска": {
+        ru: "Персонаж, имеющий изначальный ранг S.",
+        en: "S-Rank - Base S-rank character."
+    },
+    "ашка": {
+        ru: "Персонаж, имеющий изначальный ранг А.",
+        en: "A-Rank - Base A-rank character."
+    },
+    "сс": {
+        ru: "Обозначение ранга SS.",
+        en: "SS - SS Rank."
+    },
+    "ссс": {
+        ru: "Обозначение ранга SSS.",
+        en: "SSS - SSS Rank."
+    },
+    "с+": {
+        ru: "Обозначение ранга SSS+.",
+        en: "SSS+ - SSS+ Rank."
+    },
+    "ы": {
+        ru: "Обозначение ранга S (на русской раскладке).",
+        en: "S - S Rank."
+    },
+    "ыы": {
+        ru: "Обозначение ранга SS (на русской раскладке).",
+        en: "SS - SS Rank."
+    },
+    "ыыы": {
+        ru: "Обозначение ранга SSS (на русской раскладке).",
+        en: "SSS - SSS Rank."
+    },
+    "с5": {
+        ru: "Обозначение контрольной точки ранга (S5).",
+        en: "S5 - Rank checkpoint (S5)."
+    },
+    "сс3": {
+        ru: "Обозначение контрольной точки ранга (SS3).",
+        en: "SS3 - Rank checkpoint (SS3)."
+    },
+    "ссс6": {
+        ru: "Обозначение контрольной точки ранга (SSS6).",
+        en: "SSS6 - Rank checkpoint (SSS6)."
+    },
+    "пассивка": {
+        ru: "Пассивный навык персонажа.",
+        en: "Passive - Character's passive skill."
+    },
+    "скилл": {
+        ru: "Навык персонажа.",
+        en: "Skill - Character's skill."
+    },
+    "ишма": {
+        ru: "Ishmael - игровой персонаж.",
+        en: "Ishmael - Playable character."
+    },
+    "изма": {
+        ru: "Ishmael - игровой персонаж.",
+        en: "Ishmael - Playable character."
+    },
+    "обливион": {
+        ru: "Luna: Oblivion.",
+        en: "Luna: Oblivion."
+    },
+    "стартрейл": {
+        ru: "Nanami: Startrail (также известна как Mecha-Nanami).",
+        en: "Nanami: Startrail (aka Mecha-Nanami)."
+    },
+    "гейравор": {
+        ru: "Vera: Geiravor.",
+        en: "Vera: Geiravor."
+    },
+    "пианиссимо": {
+        ru: "Selena: Pianissimo (Amplifier).",
+        en: "Selena: Pianissimo (Amplifier)."
+    },
+    "эмпирей": {
+        ru: "Liv: Empyrea.",
+        en: "Liv: Empyrea."
+    },
+    "кв": {
+        ru: "CW (Lucia: Crimson Weave).",
+        en: "CW (Lucia: Crimson Weave)."
+    },
+    "crimson weave": {
+        ru: "Lucia: Crimson Weave.",
+        en: "Lucia: Crimson Weave."
+    },
+    "дарен": {
+        ru: "Karenina: Scire (Dark Karenina).",
+        en: "Karenina: Scire (Dark Karenina)."
+    },
 
     // Оружие, память
-    "мемы": "Memory - чипы памяти, которые усиливают персонажа.",
-    "память": "Memory - чипы памяти, которые усиливают персонажа.",
-    "memory": "Memory - чипы памяти, которые усиливают персонажа.",
-    "гармония": "Harmony - пробуждение оружия, позволяющее носить дополнительные 2 части чипов памяти (всего 6 слотов, активны 4).",
-    "гармонизация": "Harmony - пробуждение оружия, позволяющее носить дополнительные 2 части чипов памяти.",
-    "сигна": "Signature - фирменное оружие или сет чипов памяти конкретного персонажа.",
-    "резы": "Resonances - пробуждение сета мемори или сигны дубликатами.",
-    "резонансы": "Resonances - пробуждение сета мемори или сигны дубликатами.",
-    "р1": "R1 - 1-й уровень резонанса оружия.",
-    "р2": "R2 - 2-й уровень резонанса оружия.",
-    "р3": "R3 - 3-й уровень резонанса оружия.",
-    "длт": "DLT (Dead Line Timing) - резонанс оружия, дающий больше сигнальных шаров. Важен для большинства героев.",
-    "dlt": "DLT (Dead Line Timing) - резонанс оружия, дающий больше сигнальных шаров. Важен для большинства героев.",
-    "срез": "DD (Domain Deconstruction) - резонанс оружия (обычно для танков), снижает сопротивление врагов на 8%.",
-    "8% среза": "DD (Domain Deconstruction) - резонанс оружия (обычно для танков), снижает сопротивление врагов на 8%.",
-    "dd": "DD (Domain Deconstruction) - резонанс оружия, снижает сопротивление врагов на 8%.",
-    "бэтмен": "Resonant Echo - резонанс оружия (обычно для танков), увеличивает длительность классовой пассивки.",
-    "мышь": "Resonant Echo - резонанс оружия (обычно для танков), увеличивает длительность классовой пассивки.",
-    "ин": "Incandescence - резонанс оружия, увеличивающий АТК.",
-    "инкан": "Incandescence - резонанс оружия, увеличивающий АТК.",
-    "матрикс": "Matrix Lightning - вид резонанса оружия.",
-    "рез ампа": "GS (Glorious Spear) или SAR (Superconducting Axial Ray) - резонансы оружия для усилителей (ампов), увеличивают урон команды.",
-    "луч": "SAR (Superconducting Axial Ray) - резонанс оружия для усилителей, увеличивает урон команды.",
-    "ga": "Glorious Afterglow - резонанс оружия для атакеров, даёт большую прибавку к атаке.",
-    "куб": "CUB (Cub) - питомец, усиливающий персонажа и наносящий дополнительный урон.",
-    "пет": "CUB (Cub) - питомец, усиливающий персонажа и наносящий дополнительный урон.",
-    "cub": "CUB (Cub) - питомец, усиливающий персонажа и наносящий дополнительный урон.",
+    "мемы": {
+        ru: "Memory - чипы памяти, которые усиливают персонажа.",
+        en: "Memory - Chips that equip to and strengthen a character."
+    },
+    "память": {
+        ru: "Memory - чипы памяти, которые усиливают персонажа.",
+        en: "Memory - Chips that equip to and strengthen a character."
+    },
+    "memory": {
+        ru: "Memory - чипы памяти, которые усиливают персонажа.",
+        en: "Memory - Chips that equip to and strengthen a character."
+    },
+    "гармония": {
+        ru: "Harmony - пробуждение оружия, позволяющее носить дополнительные 2 части чипов памяти (всего 6 слотов, активны 4).",
+        en: "Harmony - Weapon awakening allowing 2 extra memory slots (6 slots total, 4 set effects active)."
+    },
+    "гармонизация": {
+        ru: "Harmony - пробуждение оружия, позволяющее носить дополнительные 2 части чипов памяти.",
+        en: "Harmony - Weapon awakening allowing 2 extra memory slots."
+    },
+    "сигна": {
+        ru: "Signature - фирменное оружие или сет чипов памяти конкретного персонажа.",
+        en: "Signature - Specific weapon or memory set for a character."
+    },
+    "резы": {
+        ru: "Resonances - пробуждение сета мемори или сигны дубликатами.",
+        en: "Resonances - Awakening memory/weapon using duplicates/items."
+    },
+    "резонансы": {
+        ru: "Resonances - пробуждение сета мемори или сигны дубликатами.",
+        en: "Resonances - Awakening memory/weapon using duplicates/items."
+    },
+    "р1": {
+        ru: "R1 - 1-й уровень резонанса оружия.",
+        en: "R1 - Weapon resonance level 1."
+    },
+    "р2": {
+        ru: "R2 - 2-й уровень резонанса оружия.",
+        en: "R2 - Weapon resonance level 2."
+    },
+    "р3": {
+        ru: "R3 - 3-й уровень резонанса оружия.",
+        en: "R3 - Weapon resonance level 3."
+    },
+    "длт": {
+        ru: "DLT (Dead Line Timing) - резонанс оружия, дающий больше сигнальных шаров. Важен для большинства героев.",
+        en: "DLT (Dead Line Timing) - Weapon resonance giving more orbs. Crucial for most characters."
+    },
+    "dlt": {
+        ru: "DLT (Dead Line Timing) - резонанс оружия, дающий больше сигнальных шаров. Важен для большинства героев.",
+        en: "DLT (Dead Line Timing) - Weapon resonance giving more orbs. Crucial for most characters."
+    },
+    "срез": {
+        ru: "DD (Domain Deconstruction) - резонанс оружия (обычно для танков), снижает сопротивление врагов на 8%.",
+        en: "DD (Domain Deconstruction) - Weapon resonance (mostly for Tanks), reduces enemy resistance by 8%."
+    },
+    "8% среза": {
+        ru: "DD (Domain Deconstruction) - резонанс оружия (обычно для танков), снижает сопротивление врагов на 8%.",
+        en: "DD (Domain Deconstruction) - Weapon resonance (mostly for Tanks), reduces enemy resistance by 8%."
+    },
+    "dd": {
+        ru: "DD (Domain Deconstruction) - резонанс оружия, снижает сопротивление врагов на 8%.",
+        en: "DD (Domain Deconstruction) - Weapon resonance (mostly for Tanks), reduces enemy resistance by 8%."
+    },
+    "бэтмен": {
+        ru: "Resonant Echo - резонанс оружия (обычно для танков), увеличивает длительность классовой пассивки.",
+        en: "Resonant Echo - Weapon resonance (mostly for Tanks), increases class passive duration."
+    },
+    "мышь": {
+        ru: "Resonant Echo - резонанс оружия (обычно для танков), увеличивает длительность классовой пассивки.",
+        en: "Resonant Echo - Weapon resonance (mostly for Tanks), increases class passive duration."
+    },
+    "ин": {
+        ru: "Incandescence - резонанс оружия, увеличивающий АТК.",
+        en: "Incandescence - Weapon resonance increasing ATK."
+    },
+    "инкан": {
+        ru: "Incandescence - резонанс оружия, увеличивающий АТК.",
+        en: "Incandescence - Weapon resonance increasing ATK."
+    },
+    "матрикс": {
+        ru: "Matrix Lightning - вид резонанса оружия.",
+        en: "Matrix Lightning - Weapon resonance type."
+    },
+    "рез ампа": {
+        ru: "GS (Glorious Spear) или SAR (Superconducting Axial Ray) - резонансы оружия для усилителей (ампов), увеличивают урон команды.",
+        en: "GS (Glorious Spear) or SAR (Superconducting Axial Ray) - Amplifier weapon resonances, buffing team damage."
+    },
+    "луч": {
+        ru: "SAR (Superconducting Axial Ray) - резонанс оружия для усилителей, увеличивает урон команды.",
+        en: "SAR (Superconducting Axial Ray) - Amplifier weapon resonance, buffs team damage."
+    },
+    "ga": {
+        ru: "Glorious Afterglow - резонанс оружия для атакеров, даёт большую прибавку к атаке.",
+        en: "Glorious Afterglow - Attacker weapon resonance, gives high ATK boost."
+    },
+    "куб": {
+        ru: "CUB (Cub) - питомец, усиливающий персонажа и наносящий дополнительный урон.",
+        en: "CUB (Cub) - Pet that buffs the character and deals extra damage."
+    },
+    "пет": {
+        ru: "CUB (Cub) - питомец, усиливающий персонажа и наносящий дополнительный урон.",
+        en: "CUB (Cub) - Pet that buffs the character and deals extra damage."
+    },
+    "cub": {
+        ru: "CUB (Cub) - питомец, усиливающий персонажа и наносящий дополнительный урон.",
+        en: "CUB (Cub) - Pet that buffs the character and deals extra damage."
+    },
 
     // Бой
-    "орбы": "Orbs - навыки персонажа в виде сигнальных шаров (красный, синий, желтый).",
-    "пинги": "Pings - использование сигнальных шаров.",
-    "трипинг": "3-Ping - использование набора из 3-х сигнальных шаров одного цвета.",
-    "3пинг": "3-Ping - использование набора из 3-х сигнальных шаров одного цвета.",
-    "ульт": "Ultimate - суперспособность персонажа.",
-    "ульта": "Ultimate - суперспособность персонажа.",
-    "ба": "Basic Attack (BA) - базовая атака (ЛКМ).",
-    "базик": "Basic Attack (BA) - базовая атака (ЛКМ).",
-    "холд": "Hold - удерживание кнопки (например, базовой атаки).",
-    "додж": "Dodge - уклонение (Пробел/ПКМ).",
-    "блок": "Block - защитное действие вместо уклонения (например, у Vera: Geiravor).",
-    "кте": "QTE - вызов персонажа из запаса для поддержки (клавиши Q, E).",
-    "qte": "QTE - вызов персонажа из запаса для поддержки (клавиши Q, E).",
-    "qte-бот": "Персонаж, который не выходит на поле боя, а только баффает отряд через QTE.",
-    "свап": "Swap - переключение между персонажами.",
-    "свапнуться": "Swap - переключение между персонажами.",
-    "бафф": "Buff - положительный эффект (например, бонус к урону).",
-    "дебафф": "Debuff - отрицательный эффект (например, снижение защиты противника)."
+    "орбы": {
+        ru: "Orbs - навыки персонажа в виде сигнальных шаров (красный, синий, желтый).",
+        en: "Orbs - Character skills as signal orbs (Red, Blue, Yellow)."
+    },
+    "пинги": {
+        ru: "Pings - использование сигнальных шаров.",
+        en: "Pings - Using signal orbs."
+    },
+    "трипинг": {
+        ru: "3-Ping - использование набора из 3-х сигнальных шаров одного цвета.",
+        en: "3-Ping - Using a set of 3 signal orbs of the same color."
+    },
+    "3пинг": {
+        ru: "3-Ping - использование набора из 3-х сигнальных шаров одного цвета.",
+        en: "3-Ping - Using a set of 3 signal orbs of the same color."
+    },
+    "ульт": {
+        ru: "Ultimate - суперспособность персонажа.",
+        en: "Ultimate - Character's super ability."
+    },
+    "ульта": {
+        ru: "Ultimate - суперспособность персонажа.",
+        en: "Ultimate - Character's super ability."
+    },
+    "ба": {
+        ru: "Basic Attack (BA) - базовая атака (ЛКМ).",
+        en: "Basic Attack (BA) - Basic Attack (LMB)."
+    },
+    "базик": {
+        ru: "Basic Attack (BA) - базовая атака (ЛКМ).",
+        en: "Basic Attack (BA) - Basic Attack (LMB)."
+    },
+    "холд": {
+        ru: "Hold - удерживание кнопки (например, базовой атаки).",
+        en: "Hold - Holding a button (e.g. Basic Attack)."
+    },
+    "додж": {
+        ru: "Dodge - уклонение (Пробел/ПКМ).",
+        en: "Dodge - Evasion (Spaceval/RMB)."
+    },
+    "блок": {
+        ru: "Block - защитное действие вместо уклонения (например, у Vera: Geiravor).",
+        en: "Block - Defensive action instead of dodge (e.g. for Vera: Geiravor)."
+    },
+    "кте": {
+        ru: "QTE - вызов персонажа из запаса для поддержки (клавиши Q, E).",
+        en: "QTE - Calling a standby character for support (Q, E)."
+    },
+    "qte": {
+        ru: "QTE - вызов персонажа из запаса для поддержки (клавиши Q, E).",
+        en: "QTE - Calling a standby character for support (Q, E)."
+    },
+    "qte-бот": {
+        ru: "Персонаж, который не выходит на поле боя, а только баффает отряд через QTE.",
+        en: "QTE-bot - Character who never enters the field but buffs team via QTE."
+    },
+    "свап": {
+        ru: "Swap - переключение между персонажами.",
+        en: "Swap - Switching between characters."
+    },
+    "свапнуться": {
+        ru: "Swap - переключение между персонажами.",
+        en: "Swap - Switching between characters."
+    },
+    "бафф": {
+        ru: "Buff - положительный эффект (например, бонус к урону).",
+        en: "Buff - Positive effect (e.g. Damage Bonus)."
+    },
+    "дебафф": {
+        ru: "Debuff - отрицательный эффект (например, снижение защиты противника).",
+        en: "Debuff - Negative effect (e.g. Shredding enemy defense)."
+    }
 };
 
 export const CHAR_DATABASE = [

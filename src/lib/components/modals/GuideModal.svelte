@@ -47,9 +47,28 @@
                     <h4>{t("guide_editing_title")}</h4>
                     <p>{t("guide_editing_desc")}</p>
                 </div>
+
+                <div class="guide-item">
+                    <h4>{t("guide_glossary_title")}</h4>
+                    <p>{t("guide_glossary_desc")}</p>
+                </div>
             </div>
 
             <div class="guide-footer">
+                <div class="author-info">
+                    <p class="author-link">
+                        {t("guide_author")}
+                        <a href="https://t.me/YaziPGR" target="_blank"
+                            >@YaziPGR</a
+                        >
+                    </p>
+                    <p class="author-link">
+                        {t("guide_channel")}
+                        <a href="https://t.me/PGRGlobal_Ru" target="_blank"
+                            >@PGRGlobal_Ru</a
+                        >
+                    </p>
+                </div>
                 <button class="btn close-btn" onclick={close}
                     >{t("close")}</button
                 >
@@ -60,7 +79,7 @@
 
 <style>
     .guide-modal {
-        width: 500px;
+        width: 600px;
         max-width: 90%;
         background: var(--panel-bg);
         border: 1px solid var(--accent-red);
@@ -77,7 +96,8 @@
         flex-direction: column;
         gap: 20px;
         color: var(--text-color);
-        max-height: 60vh;
+        min-height: 70vh;
+        max-height: 80vh;
         overflow-y: auto;
     }
 
@@ -103,14 +123,39 @@
         font-family: var(--font-body);
         font-size: 0.9rem;
         line-height: 1.5;
-        color: #bbb;
+        color: #ddd;
     }
 
     .guide-footer {
-        padding: 15px 20px;
+        padding: 30px 20px;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .author-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .author-link {
+        color: #999;
+        font-size: 0.85rem;
+        margin: 0;
+    }
+
+    .author-link a {
+        color: var(--accent-red);
+        text-decoration: none;
+        margin-left: 5px;
+        transition: color 0.2s;
+    }
+
+    .author-link a:hover {
+        color: #fff;
+        text-decoration: underline;
     }
 
     .close-btn {

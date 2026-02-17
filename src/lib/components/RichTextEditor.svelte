@@ -440,7 +440,11 @@
                     (k) => k.toLowerCase() === text.toLowerCase(),
                 );
                 if (termKey) {
-                    const definition = TERMINOLOGY_DB[termKey];
+                    const rawDef = TERMINOLOGY_DB[termKey];
+                    const definition =
+                        typeof rawDef === "object"
+                            ? rawDef[appState.lang] || rawDef.ru || rawDef.en
+                            : rawDef;
                     const rect = target.getBoundingClientRect();
                     const newX = rect.left + rect.width / 2;
                     const fitsAbove = rect.top > 200;

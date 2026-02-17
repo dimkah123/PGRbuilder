@@ -84,6 +84,10 @@ const translations = {
         guide_highlight_desc: "Имена персонажей и воспоминаний в тексте анализа автоматически подсвечиваются. Наведите курсор, чтобы увидеть подробную информацию.",
         guide_editing_title: "РЕДАКТИРОВАНИЕ ТЕКСТА",
         guide_editing_desc: "Выделите любой текст в блоке анализа, чтобы открыть панель форматирования: жирный шрифт, курсив, цвет текста.",
+        guide_glossary_title: "ГЛОССАРИЙ",
+        guide_glossary_desc: "Наведите мышку на подсвеченное слово или термин в тексте анализа, чтобы получить его расшифровку и описание.",
+        guide_author: "Телеграм автора:",
+        guide_channel: "Телеграм канал:",
     },
     en: {
         tools: "TOOLS",
@@ -167,7 +171,11 @@ const translations = {
         guide_highlight_title: "HIGHLIGHTS & TOOLTIPS",
         guide_highlight_desc: "Character and memory names within the analysis text are automatically highlighted. Hover over them to see details.",
         guide_editing_title: "TEXT EDITING",
-        guide_editing_desc: "Select any text in the analysis block to reveal the formatting toolbar: Bold, Italic, Text Color."
+        guide_editing_desc: "Select any text in the analysis block to reveal the formatting toolbar: Bold, Italic, Text Color.",
+        guide_glossary_title: "GLOSSARY",
+        guide_glossary_desc: "Hover over any highlighted word or term in the analysis text to see its definition and description.",
+        guide_author: "Author Telegram:",
+        guide_channel: "Telegram Channel:"
     }
 };
 
