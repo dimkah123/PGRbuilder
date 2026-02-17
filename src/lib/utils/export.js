@@ -42,7 +42,7 @@ export async function handleExport(charName = 'UNIT') {
             width: 1920px;
             min-height: 1080px;
             height: auto !important;
-            overflow: hidden;
+            overflow: visible !important; /* Allow scroll to calculate height */
         }
         .app-container {
             transform: none !important;
@@ -51,6 +51,7 @@ export async function handleExport(charName = 'UNIT') {
             min-height: 1080px !important;
             height: auto !important;
             zoom: 1 !important;
+            overflow: visible !important;
         }
     `;
     doc.head.appendChild(globalStyle);
@@ -74,11 +75,6 @@ export async function handleExport(charName = 'UNIT') {
     const originalPortrait = element.querySelector('.portrait-area');
     const clonePortrait = clone.querySelector('.portrait-area');
     if (originalPortrait && clonePortrait) {
-        // We want the height to be what it WOULD be on desktop. 
-        // If we copy bounding client height from mobile, we get mobile height (400px).
-        // Desktop height is auto/flex. Let's unset height and let CSS handle it?
-        // Or hardcode if we know it.
-        // Actually, forcing 1920px width should make it render correctly.
         clonePortrait.style.height = '';
         clonePortrait.style.minHeight = '';
     }
@@ -100,24 +96,30 @@ export async function handleExport(charName = 'UNIT') {
             div.className = orig.className; // Keep classes for styling
 
             if (orig.tagName === 'DIV' && orig.classList.contains('rich-textarea')) {
+                // For RichText, preserve HTML and structure
                 div.innerHTML = orig.innerHTML;
                 div.style.whiteSpace = 'pre-wrap';
+                div.style.display = 'block'; // Text flow, not flex
+                div.style.minHeight = '100px'; // Ensure minimum height so it doesn't collapse
             } else {
                 div.textContent = value || orig.getAttribute('placeholder') || '';
+
+                // For regular inputs, use flex to center text vertically
+                div.style.display = 'flex';
+                div.style.alignItems = 'center';
+                const computed = window.getComputedStyle(orig);
+                div.style.textAlign = computed.textAlign;
+                div.style.justifyContent = div.style.textAlign === 'center' ? 'center' : 'flex-start';
             }
 
             // Reset basic input styles for the div
             div.style.background = 'transparent';
             div.style.border = 'none';
 
+            // Ensure color is correct
             const computed = window.getComputedStyle(orig);
-            div.style.textAlign = computed.textAlign;
             div.style.color = computed.color;
             // div.style.fontSize = computed.fontSize; // DO NOT COPY FONT SIZE
-
-            div.style.display = 'flex';
-            div.style.alignItems = 'center';
-            div.style.justifyContent = div.style.textAlign === 'center' ? 'center' : 'flex-start';
 
             cl.style.display = 'none';
             cl.parentNode.insertBefore(div, cl);
@@ -132,8 +134,10 @@ export async function handleExport(charName = 'UNIT') {
 
     // Calculate actual height
     // Clone is in the body, which is 1920px wide. Body height is auto.
-    const bodyHeight = doc.body.scrollHeight;
-    const captureHeight = Math.max(1080, bodyHeight);
+    // Use app-container height specifically as it wraps the content
+    const container = doc.body.querySelector('.app-container');
+    const contentHeight = container ? container.scrollHeight : doc.body.scrollHeight;
+    const captureHeight = Math.max(1080, contentHeight);
 
     // Resize iframe to match content (so html2canvas can capture it all)
     iframe.style.height = `${captureHeight}px`;
