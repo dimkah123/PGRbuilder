@@ -55,7 +55,7 @@ const translations = {
         settings: "НАСТРОЙКИ",
         save: "СОХРАНИТЬ",
         close: "ЗАКРЫТЬ",
-        system_database: "БАЗА ДАННЫХ ПЕРСОНАЖЕЙ",
+        system_database: "БАЗА ДАННЫХ GRAY RAVEN // ГАЙД",
         build_constructor: "СБОРКА КОНСТРУКТА",
         small: "Маленький",
         medium: "Средний",

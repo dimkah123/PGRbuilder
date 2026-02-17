@@ -33,23 +33,24 @@ export async function handleExport(charName = 'UNIT') {
 
     // 3.1 Inject Global Deskop Overrides
     const globalStyle = doc.createElement('style');
+    // Allow height to grow beyond 1080px if content requires it
     globalStyle.textContent = `
         body { 
             background-color: #000 !important; 
             margin: 0; 
             padding: 0;
             width: 1920px;
-            height: 1080px;
+            min-height: 1080px;
+            height: auto !important;
             overflow: hidden;
         }
         .app-container {
             transform: none !important;
             margin: 0 !important;
             width: 1920px !important;
-            height: 1080px !important;
+            min-height: 1080px !important;
+            height: auto !important;
             zoom: 1 !important;
-            /* Force grid layout even if media queries try to flex it (just in case) */
-            /* Actually, if iframe is 1920px, media queries should work correctly */
         }
     `;
     doc.head.appendChild(globalStyle);
@@ -129,14 +130,22 @@ export async function handleExport(charName = 'UNIT') {
     // Important! Fonts might take a moment if not cached or if iframe re-requests.
     await new Promise(resolve => setTimeout(resolve, 500));
 
+    // Calculate actual height
+    // Clone is in the body, which is 1920px wide. Body height is auto.
+    const bodyHeight = doc.body.scrollHeight;
+    const captureHeight = Math.max(1080, bodyHeight);
+
+    // Resize iframe to match content (so html2canvas can capture it all)
+    iframe.style.height = `${captureHeight}px`;
+
     // 6. Capture
     html2canvas(doc.body, {
         backgroundColor: '#000000',
         scale: 1, // 1:1 since we are at 1920px already
         width: 1920,
-        height: 1080,
+        height: captureHeight,
         windowWidth: 1920,
-        windowHeight: 1080,
+        windowHeight: captureHeight,
         logging: false,
         useCORS: true
     }).then(canvas => {

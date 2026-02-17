@@ -22,7 +22,7 @@
 
 <div class="top-nav">
     <div class="nav-left">
-        <span>GRAY RAVEN DATABASE</span>
+        <span>{t("system_database")}</span>
         {#key appState.lang}
             <span class="desktop-status-text" in:fade={{ duration: 300 }}>
                 // {t("build_constructor")}</span

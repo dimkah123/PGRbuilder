@@ -132,8 +132,8 @@
 }
 
 .mem-cell.has-item .mem-box {
-    border-color: #d0d0d0;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    border-color: #777;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
 /* Memory Level Input */
