@@ -12,6 +12,7 @@
         CLASS_IMAGES,
         MEMORY_DATABASE,
         MEMORY_IMAGES,
+        TERMINOLOGY_DB,
     } from "$lib/data.js";
 
     let { value = $bindable("") } = $props();
@@ -122,10 +123,89 @@
 
     const AUTOCOMPLETE_TERMS = [...STATIC_TERMS, ...charTerms, ...memTerms];
 
-    const HIGHLIGHT_PATTERNS =
-        /(?<![a-zA-Z0-9а-яА-ЯёЁ\+])((?:War Zone|WZ|PPC|S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arete|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арете|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|Da Vinci|Ji Bo'an|Ji Boan|Philip II|Philip II|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?)(?![a-zA-Z0-9а-яА-ЯёЁ\+])/gi;
-    const HIGHLIGHT_ONLY =
-        /^(War Zone|WZ|PPC|S[1-9]?\+?|SS[1-9]?\+?|SSS(?:-?[0-9]{1,2})?\+?|Ignition|Plasma|Slash|Umbra|Freez|Raydiance|Disruption|Физический|Огонь|Лед|Молния|Тьма|Нихил|Дезинтеграция|Горение|Плазма|Слеш|Тень|Заморозка|Рейдианс|Общий|\+15 АТК|Core Passive|Signature Move|Class Passive|Red Orb|Blue Orb|Yellow Orb|Glorious Afterglow|Glorious Spear|Honed Gel|Peaceful Radiant|Stellar Magnetic Rail|Superconducting Axial Ray|Absolute Defense|Boundaty's Annihilation|Domain Deconstuction|Gravity Barrier|Resonant Echo|Incandescence|Matrix Lightning|Nsec Transmission|Shock Echo|Shock Saturation|Dead Line Timing|Overload Signal|Lucia|Liv|Nanami|Lee|Watanabe|Bianca|Karenina|Kamui|Ayla|Sophia|Chrome|Camu|Rosetta|Changyu|Qu|Luna|2B|9S|A2|Wanshi|Selena|21|Roland|Pulao|Haicma|Noan|Bambinata|Hanying|Noctis|Alisa|Lamia|Teddy|Bridget|Yata|Ishmael|Lilith|Jetavi|Dante|Vergil|Discord|Veronika|BLACK★ROCK SHOOTER|Люсия|Лив|Нанами|Ли|Ватанабэ|Бьянка|Каренина|Камуи|Айла|София|Хром|Каму|Розетта|Чангю|Цюй|Луна|Ваньши|Селена|Роланд|Пулао|Хайкма|Ноан|Бамбината|Ханьин|Ноктис|Алиса|Ламия|Тедди|Бриджит|Ята|Ишмаэль|Лилит|Джетави|Данте|Дискорд|Вероника|Aegis|Arca|Arete|Arclight|Ardeo|Astral|Bastion|Brilliance|Capriccio|Crepuscule|Crimson Abyss|Crimson Weave|Crocotta|Daemonissa|Dawn|Daybreak|Decryptor|Echo|Eclipse|Ember|Empyrea|Entropy|Epitaph|Feral|Flambeau|Fulgor|Garnet|Geiravor|Glory|Hyperreal|Hypnos|Indomitus|Kaleido|Laurel|Limpidity|Lost Lullaby|Lotus|Lucid Dreamer|Lux|Oblivion|Ornate Bell|Parhelion|Pavo|Pianissimo|Plume|Pulse|Pyropath|Qilin|Radiant Daybreak|Remote Star|Rigor|Rozen|Secator|Shukra|Silverfang|Solacetune|Spectre|Startrail|Stigmata|Storm|Tempest|Tenebrion|Veiled Star|Veritas|Vitrum|XXI|Zitherwoe|Dragontoll|Scire|Аегис|Арка|Арете|Арклайт|Ардео|Астрал|Бастион|Брилианс|Каприччио|Крепускул|Кримзон Абисс|Кримзон Вейв|Крокотта|Демонисса|Давн|Дейбрейкер|Декриптор|Эхо|Эклипс|Эмбер|Эмпирей|Энтропи|Эпитаф|Фламбеа|Фулгор|Гарнет|Гейравёр|Глори|Гиперреал|Гипнос|Индормитус|Калеидо|Лаурель|Лимпидити|Лост Лулаби|Лотус|Лусид Дример|Люкс|Обливион|Пархелион|Паво|Пианиссимо|Плюм|Пульс|Пироат|Цилинь|Ригор|Розен|Секатор|Шукра|Сильверфанг|Соласетюн|Спектр|Стартрейл|Стигмата|Шторм|Темпест|Тенебрион|Вейлед Стар|Веритас|Витрум|Зитервоу|Драгонтол|Скайр|Chang Wuzi|Chen Jiyuan|Da Vinci|Da Vinci|Ji Bo'an|Ji Boan|Philip II|Philip II|Aline|Alphonse|Barcelo|Bathlon|Boone|Bunsen|Burana|Catherine|Charlotte|Cleopatra|Condelina|Cottie|Darwin|Derketo|Diesel|Einsteina|Elizabeth|Flamel|Fran|Frederick|Guinevere|Hanna|Heisen|Heraclitus|Herschell|Hervor|Jeanne|Keats|Klenova|Leeuwenhoek|Liston|Natasha|Nimue|Patton|Poincare|Seraphine|Shakespeare|Signa|Sothoth|Tifa|Turing|Unimate|Wilde):?$/i;
+    // Combine all terms for highlighting
+    const termKeys = Object.keys(TERMINOLOGY_DB);
+    const charNames = new Set();
+    CHAR_DATABASE.forEach((c) => {
+        if (c.name) charNames.add(c.name);
+        if (c.enName) charNames.add(c.enName);
+        if (c.frame) charNames.add(c.frame);
+        if (c.enFrame) charNames.add(c.enFrame);
+    });
+    const memNames = new Set(
+        MEMORY_DATABASE.map((m) => m.name).filter(Boolean),
+    );
+
+    // Explicit manual list from previous code (excluding things now in DBs if any, but kept for safety)
+    const explicitTerms = [
+        "S",
+        "SS",
+        "SSS",
+        "S+",
+        "Ignition",
+        "Plasma",
+        "Slash",
+        "Umbra",
+        "Freez",
+        "Raydiance",
+        "Disruption",
+        "Физический",
+        "Огонь",
+        "Лед",
+        "Молния",
+        "Тьма",
+        "Нихил",
+        "Дезинтеграция",
+        "Горение",
+        "Плазма",
+        "Слеш",
+        "Тень",
+        "Заморозка",
+        "Рейдианс",
+        "Общий",
+        "+15 АТК",
+        "Core Passive",
+        "Signature Move",
+        "Class Passive",
+        "Red Orb",
+        "Blue Orb",
+        "Yellow Orb",
+        "Glorious Afterglow",
+        "Glorious Spear",
+        "Honed Gel",
+        "Peaceful Radiant",
+        "Stellar Magnetic Rail",
+        "Superconducting Axial Ray",
+        "Absolute Defense",
+        "Boundaty's Annihilation",
+        "Domain Deconstuction",
+        "Gravity Barrier",
+        "Resonant Echo",
+        "Incandescence",
+        "Matrix Lightning",
+        "Nsec Transmission",
+        "Shock Echo",
+        "Shock Saturation",
+        "Dead Line Timing",
+        "Overload Signal",
+        ...STATIC_TERMS, // Includes War Zone, WZ, PPC via previous edit
+    ];
+
+    const allTerms = Array.from(
+        new Set([...explicitTerms, ...termKeys, ...charNames, ...memNames]),
+    );
+    // Sort by length desc to prioritize longer matches
+    allTerms.sort((a, b) => b.length - a.length);
+    // Escape special regex chars
+    const termRegex = allTerms
+        .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+        .join("|");
+
+    const HIGHLIGHT_PATTERNS = new RegExp(
+        `(?<![a-zA-Z0-9а-яА-ЯёЁ\\+])((?:${termRegex}))(?![a-zA-Z0-9а-яА-ЯёЁ\\+])`,
+        "gi",
+    );
+    const HIGHLIGHT_ONLY = new RegExp(`^(${termRegex})$`, "i");
 
     // Initial Content
     $effect(() => {
@@ -157,10 +237,13 @@
                     color === "rgb(255,153,0)" ||
                     color === "#ff9900" ||
                     color === "rgb(109,158,235)" ||
-                    color === "#6d9eeb";
+                    color === "#6d9eeb" ||
+                    color === "rgb(163,53,238)" ||
+                    color === "#a335ee";
                 const isHighlight =
                     container.classList.contains("rank-highlight") ||
-                    container.classList.contains("affix-highlight");
+                    container.classList.contains("affix-highlight") ||
+                    container.classList.contains("term-highlight");
 
                 if (isHighlight) {
                     const text = container.textContent;
@@ -304,7 +387,8 @@
     function handleMouseOver(e) {
         const target =
             e.target.closest(".char-highlight") ||
-            e.target.closest(".memory-highlight");
+            e.target.closest(".memory-highlight") ||
+            e.target.closest(".term-highlight");
         if (target) {
             clearTimeout(tooltipTimer);
 
@@ -348,6 +432,31 @@
                             flipped: !fitsAbove,
                             data: memory,
                             type: "memory",
+                        };
+                    }
+                }
+            } else if (target.classList.contains("term-highlight")) {
+                const termKey = Object.keys(TERMINOLOGY_DB).find(
+                    (k) => k.toLowerCase() === text.toLowerCase(),
+                );
+                if (termKey) {
+                    const definition = TERMINOLOGY_DB[termKey];
+                    const rect = target.getBoundingClientRect();
+                    const newX = rect.left + rect.width / 2;
+                    const fitsAbove = rect.top > 200;
+                    const newY = fitsAbove ? rect.top - 15 : rect.bottom + 15;
+                    if (
+                        !tooltip.show ||
+                        tooltip.data !== definition ||
+                        Math.abs(tooltip.x - newX) > 5
+                    ) {
+                        tooltip = {
+                            show: true,
+                            x: newX,
+                            y: newY,
+                            flipped: !fitsAbove,
+                            data: { description: definition }, // Generic object for Term
+                            type: "term",
                         };
                     }
                 }
@@ -404,7 +513,9 @@
         if (
             to &&
             to.closest &&
-            (to.closest(".char-highlight") || to.closest(".memory-highlight"))
+            (to.closest(".char-highlight") ||
+                to.closest(".memory-highlight") ||
+                to.closest(".term-highlight"))
         ) {
             return;
         }
@@ -440,11 +551,14 @@
                 color === "rgb(255,153,0)" ||
                 color === "#ff9900" ||
                 color === "rgb(109,158,235)" ||
-                color === "#6d9eeb";
+                color === "#6d9eeb" ||
+                color === "rgb(163,53,238)" ||
+                color === "#a335ee";
 
             if (
                 !el.classList.contains("rank-highlight") &&
                 !el.classList.contains("affix-highlight") &&
+                !el.classList.contains("term-highlight") &&
                 isOrangeOrBlue
             ) {
                 if (el.tagName === "FONT") {
@@ -495,7 +609,8 @@
                     parent &&
                     parent.classList &&
                     (parent.classList.contains("rank-highlight") ||
-                        parent.classList.contains("affix-highlight"))
+                        parent.classList.contains("affix-highlight") ||
+                        parent.classList.contains("term-highlight"))
                 )
                     return;
 
@@ -530,15 +645,33 @@
                                     m.name.toLowerCase() ===
                                     cleanMatch.toLowerCase(),
                             );
+                        const isTerm =
+                            !isChar &&
+                            !isMemory &&
+                            Object.keys(TERMINOLOGY_DB).some(
+                                (k) =>
+                                    k.toLowerCase() ===
+                                    cleanMatch.toLowerCase(),
+                            );
+
                         const isBlueTerm = /^(War Zone|WZ|PPC)$/i.test(
                             cleanMatch,
                         );
+
                         const extraClass = isChar
                             ? " char-highlight"
                             : isMemory
                               ? " memory-highlight"
-                              : "";
-                        const color = isBlueTerm ? "#6d9eeb" : "#ff9900";
+                              : isTerm
+                                ? " term-highlight"
+                                : "";
+
+                        const color = isBlueTerm
+                            ? "#6d9eeb"
+                            : isTerm
+                              ? "#a335ee"
+                              : "#ff9900"; // Default Orange
+
                         return `<span class="rank-highlight${extraClass}" style="color:${color}; font-weight:bold;">${match}</span>`;
                     },
                 );
@@ -1272,6 +1405,34 @@
                             {/if}
                         </div>
                     {/if}
+                </div>
+            </div>
+        {:else if tooltip.type === "term"}
+            <div
+                use:portal
+                class="char-tooltip {tooltip.flipped ? 'flipped' : ''}"
+                style="top: {tooltip.y}px; left: {tooltip.x}px; position: fixed;"
+            >
+                <div
+                    class="tooltip-inner"
+                    style="max-width: 320px; padding: 10px; background: rgba(15, 15, 20, 0.95); border: 1px solid var(--accent-red);"
+                >
+                    <div
+                        style="color: #ccc; font-size: 0.9rem; line-height: 1.4; font-family: var(--font-tech);"
+                    >
+                        {#if tooltip.data.description.includes(" - ")}
+                            {@const parts =
+                                tooltip.data.description.split(" - ")}
+                            <div
+                                style="color: #fff; font-weight: bold; font-size: 1rem; margin-bottom: 4px;"
+                            >
+                                {parts[0]}
+                            </div>
+                            <div>{parts.slice(1).join(" - ")}</div>
+                        {:else}
+                            {tooltip.data.description}
+                        {/if}
+                    </div>
                 </div>
             </div>
         {/if}
