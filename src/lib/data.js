@@ -6,6 +6,7 @@ export const CHARACTER_IMAGES = [
     { frame: "Arca", file: "Image/Characters/Coating-Arca-Generic.webp" },
     { frame: "Arclight", file: "Image/Characters/Coating-Arclight-Generic.webp" },
     { frame: "Ardeo", file: "Image/Characters/Coating-Ardeo-Generic.webp" },
+    { frame: "Arete", file: "Image/Characters/Coating-Arete-Generic.webp" },
     { frame: "Astral", file: "Image/Characters/Coating-Astral-Generic.webp" },
     { frame: "Bastion", file: "Image/Characters/Coating-Bastion-Generic.webp" },
     { frame: "BLACK★ROCK SHOOTER", file: "Image/Characters/Coating-BLACK★ROCK SHOOTER-Generic.webp" },
@@ -43,7 +44,7 @@ export const CHARACTER_IMAGES = [
     { frame: "Lucid Dreamer", file: "Image/Characters/Coating-Lucid Dreamer-Generic.webp" },
     { frame: "Lux", file: "Image/Characters/Coating-Lux-Generic.webp" },
     { frame: "Oblivion", file: "Image/Characters/Coating-Oblivion-Generic.webp" },
-    { frame: "Ornate Bell", file: "Image/Characters/Coating-Ornate Bell-Generic.webp" },
+    { frame: "Dragontoll", file: "Image/Characters/Coating-Ornate Bell-Generic.webp" },
     { frame: "Parhelion", file: "Image/Characters/Coating-Parhelion-Generic.webp" },
     { frame: "Pavo", file: "Image/Characters/Coating-Pavo-Generic.webp" },
     { frame: "Pianissimo", file: "Image/Characters/Coating-Pianissimo-Generic.webp" },
@@ -138,6 +139,7 @@ export const CLASS_NAMES = {
         "vanguard": "Авангард",
         "observer": "Наблюдатель",
         "disruption": "Дезинтегратор",
+        "breaker": "Брейкер",
         "-": "-"
     },
     en: {
@@ -148,6 +150,7 @@ export const CLASS_NAMES = {
         "vanguard": "Vanguard",
         "observer": "Observer",
         "disruption": "Disruption",
+        "breaker": "Breaker",
         "-": "-"
     }
 };
@@ -158,6 +161,7 @@ export const CLASS_IMAGES = {
     "attacker": "Image/Classes/Attacker.webp",
     "observer": "Image/Classes/Observer.webp",
     "disruption": "Image/Classes/Observer.webp",
+    "breaker": "Image/Classes/Breaker.webp",
     "support": "Image/Classes/Support.webp",
     "tank": "Image/Classes/Tank.webp",
     "uniframe": "Image/Classes/Uniframe.webp",
@@ -204,6 +208,7 @@ export const WEAPON_IMAGES = {
     "lotus berserker": "Image/Weapons/Lotus Berserker.webp",
     "managarm": "Image/Weapons/Managarm.webp",
     "metis": "Image/Weapons/Metis.webp",
+    "mirage halberd: amalga": "Image/Weapons/Mirage Halberd Amalga.webp",
     "neon wayfarer": "Image/Weapons/Neon Wayfarer.webp",
     "nightblaze": "Image/Weapons/Nightblaze.webp",
     "orpheus lullaby": "Image/Weapons/Orpheus Lullaby.webp",
@@ -267,6 +272,7 @@ export const CUB_IMAGES = {
     "billie": "Image/CUB/Billie.webp",
     "boreas": "Image/CUB/Boreas.webp",
     "bramble angler": "Image/CUB/Bramble Angler.webp",
+    "buzzling": "Image/CUB/Buzzling.webp",
     "cavaliere": "Image/CUB/Cavaliere.webp",
     "cetus": "Image/CUB/Cetus.webp",
     "corvus": "Image/CUB/Corvus.webp",
@@ -282,6 +288,7 @@ export const CUB_IMAGES = {
     "levvi": "Image/CUB/Levvi.webp",
     "mirageblades": "Image/CUB/MirageBlades.webp",
     "mirage blades": "Image/CUB/MirageBlades.webp",
+    "moonhopper": "Image/CUB/Moonhopper.webp",
     "motorbolt": "Image/CUB/Motorbolt.webp",
     "nitor": "Image/CUB/Nitor.webp",
     "noctiluca": "Image/CUB/Noctiluca.webp",
@@ -961,7 +968,7 @@ export const CHAR_DATABASE = [
     {
         name: "21",
         enName: "21",
-        frame: "Feral",
+        frame: "Ферал",
         enFrame: "Feral",
         rank: "S",
         element: "Молния",
@@ -1085,7 +1092,7 @@ export const CHAR_DATABASE = [
         name: "Люсия",
         enName: "Lucia",
         frame: "Пироат",
-        enFrame: "Pyropath",
+        enFrame: "Pyroath",
         rank: "S",
         element: "Огонь",
         class: "Атакующий",
@@ -1186,9 +1193,9 @@ export const CHAR_DATABASE = [
         cub: "Cavaliere"
     },
     {
-        name: "Vergil",
+        name: "Вергилий",
         enName: "Vergil",
-        frame: "",
+        frame: "Вергилий",
         enFrame: "Vergil",
         rank: "S",
         element: "Физический",
@@ -1265,6 +1272,50 @@ export const CHAR_DATABASE = [
         element: "Огонь",
         class: "Атакующий",
         weapon: "★Rock Cannon"
+    },
+    {
+        name: "Розетта",
+        enName: "Rosetta",
+        frame: "Арете",
+        enFrame: "Arete",
+        rank: "S",
+        element: "Тьма",
+        class: "Брейкер",
+        weapon: "Mirage Halberd: Amalga",
+        affix: "Slash",
+        cub: "Buzzling"
+    },
+    {
+        name: "Каренина",
+        enName: "Karenina",
+        frame: "Рэдиант Дэйбрейк",
+        enFrame: "Radiant Daybreak",
+        rank: "S",
+        element: "Тьма",
+        class: "Танк",
+        weapon: "Illuminare",
+        cub: "Moonhopper"
+    },
+    {
+        name: "Нанами",
+        enName: "Nanami",
+        frame: "Римоут Стар",
+        enFrame: "Remote Star",
+        rank: "S",
+        element: "Огонь",
+        class: "Танк",
+        weapon: "Implosion",
+        cub: "Jet Jaeger"
+    },
+    {
+        name: "Пулао",
+        enName: "Pulao",
+        frame: "Драгонтолл",
+        enFrame: "Dragontoll",
+        rank: "S",
+        element: "Физический",
+        class: "Авангард",
+        weapon: "Infinity"
     }
 ];
 
@@ -1344,4 +1395,6 @@ export const CLASS_TO_PREFIX = {
     'Amplifier': 'HE',
     'Авангард': 'UNI',
     'Vanguard': 'UNI',
+    'Брейкер': 'BA',
+    'Breaker': 'BA',
 };

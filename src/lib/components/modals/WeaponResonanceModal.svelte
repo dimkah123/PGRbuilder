@@ -26,6 +26,10 @@
             if (!prefix) return true; // Show all if no class
             if (prefix === "UNI") return true;
 
+            if (prefix === "BA") {
+                return res.prefix === "AT" || res.prefix === "TA";
+            }
+
             return res.prefix === prefix;
         });
     });

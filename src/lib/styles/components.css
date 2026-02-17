@@ -98,14 +98,13 @@
 }
 
 .wres-item span {
-    font-size: 0.5rem;
-    /* Tiny text */
+    font-size: 0.75rem;
     color: var(--text-dim);
     text-align: center;
     font-family: var(--font-tech);
     line-height: 1;
     overflow: hidden;
-    white-space: nowrap;
+    white-space: wrap;
     text-overflow: ellipsis;
     max-width: 100%;
     margin-top: 0;

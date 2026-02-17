@@ -32,7 +32,7 @@
                 ? isEn
                     ? dbEntry.enFrame || dbEntry.frame
                     : dbEntry.frame
-                : img.frame;
+                : t(img.frame);
 
             let label = frame;
             if (name && frame && name !== frame) {
