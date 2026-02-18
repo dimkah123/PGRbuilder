@@ -54,6 +54,11 @@ function getAllImageUrls() {
 export function preloadImages() {
     if (typeof window === 'undefined') return;
 
+    // Prevent GC by storing references globally
+    if (!window.pgr_preloaded_images) {
+        window.pgr_preloaded_images = [];
+    }
+
     const urls = Array.from(getAllImageUrls());
     const totalImages = urls.length;
     let loadedCount = 0;
@@ -67,8 +72,9 @@ export function preloadImages() {
 
             batch.forEach(url => {
                 const img = new Image();
+                img.crossOrigin = "anonymous"; // Try to prevent CORS issues affecting cache
                 img.src = url;
-                // We don't need to do anything on load/error, just trigger the request
+                window.pgr_preloaded_images.push(img); // Store reference to prevent GC
             });
 
             loadedCount += batch.length;
@@ -92,7 +98,9 @@ export function preloadImages() {
                 const batch = urls.splice(0, batchSize);
                 batch.forEach(url => {
                     const img = new Image();
+                    img.crossOrigin = "anonymous";
                     img.src = url;
+                    window.pgr_preloaded_images.push(img);
                 });
                 loadedCount += batch.length;
 
