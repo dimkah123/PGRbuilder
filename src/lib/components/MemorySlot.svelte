@@ -53,6 +53,7 @@
         } catch {}
     }
     import { t } from "$lib/i18n.js";
+    import { preloadMemoryImages } from "$lib/utils/image-preloader.js";
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -63,6 +64,7 @@
     ondragover={handleDragOver}
     ondragleave={handleDragLeave}
     ondrop={handleDrop}
+    onmouseenter={preloadMemoryImages}
     aria-label="Memory slot {slotIndex + 1}"
 >
     <!-- svelte-ignore a11y_click_events_have_key_events -->

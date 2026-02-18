@@ -59,6 +59,11 @@
             }
         } catch {}
     }
+
+    import {
+        preloadMemoryImages,
+        preloadWeaponImages,
+    } from "$lib/utils/image-preloader.js";
 </script>
 
 <div class="build-row {isLoading ? 'no-transition' : ''}">
@@ -110,6 +115,7 @@
             class="harm-slot"
             onclick={() =>
                 appState.openModal("mem", { buildIndex: index, isHarm: true })}
+            onmouseenter={preloadMemoryImages}
         >
             <div class="mem-box">
                 {#if build.harm && MEMORY_NAMES.includes(build.harm)}
@@ -198,6 +204,7 @@
                                     buildIndex: index,
                                     slotIndex: wIndex,
                                 })}
+                            onmouseenter={preloadWeaponImages}
                         >
                             {#if build.wRes && build.wRes[wIndex]}
                                 {#if typeof build.wRes[wIndex] === "object" && build.wRes[wIndex].file}

@@ -51,9 +51,12 @@
             fillCharacterData(opt.data);
         }
     }
+
+    import { preloadCharacterImages } from "$lib/utils/image-preloader.js";
 </script>
 
-<div class="left-panel">
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="left-panel" onmouseenter={preloadCharacterImages}>
     <CharacterPortrait />
 
     <div class="name-plate">

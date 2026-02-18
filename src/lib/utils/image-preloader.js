@@ -114,3 +114,53 @@ export function preloadImages() {
         }, 1000);
     }
 }
+
+/**
+ * Preloads a specific set of images.
+ * @param {string[]} imageUrls - Array of image URLs to preload.
+ * @param {string} label - Label for console logging.
+ */
+function preloadSpecificImages(imageUrls, label) {
+    if (typeof window === 'undefined') return;
+    if (!window.pgr_preloaded_images) window.pgr_preloaded_images = [];
+
+    const uniqueUrls = new Set(imageUrls.filter(url => url));
+    let startCount = window.pgr_preloaded_images.length;
+
+    uniqueUrls.forEach(url => {
+        // Check if already preloaded (optimization)
+        if (window.pgr_preloaded_images.some(img => img.src === url || img.src.endsWith(url))) return;
+
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = url;
+        window.pgr_preloaded_images.push(img);
+    });
+
+    let endCount = window.pgr_preloaded_images.length;
+    let added = endCount - startCount;
+
+    if (added > 0) {
+        console.log(`[ImagePreloader] Preloaded ${added} ${label} images on hover.`);
+    }
+}
+
+export function preloadCharacterImages() {
+    const urls = [];
+    CHARACTER_IMAGES.forEach(char => {
+        if (char.file) urls.push(char.file);
+    });
+    preloadSpecificImages(urls, "Character");
+}
+
+export function preloadMemoryImages() {
+    // MEMORY_IMAGES is an object of values
+    const urls = Object.values(MEMORY_IMAGES);
+    preloadSpecificImages(urls, "Memory");
+}
+
+export function preloadWeaponImages() {
+    // WEAPON_IMAGES is an object of values
+    const urls = Object.values(WEAPON_IMAGES);
+    preloadSpecificImages(urls, "Weapon");
+}
