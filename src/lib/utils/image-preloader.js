@@ -41,7 +41,15 @@ function getAllImageUrls() {
 
     // 6. Memory Images (Object values)
     Object.values(MEMORY_IMAGES).forEach(url => {
-        if (url) urls.add(url);
+        if (url) {
+            if (url.includes('-Icon-1.webp')) {
+                urls.add(url);
+                urls.add(url.replace('-Icon-1.webp', '-Icon-2.webp'));
+                urls.add(url.replace('-Icon-1.webp', '-Icon-3.webp'));
+            } else {
+                urls.add(url);
+            }
+        }
     });
 
     return urls;
@@ -154,13 +162,65 @@ export function preloadCharacterImages() {
 }
 
 export function preloadMemoryImages() {
-    // MEMORY_IMAGES is an object of values
-    const urls = Object.values(MEMORY_IMAGES);
-    preloadSpecificImages(urls, "Memory");
+    // MEMORY_IMAGES is an object of values (Icon-1 by default)
+    // We need to preload Icon-1, Icon-2, and Icon-3 for each memory to prevent re-loading on slot switch
+    const defaultUrls = Object.values(MEMORY_IMAGES);
+    const allUrls = [];
+
+    defaultUrls.forEach(url => {
+        if (url && url.includes('-Icon-1.webp')) {
+            allUrls.push(url); // Icon-1
+            allUrls.push(url.replace('-Icon-1.webp', '-Icon-2.webp')); // Icon-2
+            allUrls.push(url.replace('-Icon-1.webp', '-Icon-3.webp')); // Icon-3
+        } else {
+            allUrls.push(url);
+        }
+    });
+
+    preloadSpecificImages(allUrls, "Memory");
 }
 
 export function preloadWeaponImages() {
-    // WEAPON_IMAGES is an object of values
     const urls = Object.values(WEAPON_IMAGES);
     preloadSpecificImages(urls, "Weapon");
+}
+
+/**
+ * Preloads a list of images and returns a Promise that resolves when they are loaded.
+ * Used for blocking the loading screen until critical assets are ready.
+ * @param {string[]} imageUrls
+ * @returns {Promise<void>}
+ */
+export function preloadCriticalImages(imageUrls) {
+    if (typeof window === 'undefined') return Promise.resolve();
+    if (!window.pgr_preloaded_images) window.pgr_preloaded_images = [];
+
+    const uniqueUrls = new Set(imageUrls.filter(url => url));
+    const promises = [];
+
+    uniqueUrls.forEach(url => {
+        // Check if already preloaded
+        if (window.pgr_preloaded_images.some(img => img.src === url || img.src.endsWith(url))) {
+            return;
+        }
+
+        const p = new Promise((resolve) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => resolve();
+            img.onerror = () => resolve(); // Don't block on error
+            img.src = url;
+            window.pgr_preloaded_images.push(img);
+        });
+        promises.push(p);
+    });
+
+    if (promises.length > 0) {
+        console.log(`[ImagePreloader] Blocking for ${promises.length} critical images...`);
+    }
+
+    // Timeout after 2 seconds to avoid hanging forever if network is slow/broken
+    const timeout = new Promise(resolve => setTimeout(resolve, 2000));
+
+    return Promise.race([Promise.all(promises), timeout]);
 }

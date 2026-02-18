@@ -16,6 +16,7 @@ self.addEventListener('install', (event) => {
         await cache.addAll(ASSETS);
     }
 
+    self.skipWaiting(); // Force waiting service worker to become active
     event.waitUntil(addFilesToCache());
 });
 
@@ -27,7 +28,10 @@ self.addEventListener('activate', (event) => {
         }
     }
 
-    event.waitUntil(deleteOldCaches());
+    event.waitUntil(Promise.all([
+        deleteOldCaches(),
+        self.clients.claim() // Take control of all clients immediately
+    ]));
 });
 
 self.addEventListener('fetch', (event) => {

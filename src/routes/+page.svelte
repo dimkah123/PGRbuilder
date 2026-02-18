@@ -21,7 +21,10 @@
         getSaveButtonState,
     } from "$lib/utils/cloud-save.js";
     import { handleExport } from "$lib/utils/export.js";
-    import { preloadImages } from "$lib/utils/image-preloader.js";
+    import {
+        preloadImages,
+        preloadCriticalImages,
+    } from "$lib/utils/image-preloader.js";
 
     let isLightMode = $state(false);
     let saveBtnState = $state({ textKey: "create_link", style: "new" });
@@ -93,16 +96,55 @@
 
     onMount(() => {
         // Init URL Load
-        loadFromUrl().then(() => {
+        loadFromUrl().then(async () => {
             saveBtnState = getSaveButtonState();
-            // Small delay to ensure render
+
+            // Collect critical images to block loading screen
+            const criticalUrls = [];
+
+            // 1. Character Portrait (Biggest visual impact)
+            if (appState.charImg) criticalUrls.push(appState.charImg);
+
+            // 2. Visible Memory/Weapon icons in first build
+            if (appState.builds.length > 0) {
+                const b = appState.builds[0];
+
+                // Memories
+                b.mems.forEach((memName, i) => {
+                    if (memName && MEMORY_NAMES.includes(memName)) {
+                        criticalUrls.push(
+                            `Image/Memories/Memory-${memName}-Icon-${(i % 3) + 1}.webp`,
+                        );
+                    }
+                });
+
+                // Weapon Resonance
+                if (b.wRes) {
+                    b.wRes.forEach((res) => {
+                        if (res && typeof res === "object" && res.file) {
+                            criticalUrls.push(res.file);
+                        }
+                    });
+                }
+
+                // Harmony
+                if (b.harm && MEMORY_NAMES.includes(b.harm)) {
+                    criticalUrls.push(
+                        `Image/Memories/Memory-${b.harm}-Icon-1.webp`,
+                    );
+                }
+            }
+
+            // Wait for critical images (max 2s)
+            await preloadCriticalImages(criticalUrls);
+
             // Small delay to ensure render
             setTimeout(() => {
                 appState.isLoading = false;
 
                 // Start background image preloading immediately after render
                 preloadImages();
-            }, 100);
+            }, 50);
         });
 
         // AutoScale
