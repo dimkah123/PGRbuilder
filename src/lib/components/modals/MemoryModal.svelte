@@ -76,158 +76,150 @@
     }
 </script>
 
-{#if appState.activeModal === "mem"}
+<div
+    class="modal-overlay"
+    class:hidden={appState.activeModal !== "mem"}
+    onclick={(e) => e.target === e.currentTarget && close()}
+    onkeydown={(e) => e.key === "Escape" && close()}
+    role="button"
+    tabindex="-1"
+    aria-label="Close modal"
+>
     <div
-        class="modal-overlay"
-        onclick={(e) => e.target === e.currentTarget && close()}
-        onkeydown={(e) => e.key === "Escape" && close()}
-        role="button"
+        class="modal-content modal-mem"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mem-modal-title"
         tabindex="-1"
-        aria-label="Close modal"
     >
-        <div
-            class="modal-content modal-mem"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mem-modal-title"
-            tabindex="-1"
-        >
-            <div class="modal-header">
-                <h3 id="mem-modal-title">
-                    {t("memory_selection")} ({t("slot")}
-                    {activeSlotIndex})
-                </h3>
-                <button class="modal-close" onclick={close}>X</button>
+        <div class="modal-header">
+            <h3 id="mem-modal-title">
+                {t("memory_selection")} ({t("slot")}
+                {activeSlotIndex})
+            </h3>
+            <button class="modal-close" onclick={close}>X</button>
+        </div>
+        <div class="search-row">
+            <div class="search-box">
+                <input
+                    bind:this={searchInput}
+                    type="text"
+                    class="modal-search"
+                    placeholder={t("search")}
+                    bind:value={searchQuery}
+                />
+                {#if searchQuery}
+                    <button
+                        class="clear-search"
+                        onclick={() => (searchQuery = "")}>✕</button
+                    >
+                {/if}
             </div>
-            <div class="search-row">
-                <div class="search-box">
-                    <input
-                        bind:this={searchInput}
-                        type="text"
-                        class="modal-search"
-                        placeholder={t("search")}
-                        bind:value={searchQuery}
-                    />
-                    {#if searchQuery}
-                        <button
-                            class="clear-search"
-                            onclick={() => (searchQuery = "")}>✕</button
-                        >
-                    {/if}
-                </div>
-                <button
-                    class="view-toggle-btn"
-                    onclick={() => (isCompact = !isCompact)}
-                    title={isCompact ? "Show Details" : "Compact View"}
-                >
-                    {isCompact ? "👁️" : "≣"}
-                </button>
-            </div>
+            <button
+                class="view-toggle-btn"
+                onclick={() => (isCompact = !isCompact)}
+                title={isCompact ? "Show Details" : "Compact View"}
+            >
+                {isCompact ? "👁️" : "≣"}
+            </button>
+        </div>
 
-            <div class="modal-body">
-                {#each memoryGroups as group}
-                    <div class="memory-group-section">
-                        <div
-                            class="memory-group-title"
-                            class:five-star={group.title.includes("5")}
-                        >
-                            {group.title}
-                        </div>
-                        <div
-                            class="modal-grid {isCompact
-                                ? 'compact-grid'
-                                : 'detail-grid'}"
-                        >
-                            {#each group.items as mem (mem.name)}
-                                <div
-                                    class="mem-option"
-                                    animate:flip={{ duration: 300 }}
-                                    class:disabled={isHarmRequest &&
-                                        mem.star === 5}
-                                    onclick={() =>
-                                        !(isHarmRequest && mem.star === 5) &&
-                                        selectMemory(mem.name)}
-                                    onkeydown={(e) =>
-                                        (e.key === "Enter" || e.key === " ") &&
-                                        !(isHarmRequest && mem.star === 5) &&
-                                        selectMemory(mem.name)}
-                                    role="button"
-                                    tabindex={isHarmRequest && mem.star === 5
-                                        ? -1
-                                        : 0}
-                                    title={isHarmRequest && mem.star === 5
-                                        ? t("msg_no_5star_harm") ||
-                                          "5-star cannot be used for harmonization"
-                                        : ""}
-                                >
-                                    <div class="mem-opt-header">
-                                        <div class="mem-img-wrap">
-                                            <img
-                                                class="mem-opt-img"
-                                                src={mem.file}
-                                                alt={mem.name}
-                                                loading="lazy"
-                                                onerror={(e) =>
-                                                    (e.target.src =
-                                                        "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
-                                            />
-                                            {#if isHarmRequest && mem.star === 5}
-                                                <div class="mem-lock-overlay">
-                                                    🔒
-                                                </div>
-                                            {/if}
-                                        </div>
-                                        <span class="mem-name">{mem.name}</span>
-                                    </div>
-                                    {#if !isCompact && mem.effects && (mem.effects.twoPiece[appState.lang] || mem.effects.twoPiece["en"] || mem.effects.fourPiece[appState.lang] || mem.effects.fourPiece["en"])}
-                                        <div class="mem-effects-wrap">
-                                            {#if mem.effects.twoPiece[appState.lang] || mem.effects.twoPiece["en"]}
-                                                <div class="mem-effect">
-                                                    <span
-                                                        class="mem-effect-label"
-                                                        >2-Set</span
-                                                    >
-                                                    <span
-                                                        class="mem-effect-text"
-                                                        >{mem.effects.twoPiece[
-                                                            appState.lang
-                                                        ] ||
-                                                            mem.effects
-                                                                .twoPiece[
-                                                                "en"
-                                                            ]}</span
-                                                    >
-                                                </div>
-                                            {/if}
-                                            {#if mem.effects.fourPiece[appState.lang] || mem.effects.fourPiece["en"]}
-                                                <div class="mem-effect">
-                                                    <span
-                                                        class="mem-effect-label"
-                                                        >4-Set</span
-                                                    >
-                                                    <span
-                                                        class="mem-effect-text"
-                                                        >{mem.effects.fourPiece[
-                                                            appState.lang
-                                                        ] ||
-                                                            mem.effects
-                                                                .fourPiece[
-                                                                "en"
-                                                            ]}</span
-                                                    >
-                                                </div>
-                                            {/if}
-                                        </div>
-                                    {/if}
-                                </div>
-                            {/each}
-                        </div>
+        <div class="modal-body">
+            {#each memoryGroups as group}
+                <div class="memory-group-section">
+                    <div
+                        class="memory-group-title"
+                        class:five-star={group.title.includes("5")}
+                    >
+                        {group.title}
                     </div>
-                {/each}
-            </div>
+                    <div
+                        class="modal-grid {isCompact
+                            ? 'compact-grid'
+                            : 'detail-grid'}"
+                    >
+                        {#each group.items as mem (mem.name)}
+                            <div
+                                class="mem-option"
+                                animate:flip={{ duration: 300 }}
+                                class:disabled={isHarmRequest && mem.star === 5}
+                                onclick={() =>
+                                    !(isHarmRequest && mem.star === 5) &&
+                                    selectMemory(mem.name)}
+                                onkeydown={(e) =>
+                                    (e.key === "Enter" || e.key === " ") &&
+                                    !(isHarmRequest && mem.star === 5) &&
+                                    selectMemory(mem.name)}
+                                role="button"
+                                tabindex={isHarmRequest && mem.star === 5
+                                    ? -1
+                                    : 0}
+                                title={isHarmRequest && mem.star === 5
+                                    ? t("msg_no_5star_harm") ||
+                                      "5-star cannot be used for harmonization"
+                                    : ""}
+                            >
+                                <div class="mem-opt-header">
+                                    <div class="mem-img-wrap">
+                                        <img
+                                            class="mem-opt-img"
+                                            src={mem.file}
+                                            alt={mem.name}
+                                            loading="lazy"
+                                            onerror={(e) =>
+                                                (e.target.src =
+                                                    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
+                                        />
+                                        {#if isHarmRequest && mem.star === 5}
+                                            <div class="mem-lock-overlay">
+                                                🔒
+                                            </div>
+                                        {/if}
+                                    </div>
+                                    <span class="mem-name">{mem.name}</span>
+                                </div>
+                                {#if !isCompact && mem.effects && (mem.effects.twoPiece[appState.lang] || mem.effects.twoPiece["en"] || mem.effects.fourPiece[appState.lang] || mem.effects.fourPiece["en"])}
+                                    <div class="mem-effects-wrap">
+                                        {#if mem.effects.twoPiece[appState.lang] || mem.effects.twoPiece["en"]}
+                                            <div class="mem-effect">
+                                                <span class="mem-effect-label"
+                                                    >2-Set</span
+                                                >
+                                                <span class="mem-effect-text"
+                                                    >{mem.effects.twoPiece[
+                                                        appState.lang
+                                                    ] ||
+                                                        mem.effects.twoPiece[
+                                                            "en"
+                                                        ]}</span
+                                                >
+                                            </div>
+                                        {/if}
+                                        {#if mem.effects.fourPiece[appState.lang] || mem.effects.fourPiece["en"]}
+                                            <div class="mem-effect">
+                                                <span class="mem-effect-label"
+                                                    >4-Set</span
+                                                >
+                                                <span class="mem-effect-text"
+                                                    >{mem.effects.fourPiece[
+                                                        appState.lang
+                                                    ] ||
+                                                        mem.effects.fourPiece[
+                                                            "en"
+                                                        ]}</span
+                                                >
+                                            </div>
+                                        {/if}
+                                    </div>
+                                {/if}
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/each}
         </div>
     </div>
-{/if}
+</div>
 
 <style>
     .modal-header {
@@ -507,5 +499,8 @@
         font-size: 0.8rem;
         line-height: 1.5;
         font-family: var(--font-body);
+    }
+    .hidden {
+        display: none !important;
     }
 </style>
