@@ -79,6 +79,11 @@ export function preloadImages() {
             const batch = urls.splice(0, batchSize);
 
             batch.forEach(url => {
+                // Check if already preloaded
+                if (window.pgr_preloaded_images.some(img => img.src === url || img.src.endsWith(url))) {
+                    return;
+                }
+
                 const img = new Image();
                 img.crossOrigin = "anonymous"; // Try to prevent CORS issues affecting cache
                 img.src = url;
@@ -105,6 +110,11 @@ export function preloadImages() {
             const processChunk = () => {
                 const batch = urls.splice(0, batchSize);
                 batch.forEach(url => {
+                    // Check if already preloaded
+                    if (window.pgr_preloaded_images.some(img => img.src === url || img.src.endsWith(url))) {
+                        return;
+                    }
+
                     const img = new Image();
                     img.crossOrigin = "anonymous";
                     img.src = url;

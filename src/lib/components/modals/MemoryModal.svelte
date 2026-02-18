@@ -166,6 +166,7 @@
                                                 class="mem-opt-img"
                                                 src={mem.file}
                                                 alt={mem.name}
+                                                loading="lazy"
                                                 onerror={(e) =>
                                                     (e.target.src =
                                                         "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
