@@ -21,6 +21,7 @@
         getSaveButtonState,
     } from "$lib/utils/cloud-save.js";
     import { handleExport } from "$lib/utils/export.js";
+    import { preloadImages } from "$lib/utils/image-preloader.js";
 
     let isLightMode = $state(false);
     let saveBtnState = $state({ textKey: "create_link", style: "new" });
@@ -97,6 +98,11 @@
             // Small delay to ensure render
             setTimeout(() => {
                 appState.isLoading = false;
+
+                // Start background image preloading
+                setTimeout(() => {
+                    preloadImages();
+                }, 2000); // Give it a bit more breathing room after initial render
             }, 100);
         });
 
