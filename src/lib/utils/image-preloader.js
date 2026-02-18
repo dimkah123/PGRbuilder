@@ -62,7 +62,7 @@ export function preloadImages() {
     const urls = Array.from(getAllImageUrls());
     const totalImages = urls.length;
     let loadedCount = 0;
-    const batchSize = 5; // Process 5 images per idle callback
+    const batchSize = 10; // Process 10 images per idle callback
 
     console.log(`[ImagePreloader] Starting background preload for ${totalImages} images...`);
 

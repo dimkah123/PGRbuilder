@@ -96,13 +96,12 @@
         loadFromUrl().then(() => {
             saveBtnState = getSaveButtonState();
             // Small delay to ensure render
+            // Small delay to ensure render
             setTimeout(() => {
                 appState.isLoading = false;
 
-                // Start background image preloading
-                setTimeout(() => {
-                    preloadImages();
-                }, 2000); // Give it a bit more breathing room after initial render
+                // Start background image preloading immediately after render
+                preloadImages();
             }, 100);
         });
 
