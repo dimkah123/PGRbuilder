@@ -232,7 +232,7 @@ export const WEAPON_IMAGES = {
     "snore": "Image/Weapons/Snore.webp",
     "sorrow of fata morgana": "Image/Weapons/Sorrow of Fata Morgana.webp",
     "soul ripper": "Image/Weapons/Soul Ripper.webp",
-    "soundofsilence": "Image/Weapons/SoundofSilence.webp",
+    "sound of silence": "Image/Weapons/Sound of Silence.webp",
     "stelmo": "Image/Weapons/StElmo.webp",
     "starvoyager": "Image/Weapons/StarVoyager.webp",
     "starlightglare": "Image/Weapons/StarlightGlare.webp",
