@@ -248,7 +248,6 @@ export const WEAPON_IMAGES = {
     "rock cannon": "Image/Weapons/★Rock Cannon.webp",
     "★rock cannon": "Image/Weapons/★Rock Cannon.webp",
     "crimson birch": "Image/Weapons/Crimson Birch.webp",
-    "tranquil doll’s voice": "Image/Weapons/Tranquil Doll's Voice.webp",
     "inverse - chimera": "Image/Weapons/Inverse Chimera.webp",
     "inverse - shadow": "Image/Weapons/Inverse Shadow.webp",
     "wolf fang": "Image/Weapons/Wolf Fang.webp",
