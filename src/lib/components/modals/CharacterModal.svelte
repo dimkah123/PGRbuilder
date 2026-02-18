@@ -119,3 +119,48 @@
         </div>
     </div>
 </div>
+
+<style>
+    .modal-search {
+        background: #000;
+        border: 1px solid #333;
+        border-bottom: 2px solid var(--accent-red);
+        /* Red underline */
+        padding: 10px;
+        color: #fff;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .modal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+        gap: 15px;
+        overflow-y: auto;
+        padding: 15px;
+        padding-right: 5px;
+    }
+
+    .modal-item {
+        background: #0f0f0f;
+        border: 1px solid #222;
+        padding: 15px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s;
+    }
+
+    .modal-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .hidden {
+        display: none !important;
+    }
+</style>
