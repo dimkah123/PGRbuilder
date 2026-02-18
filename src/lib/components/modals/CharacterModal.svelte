@@ -112,7 +112,12 @@
                     role="button"
                     tabindex="0"
                 >
-                    <img src={char.file} alt={char.frame} loading="lazy" />
+                    <img
+                        src={char.file}
+                        alt={char.frame}
+                        crossorigin="anonymous"
+                        loading="lazy"
+                    />
                     <span>{char.label}</span>
                 </div>
             {/each}

@@ -164,6 +164,7 @@
                                             class:hidden={activeSlotIndex !== 1}
                                             src={`Image/Memories/Memory-${mem.name}-Icon-1.webp`}
                                             alt={mem.name}
+                                            crossorigin="anonymous"
                                             loading="lazy"
                                             onerror={(e) =>
                                                 (e.target.src =
@@ -175,6 +176,7 @@
                                             class:hidden={activeSlotIndex !== 2}
                                             src={`Image/Memories/Memory-${mem.name}-Icon-2.webp`}
                                             alt={mem.name}
+                                            crossorigin="anonymous"
                                             loading="lazy"
                                             onerror={(e) =>
                                                 (e.target.src =
@@ -186,6 +188,7 @@
                                             class:hidden={activeSlotIndex !== 3}
                                             src={`Image/Memories/Memory-${mem.name}-Icon-3.webp`}
                                             alt={mem.name}
+                                            crossorigin="anonymous"
                                             loading="lazy"
                                             onerror={(e) =>
                                                 (e.target.src =
