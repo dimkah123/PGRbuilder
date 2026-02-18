@@ -7,7 +7,6 @@
         MEMORY_DATABASE,
     } from "$lib/data.js";
     import { t } from "$lib/i18n.js";
-    import { flip } from "svelte/animate";
 
     let searchQuery = $state("");
     let searchInput = $state();
@@ -141,7 +140,6 @@
                         {#each group.items as mem (mem.name)}
                             <div
                                 class="mem-option"
-                                animate:flip={{ duration: 300 }}
                                 class:disabled={isHarmRequest && mem.star === 5}
                                 onclick={() =>
                                     !(isHarmRequest && mem.star === 5) &&

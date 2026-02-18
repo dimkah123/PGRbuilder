@@ -73,50 +73,49 @@
     }
 </script>
 
-{#if appState.activeModal === "char"}
+<div
+    class="modal-overlay"
+    class:hidden={appState.activeModal !== "char"}
+    onclick={(e) => e.target === e.currentTarget && close()}
+    onkeydown={(e) => e.key === "Escape" && close()}
+    role="button"
+    tabindex="-1"
+    aria-label="Close modal"
+>
     <div
-        class="modal-overlay"
-        onclick={(e) => e.target === e.currentTarget && close()}
-        onkeydown={(e) => e.key === "Escape" && close()}
-        role="button"
+        class="modal-content modal-char"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="char-modal-title"
         tabindex="-1"
-        aria-label="Close modal"
     >
-        <div
-            class="modal-content modal-char"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="char-modal-title"
-            tabindex="-1"
-        >
-            <div class="modal-header">
-                <h3 id="char-modal-title">{t("char_selection")}</h3>
-                <button class="modal-close" onclick={close}>X</button>
-            </div>
-            <input
-                type="text"
-                class="modal-search"
-                bind:value={searchQuery}
-                placeholder={t("search")}
-                bind:this={searchInput}
-            />
+        <div class="modal-header">
+            <h3 id="char-modal-title">{t("char_selection")}</h3>
+            <button class="modal-close" onclick={close}>X</button>
+        </div>
+        <input
+            type="text"
+            class="modal-search"
+            bind:value={searchQuery}
+            placeholder={t("search")}
+            bind:this={searchInput}
+        />
 
-            <div class="modal-grid">
-                {#each charList as char}
-                    <div
-                        class="modal-item"
-                        onclick={() => selectCharacter(char)}
-                        onkeydown={(e) =>
-                            (e.key === "Enter" || e.key === " ") &&
-                            selectCharacter(char)}
-                        role="button"
-                        tabindex="0"
-                    >
-                        <img src={char.file} alt={char.frame} loading="lazy" />
-                        <span>{char.label}</span>
-                    </div>
-                {/each}
-            </div>
+        <div class="modal-grid">
+            {#each charList as char}
+                <div
+                    class="modal-item"
+                    onclick={() => selectCharacter(char)}
+                    onkeydown={(e) =>
+                        (e.key === "Enter" || e.key === " ") &&
+                        selectCharacter(char)}
+                    role="button"
+                    tabindex="0"
+                >
+                    <img src={char.file} alt={char.frame} loading="lazy" />
+                    <span>{char.label}</span>
+                </div>
+            {/each}
         </div>
     </div>
-{/if}
+</div>
