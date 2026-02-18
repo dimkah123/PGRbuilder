@@ -1498,7 +1498,7 @@ export const CHAR_DATABASE = [
         rank: "A",
         element: "Лед",
         class: "Атакующий",
-        weapon: "Tranquil Doll’s Voice"
+        weapon: "Sound of Silence."
     },
     {
         name: "Ли",
