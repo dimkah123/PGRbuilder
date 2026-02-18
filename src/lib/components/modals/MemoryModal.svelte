@@ -36,7 +36,6 @@
             return {
                 name,
                 star,
-                file: `Image/Memories/Memory-${name}-Icon-${activeSlotIndex}.webp`,
                 effects: memData ? memData.effects : null,
                 hp: memData?.hp,
                 crit: memData?.crit,
@@ -159,15 +158,40 @@
                             >
                                 <div class="mem-opt-header">
                                     <div class="mem-img-wrap">
+                                        <!-- Slot 1 Icon -->
                                         <img
                                             class="mem-opt-img"
-                                            src={mem.file}
+                                            class:hidden={activeSlotIndex !== 1}
+                                            src={`Image/Memories/Memory-${mem.name}-Icon-1.webp`}
                                             alt={mem.name}
                                             loading="lazy"
                                             onerror={(e) =>
                                                 (e.target.src =
                                                     "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
                                         />
+                                        <!-- Slot 2 Icon -->
+                                        <img
+                                            class="mem-opt-img"
+                                            class:hidden={activeSlotIndex !== 2}
+                                            src={`Image/Memories/Memory-${mem.name}-Icon-2.webp`}
+                                            alt={mem.name}
+                                            loading="lazy"
+                                            onerror={(e) =>
+                                                (e.target.src =
+                                                    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
+                                        />
+                                        <!-- Slot 3 Icon -->
+                                        <img
+                                            class="mem-opt-img"
+                                            class:hidden={activeSlotIndex !== 3}
+                                            src={`Image/Memories/Memory-${mem.name}-Icon-3.webp`}
+                                            alt={mem.name}
+                                            loading="lazy"
+                                            onerror={(e) =>
+                                                (e.target.src =
+                                                    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")}
+                                        />
+
                                         {#if isHarmRequest && mem.star === 5}
                                             <div class="mem-lock-overlay">
                                                 🔒
