@@ -33,7 +33,12 @@
                 const data = await res.json();
                 builds = data.builds || [];
             } else {
-                error = "Failed to load builds";
+                try {
+                    const data = await res.json();
+                    error = data.error || "Failed to load builds";
+                } catch (e) {
+                    error = "Failed to load builds (Parse Error)";
+                }
             }
         } catch (e) {
             error = e.message;

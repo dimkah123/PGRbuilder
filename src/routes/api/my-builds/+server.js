@@ -22,10 +22,25 @@ export async function POST({ request }) {
         }
 
         const turso = getTurso();
-        const result = await turso.execute({
-            sql: "SELECT shortId, data, lastUpdated FROM builds WHERE ownerId = ? ORDER BY lastUpdated DESC",
-            args: [ownerId]
-        });
+        let result;
+        try {
+            result = await turso.execute({
+                sql: "SELECT shortId, data, lastUpdated FROM builds WHERE ownerId = ? ORDER BY lastUpdated DESC",
+                args: [ownerId]
+            });
+        } catch (e) {
+            if (e.message && e.message.includes("no such column: ownerId")) {
+                console.log("Column ownerId missing, migrating...");
+                await turso.execute("ALTER TABLE builds ADD COLUMN ownerId TEXT");
+                // Retry
+                result = await turso.execute({
+                    sql: "SELECT shortId, data, lastUpdated FROM builds WHERE ownerId = ? ORDER BY lastUpdated DESC",
+                    args: [ownerId]
+                });
+            } else {
+                throw e;
+            }
+        }
 
         const builds = result.rows.map(row => {
             let title = 'Untitled Build';
