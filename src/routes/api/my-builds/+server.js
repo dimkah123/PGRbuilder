@@ -12,7 +12,9 @@ export async function POST({ request }) {
         // Verify Token
         const tokenRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${googleToken}`);
         if (!tokenRes.ok) {
-            return json({ error: 'Invalid token' }, { status: 401 });
+            const errText = await tokenRes.text();
+            console.error('Google Token Verification Failed:', tokenRes.status, tokenRes.statusText, errText);
+            return json({ error: `Invalid token: ${tokenRes.status} ${errText}` }, { status: 401 });
         }
         const tokenData = await tokenRes.json();
         const ownerId = tokenData.sub;

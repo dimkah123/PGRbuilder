@@ -175,18 +175,44 @@ class AppState {
                     try {
                         console.log('Repairing user profile from token...');
                         const payload = JSON.parse(atob(savedToken.split(".")[1]));
-                        profile = {
-                            name: payload.name,
-                            email: payload.email,
-                            picture: payload.picture,
-                            id: payload.sub
-                        };
-                        // Update storage with fixed profile
-                        localStorage.setItem('pgr_user_profile', JSON.stringify(profile));
+
+                        // Check expiration
+                        const now = Math.floor(Date.now() / 1000);
+                        if (payload.exp && payload.exp < now) {
+                            console.warn('Saved token is expired.');
+                            this.userToken = null;
+                            localStorage.removeItem('pgr_user_token');
+                            localStorage.removeItem('pgr_user_profile');
+                            profile = null;
+                        } else {
+                            profile = {
+                                name: payload.name,
+                                email: payload.email,
+                                picture: payload.picture,
+                                id: payload.sub
+                            };
+                            // Update storage with fixed profile
+                            localStorage.setItem('pgr_user_profile', JSON.stringify(profile));
+                        }
                     } catch (e) {
                         console.error('Failed to decode token for repair', e);
                         this.userToken = null; // Invalid token
                         profile = null;
+                    }
+                } else {
+                    // Start of else block for checking expiration even if profile exists
+                    try {
+                        const payload = JSON.parse(atob(savedToken.split(".")[1]));
+                        const now = Math.floor(Date.now() / 1000);
+                        if (payload.exp && payload.exp < now) {
+                            console.warn('Saved token is expired.');
+                            this.userToken = null;
+                            localStorage.removeItem('pgr_user_token');
+                            localStorage.removeItem('pgr_user_profile');
+                            profile = null;
+                        }
+                    } catch (e) {
+                        // ignore
                     }
                 }
 

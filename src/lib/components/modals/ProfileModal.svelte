@@ -33,6 +33,14 @@
                 const data = await res.json();
                 builds = data.builds || [];
             } else {
+                if (res.status === 401) {
+                    alert(
+                        t("session_expired") ||
+                            "Session expired. Please login again.",
+                    );
+                    logout();
+                    return;
+                }
                 try {
                     const data = await res.json();
                     error = data.error || "Failed to load builds";
@@ -71,6 +79,14 @@
                 // Remove from list immediately
                 builds = builds.filter((b) => b.shortId !== shortId);
             } else {
+                if (res.status === 401) {
+                    alert(
+                        t("session_expired") ||
+                            "Session expired. Please login again.",
+                    );
+                    logout();
+                    return;
+                }
                 const data = await res.json();
                 alert("Error: " + (data.error || "Failed to delete"));
             }
