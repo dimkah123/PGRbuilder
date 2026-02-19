@@ -206,6 +206,7 @@
 <ProfileModal bind:this={profileModal} />
 <SaveBuildModal
     bind:this={saveBuildModal}
+    saveState={saveBtnState}
     onSaveSuccess={() => (saveBtnState = getSaveButtonState())}
 />
 

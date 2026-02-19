@@ -99,7 +99,9 @@ const translations = {
         saving: "СОХРАНЕНИЕ...",
         cancel: "ОТМЕНА",
         enter_build_name: "Введите название сборки...",
-        delete_confirm: "Вы уверены, что хотите удалить эту сборку? Это действие необратимо."
+        enter_build_name: "Введите название сборки...",
+        delete_confirm: "Вы уверены, что хотите удалить эту сборку? Это действие необратимо.",
+        update_build: "ОБНОВИТЬ СБОРКУ"
     },
     en: {
         tools: "TOOLS",
@@ -199,7 +201,9 @@ const translations = {
         saving: "SAVING...",
         cancel: "CANCEL",
         enter_build_name: "Enter build name...",
-        delete_confirm: "Are you sure you want to delete this build? This action cannot be undone."
+        enter_build_name: "Enter build name...",
+        delete_confirm: "Are you sure you want to delete this build? This action cannot be undone.",
+        update_build: "UPDATE BUILD"
     }
 };
 

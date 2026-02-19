@@ -9,12 +9,16 @@
     let isSaving = $state(false);
     let saveStatus = $state(null); // { success: boolean, message: string }
 
-    let { onSaveSuccess } = $props();
+    let { onSaveSuccess, saveState } = $props();
 
     export function open() {
         isOpen = true;
-        // Default to current title or generic
-        buildName = appState.builds[0]?.title || `${appState.char} Build`;
+        // Default to current global title or generic
+        buildName =
+            appState.title ||
+            (appState.builds[0]?.title && appState.builds[0].title !== "Build 1"
+                ? appState.builds[0].title
+                : `${appState.char} Build`);
         saveStatus = null;
     }
 
@@ -28,10 +32,8 @@
         isSaving = true;
         saveStatus = null;
 
-        // Update title in state
-        if (appState.builds.length > 0) {
-            appState.builds[0].title = buildName.trim();
-        }
+        // Update global title in state
+        appState.title = buildName.trim();
 
         const result = await saveToCloud();
 
@@ -119,7 +121,9 @@
                         {#if isSaving}
                             {t("saving") || "Saving..."}
                         {:else}
-                            {t("save") || "Save"}
+                            {saveState?.style === "update"
+                                ? t("update_build") || "Update"
+                                : t("save_build") || "Save"}
                         {/if}
                     </button>
                 </div>

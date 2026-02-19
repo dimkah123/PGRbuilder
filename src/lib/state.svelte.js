@@ -212,11 +212,15 @@ class AppState {
         this.builds.splice(index, 1);
     }
 
+    // Global Title (for the entire configuration)
+    title = $state('');
+
     serialize() {
         // Compact Format
         return {
             v: 2, // version
             l: this.lang === 'ru' ? 0 : 1,
+            gt: this.title, // Global Title
             c: CHAR_DATABASE.findIndex(c => c.enFrame === this.enFrame || c.frame === this.frame),
             r: RANK_OPTIONS.indexOf(this.rank),
             w: this.weaponReal || this.weapon,
@@ -243,6 +247,7 @@ class AppState {
         // Detect Version/Format
         if (data.v === 2) {
             this.lang = data.l === 0 ? 'ru' : 'en';
+            this.title = data.gt || ''; // Hydrate Global Title
             const charEntry = CHAR_DATABASE[data.c];
             if (charEntry) {
                 const isEn = this.lang === 'en';
@@ -286,6 +291,7 @@ class AppState {
         }
 
         if (data.lang) this.lang = data.lang;
+        this.title = data.title || '';
         this.char = data.char || '';
         this.frame = data.frame || '';
         this.enFrame = data.enFrame || '';
