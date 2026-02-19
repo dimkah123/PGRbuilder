@@ -3,6 +3,8 @@
     import { t } from "$lib/i18n.js";
     import { fade } from "svelte/transition";
 
+    import { onMount } from "svelte";
+
     let {
         onSave,
         onExport,
@@ -12,7 +14,45 @@
         isLightMode,
         saveBtnState,
     } = $props();
+
     let isToolsOpen = $state(false);
+    let googleReady = $state(false);
+
+    onMount(() => {
+        const checkInterval = setInterval(() => {
+            /* global google */
+            if (typeof google !== "undefined") {
+                clearInterval(checkInterval);
+                google.accounts.id.initialize({
+                    client_id:
+                        "64823134414-44hmn7s4ro6bhdu9ub82a5gi092pq0nj.apps.googleusercontent.com",
+                    callback: handleCredentialResponse,
+                });
+                googleReady = true;
+            }
+        }, 100);
+    });
+
+    function handleCredentialResponse(response) {
+        console.log("Encoded JWT ID token: " + response.credential);
+    }
+
+    function googleSignin(node) {
+        $effect(() => {
+            if (googleReady) {
+                try {
+                    google.accounts.id.renderButton(node, {
+                        theme: "outline",
+                        size: "large",
+                        type: "icon",
+                        shape: "circle",
+                    });
+                } catch (e) {
+                    console.error("Google Sign-In render error", e);
+                }
+            }
+        });
+    }
 
     function handleToolClick(action) {
         action();
@@ -44,6 +84,10 @@
                     >
                 {/key}
             </button>
+            <div
+                use:googleSignin
+                style="height: 40px; display: flex; align-items: center;"
+            ></div>
             <button class="btn nav-btn" onclick={onExport}>
                 {#key appState.lang}
                     <span in:fade={{ duration: 300 }}>{t("save_png")}</span>
@@ -87,6 +131,10 @@
                     <button onclick={() => handleToolClick(onSave)}
                         >{t("create_link")}</button
                     >
+                    <div
+                        use:googleSignin
+                        style="height: 40px; display: flex; align-items: center; justify-content: center; padding: 5px;"
+                    ></div>
                     <button onclick={() => handleToolClick(onToggleTheme)}>
                         {isLightMode ? t("dark_mode") : t("light_mode")}
                     </button>
