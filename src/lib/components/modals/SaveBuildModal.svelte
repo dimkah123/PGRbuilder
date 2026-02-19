@@ -178,6 +178,8 @@
         flex-direction: column;
         color: #fff;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        height: auto; /* Fit to content */
+        max-height: 90vh; /* prevent overflow */
     }
 
     .modal-header {
