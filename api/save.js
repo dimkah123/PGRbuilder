@@ -19,10 +19,23 @@ export default async function handler(req, res) {
         const turso = getTurso();
         const shortId = generateShortId(8);
         const editToken = Math.random().toString(36).substring(2, 15);
+        let ownerId = null;
+
+        if (req.body.googleToken) {
+            try {
+                const tokenRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${req.body.googleToken}`);
+                if (tokenRes.ok) {
+                    const tokenData = await tokenRes.json();
+                    ownerId = tokenData.sub;
+                }
+            } catch (e) {
+                console.error('Token verification failed', e);
+            }
+        }
 
         await turso.execute({
-            sql: 'INSERT INTO builds (shortId, editToken, data) VALUES (?, ?, ?)',
-            args: [shortId, editToken, req.body.data]
+            sql: 'INSERT INTO builds (shortId, editToken, data, ownerId) VALUES (?, ?, ?, ?)',
+            args: [shortId, editToken, req.body.data, ownerId]
         });
 
         res.status(200).json({ shortId, editToken });

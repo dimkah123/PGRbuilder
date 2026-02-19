@@ -32,6 +32,9 @@ class AppState {
     enFrame = $state('');
     rank = $state('');
 
+    // Auth
+    userToken = $state(null);
+
     // Stats
     element = $state('-');
     _class = $state('-');

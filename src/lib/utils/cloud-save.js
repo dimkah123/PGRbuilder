@@ -54,7 +54,8 @@ async function updateBuild(shortId, editToken) {
         body: JSON.stringify({
             shortId: shortId,
             editToken: editToken,
-            data: stateString
+            data: stateString,
+            googleToken: appState.userToken
         })
     });
 
@@ -70,7 +71,10 @@ async function createNewBuild() {
     const response = await fetch(`${API_BASE}/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: stateString })
+        body: JSON.stringify({
+            data: stateString,
+            googleToken: appState.userToken
+        })
     });
 
     if (!response.ok) throw new Error('Save failed: ' + response.status);
