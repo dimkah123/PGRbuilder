@@ -93,7 +93,12 @@ const translations = {
         logout: "ВЫЙТИ",
         my_builds: "МОИ СБОРКИ",
         no_builds: "Сборок не найдено",
-        user_profile: "ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ"
+        no_builds: "Сборок не найдено",
+        user_profile: "ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ",
+        save_build: "СОХРАНИТЬ СБОРКУ",
+        saving: "СОХРАНЕНИЕ...",
+        cancel: "ОТМЕНА",
+        enter_build_name: "Введите название сборки..."
     },
     en: {
         tools: "TOOLS",
@@ -187,7 +192,12 @@ const translations = {
         logout: "LOGOUT",
         my_builds: "MY BUILDS",
         no_builds: "No builds found",
-        user_profile: "USER PROFILE"
+        no_builds: "No builds found",
+        user_profile: "USER PROFILE",
+        save_build: "SAVE BUILD",
+        saving: "SAVING...",
+        cancel: "CANCEL",
+        enter_build_name: "Enter build name..."
     }
 };
 

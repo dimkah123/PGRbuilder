@@ -14,6 +14,7 @@
     import SettingsModal from "$lib/components/modals/SettingsModal.svelte";
     import GuideModal from "$lib/components/modals/GuideModal.svelte";
     import ProfileModal from "$lib/components/modals/ProfileModal.svelte";
+    import SaveBuildModal from "$lib/components/modals/SaveBuildModal.svelte";
 
     // Utils
     import {
@@ -26,6 +27,7 @@
         preloadImages,
         preloadCriticalImages,
     } from "$lib/utils/image-preloader.js";
+    import { MEMORY_NAMES } from "$lib/data.js";
 
     let isLightMode = $state(false);
     let saveBtnState = $state({ textKey: "create_link", style: "new" });
@@ -33,6 +35,7 @@
     let settingsModal = $state(); // binding
     let guideModal = $state(); // binding
     let profileModal = $state(); // binding
+    let saveBuildModal = $state(); // binding
 
     function toggleTheme() {
         // Add transition class
@@ -51,11 +54,8 @@
         }, 550);
     }
 
-    async function handleSave() {
-        const result = await saveToCloud();
-        if (result.success) {
-            saveBtnState = getSaveButtonState();
-        }
+    function handleSave() {
+        saveBuildModal.open();
     }
 
     function autoScale() {
@@ -195,6 +195,7 @@
 <SettingsModal bind:this={settingsModal} {toggleTheme} {isLightMode} />
 <GuideModal bind:this={guideModal} />
 <ProfileModal bind:this={profileModal} />
+<SaveBuildModal bind:this={saveBuildModal} />
 
 <style>
     /* Styles are mostly global in app.css */
