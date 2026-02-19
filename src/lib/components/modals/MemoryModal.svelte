@@ -460,7 +460,7 @@
         justify-content: center;
         font-size: 2rem;
         border-radius: 4px;
-        backdrop-filter: blur(2px);
+        /* backdrop-filter: blur(2px); */
     }
     .mem-option.disabled {
         opacity: 0.6;
