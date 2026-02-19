@@ -1,7 +1,7 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import { t } from "$lib/i18n.js";
-    import { fade } from "svelte/transition";
+    import { fade, fly } from "svelte/transition";
     import { onMount } from "svelte";
     import LoadingScreen from "../LoadingScreen.svelte"; // Reusing or just simple loading
 
@@ -66,15 +66,21 @@
         class="modal-backdrop"
         role="button"
         tabindex="0"
+    <div
+        class="modal-backdrop"
+        role="button"
+        tabindex="0"
         onclick={close}
         onkeydown={(e) => e.key === "Escape" && close()}
-        transition:fade={{ duration: 200 }}
+        transition:fade={{ duration: 300 }}
     >
         <div
             class="modal-content"
             role="document"
             onclick={(e) => e.stopPropagation()}
             onkeydown={(e) => e.stopPropagation()}
+            in:fly={{ y: 20, duration: 300 }}
+            out:fly={{ y: 20, duration: 200 }}
         >
             <div class="modal-header">
                 <h2>{t("user_profile") || "User Profile"}</h2>
