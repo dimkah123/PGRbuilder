@@ -59,6 +59,7 @@
         onkeydown={(e) => e.key === "Escape" && close()}
         transition:fade={{ duration: 300 }}
     >
+        <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
         <div
             class="modal-content"
             role="document"
@@ -96,10 +97,10 @@
                     <input
                         id="build-name"
                         type="text"
+                        bind:this={nameInput}
                         bind:value={buildName}
                         placeholder="Enter build name..."
                         onkeydown={(e) => e.key === "Enter" && handleSave()}
-                        autofocus
                     />
                 </div>
 
