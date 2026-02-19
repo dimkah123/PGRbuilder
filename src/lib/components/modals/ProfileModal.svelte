@@ -93,15 +93,15 @@
         class="modal-backdrop"
         role="button"
         tabindex="0"
-        onclick={close}
+        onclick={(e) => {
+            if (e.target === e.currentTarget) close();
+        }}
         onkeydown={(e) => e.key === "Escape" && close()}
         transition:fade={{ duration: 300 }}
     >
         <div
             class="modal-content"
             role="document"
-            onclick={(e) => e.stopPropagation()}
-            onkeydown={(e) => e.stopPropagation()}
             in:fly={{ y: 20, duration: 300 }}
             out:fly={{ y: 20, duration: 200 }}
         >
@@ -147,31 +147,27 @@
                     {:else}
                         <div class="builds-list">
                             {#each builds as build}
-                                {#each builds as build}
-                                    <div class="build-item">
-                                        <button
-                                            class="build-info-btn"
-                                            onclick={() =>
-                                                loadBuild(build.shortId)}
+                                <div class="build-item">
+                                    <button
+                                        class="build-info-btn"
+                                        onclick={() => loadBuild(build.shortId)}
+                                    >
+                                        <span class="build-title"
+                                            >{build.title || "Untitled"}</span
                                         >
-                                            <span class="build-title"
-                                                >{build.title ||
-                                                    "Untitled"}</span
-                                            >
-                                            <span class="build-id"
-                                                >ID: {build.shortId}</span
-                                            >
-                                        </button>
-                                        <button
-                                            class="delete-btn"
-                                            onclick={(e) =>
-                                                deleteBuild(build.shortId, e)}
-                                            title="Delete Build"
+                                        <span class="build-id"
+                                            >ID: {build.shortId}</span
                                         >
-                                            🗑️
-                                        </button>
-                                    </div>
-                                {/each}
+                                    </button>
+                                    <button
+                                        class="delete-btn"
+                                        onclick={(e) =>
+                                            deleteBuild(build.shortId, e)}
+                                        title="Delete Build"
+                                    >
+                                        🗑️
+                                    </button>
+                                </div>
                             {/each}
                         </div>
                     {/if}
