@@ -66,10 +66,6 @@
         class="modal-backdrop"
         role="button"
         tabindex="0"
-    <div
-        class="modal-backdrop"
-        role="button"
-        tabindex="0"
         onclick={close}
         onkeydown={(e) => e.key === "Escape" && close()}
         transition:fade={{ duration: 300 }}
