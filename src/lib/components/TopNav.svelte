@@ -57,9 +57,8 @@
                 try {
                     google.accounts.id.renderButton(node, {
                         theme: "filled_black",
-                        size: "large",
+                        size: "medium",
                         type: "standard",
-                        text: "signin",
                         shape: "pill",
                     });
                 } catch (e) {
@@ -99,24 +98,6 @@
                     >
                 {/key}
             </button>
-            {#if appState.userToken && appState.userProfile}
-                <button
-                    class="avatar-btn"
-                    onclick={onProfile}
-                    title={appState.userProfile.name}
-                >
-                    <img
-                        src={appState.userProfile.picture}
-                        alt="Avatar"
-                        class="nav-avatar"
-                    />
-                </button>
-            {:else}
-                <div
-                    use:googleSignin
-                    style="height: 40px; display: flex; align-items: center;"
-                ></div>
-            {/if}
             <button class="btn nav-btn" onclick={onExport}>
                 {#key appState.lang}
                     <span in:fade={{ duration: 300 }}>{t("save_png")}</span>
@@ -144,6 +125,27 @@
         >
             {appState.lang.toUpperCase()}
         </button>
+
+        <!-- Login / Profile (Moved) -->
+        {#if appState.userToken && appState.userProfile}
+            <button
+                class="avatar-btn"
+                onclick={onProfile}
+                title={appState.userProfile.name}
+                style="margin-left: 10px;"
+            >
+                <img
+                    src={appState.userProfile.picture}
+                    alt="Avatar"
+                    class="nav-avatar"
+                />
+            </button>
+        {:else}
+            <div
+                use:googleSignin
+                style="height: 40px; display: flex; align-items: center; margin-left: 10px;"
+            ></div>
+        {/if}
 
         <!-- Mobile Tools Menu -->
         <div class="mobile-tools-container">

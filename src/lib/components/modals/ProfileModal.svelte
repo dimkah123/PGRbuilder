@@ -97,23 +97,23 @@
                                 >{appState.userProfile.email}</span
                             >
                             <button class="btn btn-logout" onclick={logout}
-                                >{t("logout") || "Logout"}</button
+                                >{t("logout")}</button
                             >
                         </div>
                     </div>
                 {/if}
 
                 <div class="builds-list-container">
-                    <h3>{t("my_builds") || "My Builds"}</h3>
+                    <h3>{t("my_builds")}</h3>
                     {#if isLoading}
                         <div class="loading">
-                            {t("loading") || "Loading..."}
+                            {t("loading")}
                         </div>
                     {:else if error}
                         <div class="error">{error}</div>
                     {:else if builds.length === 0}
                         <div class="empty">
-                            {t("no_builds") || "No saved builds found."}
+                            {t("no_builds")}
                         </div>
                     {:else}
                         <div class="builds-list">

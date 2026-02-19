@@ -88,6 +88,12 @@ const translations = {
         guide_glossary_desc: "Наведите мышку на подсвеченное слово или термин в тексте анализа, чтобы получить его расшифровку и описание.",
         guide_author: "Телеграм автора:",
         guide_channel: "Телеграм канал:",
+        login: "ВХОД",
+        profile: "ПРОФИЛЬ",
+        logout: "ВЫЙТИ",
+        my_builds: "МОИ СБОРКИ",
+        no_builds: "Сборок не найдено",
+        user_profile: "ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ"
     },
     en: {
         tools: "TOOLS",
@@ -175,7 +181,13 @@ const translations = {
         guide_glossary_title: "GLOSSARY",
         guide_glossary_desc: "Hover over any highlighted word or term in the analysis text to see its definition and description.",
         guide_author: "Author Telegram:",
-        guide_channel: "Telegram Channel:"
+        guide_channel: "Telegram Channel:",
+        login: "SIGN IN",
+        profile: "PROFILE",
+        logout: "LOGOUT",
+        my_builds: "MY BUILDS",
+        no_builds: "No builds found",
+        user_profile: "USER PROFILE"
     }
 };
 
