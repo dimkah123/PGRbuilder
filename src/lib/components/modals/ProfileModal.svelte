@@ -176,6 +176,11 @@
                                         <span class="build-title"
                                             >{build.title || "Untitled"}</span
                                         >
+                                        {#if build.memorySummary}
+                                            <span class="build-memory"
+                                                >{build.memorySummary}</span
+                                            >
+                                        {/if}
                                         <span class="build-id"
                                             >ID: {build.shortId}</span
                                         >
@@ -370,6 +375,12 @@
 
     .build-title {
         font-weight: bold;
+    }
+
+    .build-memory {
+        font-size: 0.85rem;
+        color: #bbb;
+        margin: 2px 0;
     }
 
     .build-id {

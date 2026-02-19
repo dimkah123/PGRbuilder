@@ -1,5 +1,6 @@
 import { getTurso } from '$lib/server/db.js';
 import { json } from '@sveltejs/kit';
+import { MEMORY_NAMES } from '$lib/data.js';
 
 export async function POST({ request }) {
     const { googleToken } = await request.json();
@@ -46,20 +47,68 @@ export async function POST({ request }) {
 
         const builds = result.rows.map(row => {
             let title = 'Untitled Build';
+            let memorySummary = '';
+
             try {
                 // Try to parse data to get the title
                 const parsed = JSON.parse(row.data);
-                // Data structure version 2 has 'b' array for builds, taking first one's title 't'
-                if (parsed.b && parsed.b[0] && parsed.b[0].t) {
-                    title = parsed.b[0].t;
-                } else if (parsed.builds && parsed.builds[0] && parsed.builds[0].title) {
+
+                // Data structure version 2 has 'b' array for builds, taking first one
+                let buildData = null;
+
+                if (parsed.b && parsed.b[0]) {
+                    buildData = parsed.b[0];
+                    if (parsed.b[0].t) title = parsed.b[0].t;
+                } else if (parsed.builds && parsed.builds[0]) {
                     // Fallback for older format if any
-                    title = parsed.builds[0].title;
+                    buildData = parsed.builds[0];
+                    if (parsed.builds[0].title) title = parsed.builds[0].title;
                 }
+
                 // Version 2 global title 'gt' fallback
                 if (parsed.gt) {
                     title = parsed.gt;
                 }
+
+                // Calculate Memory Summary
+                if (buildData) {
+                    const mems = buildData.m || buildData.mems || []; // 'm' is indices, 'mems' is strings
+                    const counts = {};
+
+                    mems.forEach(m => {
+                        let name = '';
+                        if (typeof m === 'number') {
+                            name = MEMORY_NAMES[m];
+                        } else {
+                            name = m;
+                        }
+
+                        if (name && name !== '') {
+                            counts[name] = (counts[name] || 0) + 1;
+                        }
+                    });
+
+                    // Format: "Cottie x4 / Darwin x2"
+                    const parts = [];
+                    for (const [name, count] of Object.entries(counts)) {
+                        if (count >= 2) { // Only show sets of 2 or more ideally, or all
+                            parts.push(`${name} x${count}`);
+                        }
+                    }
+                    // Sort by count desc
+                    parts.sort((a, b) => {
+                        const countA = parseInt(a.split('x')[1]);
+                        const countB = parseInt(b.split('x')[1]);
+                        return countB - countA;
+                    });
+
+                    if (parts.length > 0) {
+                        memorySummary = parts.join(' / ');
+                    } else {
+                        memorySummary = 'No Sets';
+                    }
+                }
+
             } catch (e) {
                 // ignore parse error
             }
@@ -67,6 +116,7 @@ export async function POST({ request }) {
             return {
                 shortId: row.shortId,
                 title: title,
+                memorySummary: memorySummary,
                 lastUpdated: row.lastUpdated
             };
         });
