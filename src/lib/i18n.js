@@ -101,7 +101,8 @@ const translations = {
         enter_build_name: "Введите название сборки...",
         enter_build_name: "Введите название сборки...",
         delete_confirm: "Вы уверены, что хотите удалить эту сборку? Это действие необратимо.",
-        update_build: "ОБНОВИТЬ СБОРКУ"
+        update_build: "ОБНОВИТЬ СБОРКУ",
+        build_suffix: " Сборка"
     },
     en: {
         tools: "TOOLS",
@@ -203,7 +204,8 @@ const translations = {
         enter_build_name: "Enter build name...",
         enter_build_name: "Enter build name...",
         delete_confirm: "Are you sure you want to delete this build? This action cannot be undone.",
-        update_build: "UPDATE BUILD"
+        update_build: "UPDATE BUILD",
+        build_suffix: " Build"
     }
 };
 

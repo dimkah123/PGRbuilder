@@ -208,6 +208,7 @@
     bind:this={saveBuildModal}
     saveState={saveBtnState}
     onSaveSuccess={() => (saveBtnState = getSaveButtonState())}
+    onExport={() => handleExport(appState.char || "UNIT")}
 />
 
 <style>

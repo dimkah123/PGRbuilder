@@ -126,11 +126,9 @@
                     >
                 {/key}
             </button>
-            <button class="btn nav-btn" onclick={onExport}>
-                {#key appState.lang}
-                    <span in:fade={{ duration: 300 }}>{t("save_png")}</span>
-                {/key}
             </button>
+            <!-- Removed Save PNG button from here, moved to SaveBuildModal -->
+            <button class="btn nav-btn" onclick={onGuide}>
             <button class="btn nav-btn" onclick={onGuide}>
                 {#key appState.lang}
                     <span in:fade={{ duration: 300 }}>{t("guide")}</span>
@@ -203,9 +201,11 @@
                     <button onclick={() => handleToolClick(onToggleTheme)}>
                         {isLightMode ? t("dark_mode") : t("light_mode")}
                     </button>
-                    <button onclick={() => handleToolClick(onExport)}
-                        >{t("save_png")}</button
-                    >
+                    <button onclick={() => handleToolClick(onToggleTheme)}>
+                        {isLightMode ? t("dark_mode") : t("light_mode")}
+                    </button>
+                    <!-- Removed Save PNG button from here -->
+                    <button onclick={() => handleToolClick(onGuide)}
                     <button onclick={() => handleToolClick(onGuide)}
                         >{t("guide")}</button
                     >
