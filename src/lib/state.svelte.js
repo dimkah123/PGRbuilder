@@ -154,16 +154,40 @@ class AppState {
             const savedLang = localStorage.getItem('pgr_lang');
             if (savedLang) this.lang = savedLang;
 
-            const savedToken = localStorage.getItem('pgr_user_token');
-            const savedProfile = localStorage.getItem('pgr_user_profile');
-            if (savedToken && savedProfile) {
+            if (savedToken) {
                 this.userToken = savedToken;
-                try {
-                    this.userProfile = JSON.parse(savedProfile);
-                } catch (e) {
-                    console.error('Failed to parse saved profile', e);
-                    this.userToken = null;
+                let profile = null;
+
+                // Try load profile
+                if (savedProfile) {
+                    try {
+                        profile = JSON.parse(savedProfile);
+                    } catch (e) {
+                        console.error('Failed to parse saved profile', e);
+                    }
                 }
+
+                // If profile missing or missing ID (stale data), re-decode
+                if (!profile || !profile.id) {
+                    try {
+                        console.log('Repairing user profile from token...');
+                        const payload = JSON.parse(atob(savedToken.split(".")[1]));
+                        profile = {
+                            name: payload.name,
+                            email: payload.email,
+                            picture: payload.picture,
+                            id: payload.sub
+                        };
+                        // Update storage with fixed profile
+                        localStorage.setItem('pgr_user_profile', JSON.stringify(profile));
+                    } catch (e) {
+                        console.error('Failed to decode token for repair', e);
+                        this.userToken = null; // Invalid token
+                        profile = null;
+                    }
+                }
+
+                this.userProfile = profile;
             }
         }
     }
