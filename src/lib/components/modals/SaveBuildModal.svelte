@@ -25,6 +25,7 @@
     }
 
     export function close() {
+        console.log("Closing Save Modal");
         isOpen = false;
     }
 
