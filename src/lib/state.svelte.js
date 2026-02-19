@@ -154,6 +154,9 @@ class AppState {
             const savedLang = localStorage.getItem('pgr_lang');
             if (savedLang) this.lang = savedLang;
 
+            const savedToken = localStorage.getItem('pgr_user_token');
+            const savedProfile = localStorage.getItem('pgr_user_profile');
+
             if (savedToken) {
                 this.userToken = savedToken;
                 let profile = null;
