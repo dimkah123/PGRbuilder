@@ -8,6 +8,7 @@
     let buildName = $state("");
     let isSaving = $state(false);
     let saveStatus = $state(null); // { success: boolean, message: string }
+    let nameInput = $state();
 
     let { onSaveSuccess, saveState } = $props();
 
@@ -18,7 +19,8 @@
             appState.title ||
             (appState.builds[0]?.title && appState.builds[0].title !== "Build 1"
                 ? appState.builds[0].title
-                : `${appState.char} Build`);
+                : (appState.frame || appState.char || "New") +
+                  t("build_suffix"));
         saveStatus = null;
     }
 
@@ -190,7 +192,7 @@
         justify-content: center;
         border-radius: 4px;
         transition: all 0.2s;
-        z-index: 10; /* Ensure it's clickable */
+        z-index: 10;
     }
 
     .close-btn:hover {
