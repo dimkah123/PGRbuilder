@@ -9,6 +9,8 @@
     let isSaving = $state(false);
     let saveStatus = $state(null); // { success: boolean, message: string }
 
+    let { onSaveSuccess } = $props();
+
     export function open() {
         isOpen = true;
         // Default to current title or generic
@@ -133,12 +135,12 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.85); /* Slightly darker to compensate */
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 2000;
-        backdrop-filter: blur(5px);
+        /* backdrop-filter: blur(5px); Removed for performance */
     }
 
     .modal-content {

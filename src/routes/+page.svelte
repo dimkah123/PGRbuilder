@@ -195,7 +195,10 @@
 <SettingsModal bind:this={settingsModal} {toggleTheme} {isLightMode} />
 <GuideModal bind:this={guideModal} />
 <ProfileModal bind:this={profileModal} />
-<SaveBuildModal bind:this={saveBuildModal} />
+<SaveBuildModal
+    bind:this={saveBuildModal}
+    onSaveSuccess={() => (saveBtnState = getSaveButtonState())}
+/>
 
 <style>
     /* Styles are mostly global in app.css */
