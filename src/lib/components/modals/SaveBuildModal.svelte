@@ -176,17 +176,27 @@
     }
 
     .close-btn {
-        background: none;
-        border: none;
+        background: transparent;
+        border: 1px solid transparent;
         color: #888;
         font-size: 1.5rem;
         cursor: pointer;
         padding: 0;
         line-height: 1;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: all 0.2s;
+        z-index: 10; /* Ensure it's clickable */
     }
 
     .close-btn:hover {
         color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
     .modal-body {
