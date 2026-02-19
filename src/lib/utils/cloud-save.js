@@ -21,8 +21,10 @@ export async function saveToCloud() {
     const existingId = urlParams.get('id');
     const existingToken = existingId ? getEditToken(existingId) : null;
 
+    const isOwner = appState.userProfile && appState.loadedBuildOwner === appState.userProfile.id;
+
     try {
-        if (existingId && existingToken) {
+        if (existingId && (existingToken || isOwner)) {
             const updated = await updateBuild(existingId, existingToken);
             if (updated) {
                 alert(t('msg_updated'));
@@ -53,7 +55,7 @@ async function updateBuild(shortId, editToken) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             shortId: shortId,
-            editToken: editToken,
+            editToken: editToken, // Can be null if using googleToken
             data: stateString,
             googleToken: appState.userToken
         })
@@ -81,6 +83,7 @@ async function createNewBuild() {
 
     const result = await response.json();
     setEditToken(result.shortId, result.editToken);
+    appState.loadedBuildOwner = appState.userProfile?.id || null; // I am the owner now
 
     // Update URL
     const newUrl = new URL(window.location.href);
@@ -109,6 +112,10 @@ export async function loadFromUrl() {
             }
 
             const result = await response.json();
+
+            // Set Onwer
+            appState.loadedBuildOwner = result.ownerId || null;
+
             // result.data is stringified JSON
             const state = JSON.parse(result.data);
             if (state) {
@@ -126,7 +133,9 @@ export function getSaveButtonState() {
     const id = params.get('id');
     if (id) {
         const token = getEditToken(id);
-        if (token) return { textKey: 'update', style: 'update' };
+        const isOwner = appState.userProfile && appState.loadedBuildOwner === appState.userProfile.id;
+
+        if (token || isOwner) return { textKey: 'update', style: 'update' };
         return { textKey: 'copy', style: 'copy' };
     }
     return { textKey: 'create_link', style: 'new' };

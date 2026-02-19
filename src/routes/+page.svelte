@@ -94,6 +94,15 @@
             isLangChanging = false;
         }, 600);
         return () => clearTimeout(timer);
+        return () => clearTimeout(timer);
+    });
+
+    $effect(() => {
+        // React to auth or loaded owner changes to update button state
+        const _p = appState.userProfile;
+        const _o = appState.loadedBuildOwner;
+        // Run in timeout to ensure state is settled if needed, though usually immediate is fine
+        saveBtnState = getSaveButtonState();
     });
 
     onMount(() => {

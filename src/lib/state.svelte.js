@@ -88,6 +88,7 @@ class AppState {
 
     // Builds
     builds = $state([createBuild(), createBuild()]);
+    loadedBuildOwner = $state(null); // ID of the owner of the currently loaded build
 
     // Computed Images
     get charImg() {

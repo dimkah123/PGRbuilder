@@ -61,6 +61,7 @@
                 name: payload.name,
                 email: payload.email,
                 picture: payload.picture,
+                id: payload.sub,
             };
 
             // Persist
