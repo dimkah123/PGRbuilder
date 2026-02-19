@@ -152,6 +152,27 @@ class AppState {
         if (typeof window !== 'undefined') {
             const savedLang = localStorage.getItem('pgr_lang');
             if (savedLang) this.lang = savedLang;
+
+            const savedToken = localStorage.getItem('pgr_user_token');
+            const savedProfile = localStorage.getItem('pgr_user_profile');
+            if (savedToken && savedProfile) {
+                this.userToken = savedToken;
+                try {
+                    this.userProfile = JSON.parse(savedProfile);
+                } catch (e) {
+                    console.error('Failed to parse saved profile', e);
+                    this.userToken = null;
+                }
+            }
+        }
+    }
+
+    logout() {
+        this.userToken = null;
+        this.userProfile = null;
+        if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('pgr_user_token');
+            localStorage.removeItem('pgr_user_profile');
         }
     }
 

@@ -19,19 +19,35 @@
     let isToolsOpen = $state(false);
     let googleReady = $state(false);
 
-    onMount(() => {
-        const checkInterval = setInterval(() => {
+    function loadGoogleLibrary() {
+        // Remove existing script if any
+        const existingScript = document.getElementById("google-gsi-script");
+        if (existingScript) existingScript.remove();
+
+        const script = document.createElement("script");
+        script.id = "google-gsi-script";
+        script.src = `https://accounts.google.com/gsi/client?hl=${appState.lang}`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
             /* global google */
-            if (typeof google !== "undefined") {
-                clearInterval(checkInterval);
-                google.accounts.id.initialize({
-                    client_id:
-                        "64823134414-44hmn7s4ro6bhdu9ub82a5gi092pq0nj.apps.googleusercontent.com",
-                    callback: handleCredentialResponse,
-                });
-                googleReady = true;
-            }
-        }, 100);
+            google.accounts.id.initialize({
+                client_id:
+                    "64823134414-44hmn7s4ro6bhdu9ub82a5gi092pq0nj.apps.googleusercontent.com",
+                callback: handleCredentialResponse,
+            });
+            googleReady = true;
+        };
+        document.head.appendChild(script);
+    }
+
+    $effect(() => {
+        // Reload Google Library when language changes
+        const l = appState.lang; // Dependency
+        if (typeof window !== "undefined") {
+            googleReady = false; // Reset readiness
+            loadGoogleLibrary();
+        }
     });
 
     function handleCredentialResponse(response) {
@@ -46,6 +62,13 @@
                 email: payload.email,
                 picture: payload.picture,
             };
+
+            // Persist
+            localStorage.setItem("pgr_user_token", appState.userToken);
+            localStorage.setItem(
+                "pgr_user_profile",
+                JSON.stringify(appState.userProfile),
+            );
         } catch (e) {
             console.error("Failed to decode token", e);
         }
@@ -55,12 +78,16 @@
         $effect(() => {
             if (googleReady && !appState.userToken) {
                 try {
-                    google.accounts.id.renderButton(node, {
-                        theme: "filled_black",
-                        size: "medium",
-                        type: "standard",
-                        shape: "pill",
-                    });
+                    // Slight delay to ensure library is fully ready after load
+                    setTimeout(() => {
+                        if (typeof google === "undefined") return;
+                        google.accounts.id.renderButton(node, {
+                            theme: "filled_black",
+                            size: "medium",
+                            type: "standard",
+                            shape: "pill",
+                        });
+                    }, 50);
                 } catch (e) {
                     console.error("Google Sign-In render error", e);
                 }

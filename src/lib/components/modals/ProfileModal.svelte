@@ -48,6 +48,33 @@
         window.location.href = `/?id=${shortId}`;
     }
 
+    async function deleteBuild(shortId, event) {
+        event.stopPropagation();
+        if (!confirm(t("delete_confirm"))) return;
+
+        try {
+            const res = await fetch("/api/delete-build", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    shortId,
+                    googleToken: appState.userToken,
+                }),
+            });
+
+            if (res.ok) {
+                // Remove from list immediately
+                builds = builds.filter((b) => b.shortId !== shortId);
+            } else {
+                const data = await res.json();
+                alert("Error: " + (data.error || "Failed to delete"));
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Error: " + e.message);
+        }
+    }
+
     // Google Logout
     function logout() {
         // Revoke if needed, or just clear state
@@ -120,18 +147,31 @@
                     {:else}
                         <div class="builds-list">
                             {#each builds as build}
-                                <button
-                                    class="build-item"
-                                    onclick={() => loadBuild(build.shortId)}
-                                >
-                                    <span class="build-title"
-                                        >{build.title || "Untitled"}</span
-                                    >
-                                    <span class="build-id"
-                                        >ID: {build.shortId}</span
-                                    >
-                                    <!-- <span class="build-date">{new Date(build.lastUpdated).toLocaleDateString()}</span> -->
-                                </button>
+                                {#each builds as build}
+                                    <div class="build-item">
+                                        <button
+                                            class="build-info-btn"
+                                            onclick={() =>
+                                                loadBuild(build.shortId)}
+                                        >
+                                            <span class="build-title"
+                                                >{build.title ||
+                                                    "Untitled"}</span
+                                            >
+                                            <span class="build-id"
+                                                >ID: {build.shortId}</span
+                                            >
+                                        </button>
+                                        <button
+                                            class="delete-btn"
+                                            onclick={(e) =>
+                                                deleteBuild(build.shortId, e)}
+                                            title="Delete Build"
+                                        >
+                                            🗑️
+                                        </button>
+                                    </div>
+                                {/each}
                             {/each}
                         </div>
                     {/if}
@@ -266,22 +306,49 @@
     .build-item {
         background: rgba(40, 40, 40, 0.5);
         border: 1px solid #333;
-        padding: 10px;
-        cursor: pointer;
-        transition: all 0.2s;
+        /* padding: 10px; removed padding here, added to children */
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        text-align: left;
         color: inherit;
         font-family: inherit;
         font-size: inherit;
+        transition: border-color 0.2s;
     }
 
     .build-item:hover {
-        background: rgba(60, 60, 60, 0.8);
         border-color: var(--accent-red, #f00);
+        background: rgba(60, 60, 60, 0.8);
+    }
+
+    .build-info-btn {
+        flex-grow: 1;
+        background: transparent;
+        border: none;
+        padding: 10px;
+        text-align: left;
+        cursor: pointer;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .delete-btn {
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        padding: 10px 15px;
+        cursor: pointer;
+        opacity: 0.5;
+        transition:
+            opacity 0.2s,
+            color 0.2s;
+    }
+
+    .delete-btn:hover {
+        opacity: 1;
+        color: #f55;
     }
 
     .build-title {

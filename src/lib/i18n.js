@@ -98,7 +98,8 @@ const translations = {
         save_build: "СОХРАНИТЬ СБОРКУ",
         saving: "СОХРАНЕНИЕ...",
         cancel: "ОТМЕНА",
-        enter_build_name: "Введите название сборки..."
+        enter_build_name: "Введите название сборки...",
+        delete_confirm: "Вы уверены, что хотите удалить эту сборку? Это действие необратимо."
     },
     en: {
         tools: "TOOLS",
@@ -197,7 +198,8 @@ const translations = {
         save_build: "SAVE BUILD",
         saving: "SAVING...",
         cancel: "CANCEL",
-        enter_build_name: "Enter build name..."
+        enter_build_name: "Enter build name...",
+        delete_confirm: "Are you sure you want to delete this build? This action cannot be undone."
     }
 };
 
