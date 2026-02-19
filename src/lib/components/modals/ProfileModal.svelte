@@ -270,6 +270,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 100%;
+        text-align: left;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
     }
 
     .build-item:hover {
