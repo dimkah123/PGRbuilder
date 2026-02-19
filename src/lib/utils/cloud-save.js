@@ -63,6 +63,10 @@ async function updateBuild(shortId, editToken) {
 
     if (response.ok) return true;
     if (response.status === 403) return false;
+    if (response.status === 401) {
+        appState.logout();
+        throw new Error("Session expired. Please login again.");
+    }
     throw new Error('Update failed: ' + response.status);
 }
 
@@ -79,7 +83,13 @@ async function createNewBuild() {
         })
     });
 
-    if (!response.ok) throw new Error('Save failed: ' + response.status);
+    if (!response.ok) {
+        if (response.status === 401) {
+            appState.logout();
+            throw new Error("Session expired. Please login again.");
+        }
+        throw new Error('Save failed: ' + response.status);
+    }
 
     const result = await response.json();
     setEditToken(result.shortId, result.editToken);
