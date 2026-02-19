@@ -11,6 +11,7 @@
         onGuide,
         onSettings,
         onToggleTheme,
+        onProfile, // New prop
         isLightMode,
         saveBtnState,
     } = $props();
@@ -36,17 +37,30 @@
     function handleCredentialResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential);
         appState.userToken = response.credential;
+
+        // Decode Token
+        try {
+            const payload = JSON.parse(atob(response.credential.split(".")[1]));
+            appState.userProfile = {
+                name: payload.name,
+                email: payload.email,
+                picture: payload.picture,
+            };
+        } catch (e) {
+            console.error("Failed to decode token", e);
+        }
     }
 
     function googleSignin(node) {
         $effect(() => {
-            if (googleReady) {
+            if (googleReady && !appState.userToken) {
                 try {
                     google.accounts.id.renderButton(node, {
-                        theme: "outline",
+                        theme: "filled_black",
                         size: "large",
-                        type: "icon",
-                        shape: "circle",
+                        type: "standard",
+                        text: "signin",
+                        shape: "pill",
                     });
                 } catch (e) {
                     console.error("Google Sign-In render error", e);
@@ -85,10 +99,24 @@
                     >
                 {/key}
             </button>
-            <div
-                use:googleSignin
-                style="height: 40px; display: flex; align-items: center;"
-            ></div>
+            {#if appState.userToken && appState.userProfile}
+                <button
+                    class="avatar-btn"
+                    onclick={onProfile}
+                    title={appState.userProfile.name}
+                >
+                    <img
+                        src={appState.userProfile.picture}
+                        alt="Avatar"
+                        class="nav-avatar"
+                    />
+                </button>
+            {:else}
+                <div
+                    use:googleSignin
+                    style="height: 40px; display: flex; align-items: center;"
+                ></div>
+            {/if}
             <button class="btn nav-btn" onclick={onExport}>
                 {#key appState.lang}
                     <span in:fade={{ duration: 300 }}>{t("save_png")}</span>
@@ -132,10 +160,16 @@
                     <button onclick={() => handleToolClick(onSave)}
                         >{t("create_link")}</button
                     >
-                    <div
-                        use:googleSignin
-                        style="height: 40px; display: flex; align-items: center; justify-content: center; padding: 5px;"
-                    ></div>
+                    {#if appState.userToken && appState.userProfile}
+                        <button onclick={() => handleToolClick(onProfile)}
+                            >{t("profile") || "Profile"}</button
+                        >
+                    {:else}
+                        <div
+                            use:googleSignin
+                            style="height: 40px; display: flex; align-items: center; justify-content: center; padding: 5px;"
+                        ></div>
+                    {/if}
                     <button onclick={() => handleToolClick(onToggleTheme)}>
                         {isLightMode ? t("dark_mode") : t("light_mode")}
                     </button>
@@ -253,5 +287,27 @@
         .nav-separator {
             display: none;
         }
+    }
+    .avatar-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        transition: transform 0.2s;
+    }
+
+    .avatar-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px var(--accent-red);
+    }
+
+    .nav-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid #555;
     }
 </style>

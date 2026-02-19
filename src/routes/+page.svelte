@@ -13,6 +13,7 @@
     import ColorPicker from "$lib/components/modals/ColorPicker.svelte";
     import SettingsModal from "$lib/components/modals/SettingsModal.svelte";
     import GuideModal from "$lib/components/modals/GuideModal.svelte";
+    import ProfileModal from "$lib/components/modals/ProfileModal.svelte";
 
     // Utils
     import {
@@ -31,6 +32,7 @@
     let appContainer = $state(); // binding
     let settingsModal = $state(); // binding
     let guideModal = $state(); // binding
+    let profileModal = $state(); // binding
 
     function toggleTheme() {
         // Add transition class
@@ -163,6 +165,7 @@
     onSettings={() => settingsModal.open()}
     onGuide={() => guideModal.open()}
     onToggleTheme={toggleTheme}
+    onProfile={() => profileModal.open()}
     {isLightMode}
     {saveBtnState}
 />
@@ -191,6 +194,7 @@
 <ColorPicker />
 <SettingsModal bind:this={settingsModal} {toggleTheme} {isLightMode} />
 <GuideModal bind:this={guideModal} />
+<ProfileModal bind:this={profileModal} />
 
 <style>
     /* Styles are mostly global in app.css */

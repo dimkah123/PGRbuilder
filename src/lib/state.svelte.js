@@ -34,6 +34,7 @@ class AppState {
 
     // Auth
     userToken = $state(null);
+    userProfile = $state(null);
 
     // Stats
     element = $state('-');
