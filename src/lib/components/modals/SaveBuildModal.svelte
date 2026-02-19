@@ -10,7 +10,7 @@
     let saveStatus = $state(null); // { success: boolean, message: string }
     let nameInput = $state();
 
-    let { onSaveSuccess, saveState } = $props();
+    let { onSaveSuccess, saveState, onExport } = $props();
 
     export function open() {
         isOpen = true;
@@ -51,6 +51,13 @@
             close();
         }
     }
+
+    function handlePngExport() {
+        if (onExport) {
+            onExport();
+        }
+        close();
+    }
 </script>
 
 {#if isOpen}
@@ -76,16 +83,17 @@
                 <button class="close-btn" onclick={close}>&times;</button>
             </div>
 
-            <div class="modal-body">
-                <div class="preview-section">
+            <div class="modal-body compact-body">
+                <!-- Left Side: Character Logic -->
+                <div class="char-section">
                     {#if appState.charImg}
                         <img
                             src={appState.charImg}
                             alt="Character"
-                            class="char-preview"
+                            class="char-large-img"
                         />
                     {/if}
-                    <div class="char-info">
+                    <div class="char-details">
                         <span class="char-name"
                             >{appState.char || "Unknown Unit"}</span
                         >
@@ -93,43 +101,53 @@
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <label for="build-name"
-                        >{t("build_name") || "Build Name"}</label
-                    >
-                    <input
-                        id="build-name"
-                        type="text"
-                        bind:this={nameInput}
-                        bind:value={buildName}
-                        placeholder="Enter build name..."
-                        onkeydown={(e) => e.key === "Enter" && handleSave()}
-                    />
-                </div>
-
-                {#if saveStatus}
-                    <div class="status-msg" class:error={!saveStatus.success}>
-                        {saveStatus.message}
+                <!-- Right Side: Inputs & Actions -->
+                <div class="form-section">
+                    <div class="input-group">
+                        <label for="build-name"
+                            >{t("build_name") || "Build Name"}</label
+                        >
+                        <input
+                            id="build-name"
+                            type="text"
+                            bind:this={nameInput}
+                            bind:value={buildName}
+                            placeholder="Enter build name..."
+                            onkeydown={(e) => e.key === "Enter" && handleSave()}
+                        />
                     </div>
-                {/if}
 
-                <div class="actions">
-                    <button class="btn btn-cancel" onclick={close}
-                        >{t("cancel") || "Cancel"}</button
-                    >
-                    <button
-                        class="btn btn-save"
-                        onclick={handleSave}
-                        disabled={isSaving}
-                    >
-                        {#if isSaving}
-                            {t("saving") || "Saving..."}
-                        {:else}
-                            {saveState?.style === "update"
-                                ? t("update_build") || "Update"
-                                : t("save_build") || "Save"}
-                        {/if}
-                    </button>
+                    {#if saveStatus}
+                        <div
+                            class="status-msg"
+                            class:error={!saveStatus.success}
+                        >
+                            {saveStatus.message}
+                        </div>
+                    {/if}
+
+                    <div class="actions">
+                        <button
+                            class="btn btn-png"
+                            onclick={handlePngExport}
+                            title={t("save_png")}
+                        >
+                            PNG
+                        </button>
+                        <button
+                            class="btn btn-save"
+                            onclick={handleSave}
+                            disabled={isSaving}
+                        >
+                            {#if isSaving}
+                                {t("saving") || "Saving..."}
+                            {:else}
+                                {saveState?.style === "update"
+                                    ? t("update_build") || "Update"
+                                    : t("save_build") || "Save"}
+                            {/if}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,7 +173,7 @@
         background: rgba(20, 20, 20, 0.95);
         border: 1px solid #444;
         width: 90%;
-        max-width: 400px;
+        max-width: 550px; /* Increased for split layout */
         display: flex;
         flex-direction: column;
         color: #fff;
@@ -202,43 +220,57 @@
         border-color: rgba(255, 255, 255, 0.2);
     }
 
-    .modal-body {
+    /* Redesigned Body */
+    .modal-body.compact-body {
+        display: flex;
+        flex-direction: row; /* Horizontal layout */
+        gap: 20px;
         padding: 20px;
+    }
+
+    /* Left Side */
+    .char-section {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-    }
-
-    .preview-section {
-        display: flex;
         align-items: center;
-        gap: 15px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 4px;
+        gap: 10px;
+        width: 140px; /* Fixed width for image column */
+        text-align: center;
+        flex-shrink: 0;
     }
 
-    .char-preview {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
+    .char-large-img {
+        width: 100%;
+        height: auto;
         border-radius: 4px;
-        border: 1px solid #555;
+        border: 1px solid #444;
+        background: rgba(0, 0, 0, 0.3);
     }
 
-    .char-info {
+    .char-details {
         display: flex;
         flex-direction: column;
     }
 
     .char-name {
         font-weight: bold;
-        color: #fff;
+        color: var(--accent-red);
+        font-size: 0.95rem;
+        line-height: 1.2;
     }
 
     .char-frame {
         font-size: 0.8rem;
         color: #aaa;
+    }
+
+    /* Right Side */
+    .form-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Push actions to bottom */
+        gap: 15px;
     }
 
     .input-group {
@@ -270,7 +302,7 @@
         display: flex;
         justify-content: flex-end;
         gap: 10px;
-        margin-top: 10px;
+        margin-top: auto; /* Push to bottom of form-section */
     }
 
     .btn {
@@ -279,17 +311,18 @@
         font-size: 0.9rem;
         border: 1px solid transparent;
         transition: all 0.2s;
+        text-transform: uppercase;
+        font-family: var(--font-header, sans-serif);
     }
 
-    .btn-cancel {
+    .btn-png {
         background: transparent;
-        color: #aaa;
-        border-color: #444;
+        border: 1px solid #444;
+        color: #ccc;
     }
-
-    .btn-cancel:hover {
+    .btn-png:hover {
+        border-color: #fff;
         color: #fff;
-        border-color: #666;
     }
 
     .btn-save {
@@ -306,5 +339,19 @@
     .btn:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+    }
+
+    /* Responsive Mobile */
+    @media (max-width: 500px) {
+        .modal-body.compact-body {
+            flex-direction: column;
+            align-items: center;
+        }
+        .char-section {
+            width: 100px;
+        }
+        .form-section {
+            width: 100%;
+        }
     }
 </style>
