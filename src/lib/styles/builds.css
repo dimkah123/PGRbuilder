@@ -108,6 +108,31 @@
     box-shadow: 0 0 10px rgba(255, 50, 50, 0.5);
 }
 
+.mem-cell.is-copied .mem-box {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    opacity: 0.8;
+}
+
+@keyframes pulseBorder {
+    0% {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    50% {
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.2) inset;
+    }
+
+    100% {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.mem-cell.is-drop-target .mem-box {
+    animation: pulseBorder 1.5s infinite;
+}
+
 /* Individual Memory Slot */
 .mem-box {
     width: 100%;

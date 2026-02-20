@@ -40,6 +40,9 @@ class AppState {
     element = $state('-');
     _class = $state('-');
 
+    // Mobile Drag & Drop equivalent (Copy/Paste)
+    draggedMemory = $state(null);
+
     get class() { return this._class; }
     set class(v) {
         this._class = v;
