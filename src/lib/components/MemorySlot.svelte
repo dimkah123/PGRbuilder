@@ -80,6 +80,10 @@
 
             if (navigator.vibrate) navigator.vibrate(50);
 
+            // Lock page scrolling during drag
+            document.body.style.overflow = "hidden";
+            document.body.style.touchAction = "none";
+
             // Create a floating clone of the image
             const img = e.target.closest(".mem-box")?.querySelector("img");
             if (img) {
@@ -198,6 +202,10 @@
         document.querySelectorAll(".touch-hover").forEach((el) => {
             el.classList.remove("touch-hover");
         });
+
+        // Unlock page scrolling
+        document.body.style.overflow = "";
+        document.body.style.touchAction = "";
 
         // Prevent the click event that fires after touchend from opening the modal
         appState._touchDragJustEnded = true;
