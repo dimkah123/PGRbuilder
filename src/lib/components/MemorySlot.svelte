@@ -4,8 +4,10 @@
     import { MEMORY_NAMES } from "$lib/data.js";
     import { t } from "$lib/i18n.js";
     import { preloadMemoryImages } from "$lib/utils/image-preloader.js";
+    import { onMount } from "svelte";
 
     let { slotIndex, buildIndex } = $props();
+    let memBoxEl = $state(null);
 
     let dragOver = $state(false);
 
@@ -213,6 +215,25 @@
             appState._touchDragJustEnded = false;
         }, 100);
     }
+
+    // Register touch listeners with { passive: false } to allow preventDefault
+    onMount(() => {
+        if (!memBoxEl) return;
+        memBoxEl.addEventListener("touchstart", handleTouchStart, {
+            passive: true,
+        });
+        memBoxEl.addEventListener("touchmove", handleTouchMove, {
+            passive: false,
+        });
+        memBoxEl.addEventListener("touchend", handleTouchEnd, {
+            passive: true,
+        });
+        return () => {
+            memBoxEl.removeEventListener("touchstart", handleTouchStart);
+            memBoxEl.removeEventListener("touchmove", handleTouchMove);
+            memBoxEl.removeEventListener("touchend", handleTouchEnd);
+        };
+    });
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -243,10 +264,8 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="mem-box"
+        bind:this={memBoxEl}
         onclick={handleClick}
-        ontouchstart={handleTouchStart}
-        ontouchmove={handleTouchMove}
-        ontouchend={handleTouchEnd}
         oncontextmenu={(e) => {
             e.preventDefault();
             return false;
