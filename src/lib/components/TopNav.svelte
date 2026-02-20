@@ -82,11 +82,14 @@
                     // Slight delay to ensure library is fully ready after load
                     setTimeout(() => {
                         if (typeof google === "undefined") return;
+
+                        const isMobile = window.innerWidth <= 1024;
+
                         google.accounts.id.renderButton(node, {
                             theme: "filled_black",
                             size: "medium",
-                            type: "standard",
-                            shape: "pill",
+                            type: isMobile ? "icon" : "standard",
+                            shape: isMobile ? "circle" : "pill",
                         });
                     }, 50);
                 } catch (e) {
