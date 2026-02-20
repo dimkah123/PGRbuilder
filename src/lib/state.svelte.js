@@ -42,6 +42,7 @@ class AppState {
 
     // Mobile Drag & Drop equivalent (Copy/Paste)
     draggedMemory = $state(null);
+    _touchDragJustEnded = false; // Prevents ghost click after touch drag
 
     get class() { return this._class; }
     set class(v) {

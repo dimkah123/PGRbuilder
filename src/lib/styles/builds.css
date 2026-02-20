@@ -108,29 +108,29 @@
     box-shadow: 0 0 10px rgba(255, 50, 50, 0.5);
 }
 
-.mem-cell.is-copied .mem-box {
-    border-color: #4CAF50;
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-    opacity: 0.8;
+/* Touch drag & drop: potential target slots get a subtle pulse */
+.touch-drop-target {
+    animation: touchPulse 1.2s infinite;
 }
 
-@keyframes pulseBorder {
+@keyframes touchPulse {
     0% {
-        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
     }
 
     50% {
-        border-color: rgba(255, 255, 255, 0.5);
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.2) inset;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3) inset;
     }
 
     100% {
-        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
     }
 }
 
-.mem-cell.is-drop-target .mem-box {
-    animation: pulseBorder 1.5s infinite;
+/* Touch drag & drop: the slot currently under the finger */
+.mem-cell.touch-hover .mem-box {
+    border-color: #4CAF50 !important;
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.6) !important;
 }
 
 .mem-box {

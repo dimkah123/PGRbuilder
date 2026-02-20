@@ -2,6 +2,8 @@
     import { appState } from "$lib/state.svelte.js";
     import Combobox from "./ui/Combobox.svelte";
     import { MEMORY_NAMES } from "$lib/data.js";
+    import { t } from "$lib/i18n.js";
+    import { preloadMemoryImages } from "$lib/utils/image-preloader.js";
 
     let { slotIndex, buildIndex } = $props();
 
@@ -20,52 +22,22 @@
         appState.builds[buildIndex].mems[slotIndex] = "";
     }
 
-    function handleClick(e) {
-        if (appState.draggedMemory) {
-            // We have a dragged memory, so this tap is a paste action
-            if (appState.draggedMemory.memName !== memName) {
-                appState.builds[buildIndex].mems[slotIndex] =
-                    appState.draggedMemory.memName;
-                if (navigator.vibrate) navigator.vibrate(20);
-            }
-            appState.draggedMemory = null; // Consume the paste buffer
-            e.stopPropagation();
-            e.preventDefault();
+    function handleClick() {
+        // If a touch drag just ended, skip opening the modal
+        if (appState._touchDragJustEnded) {
+            appState._touchDragJustEnded = false;
             return;
         }
-
-        // Normal click opens the selector modal
         appState.openModal("mem", { buildIndex, slotIndex });
     }
 
+    // === Desktop Drag & Drop (mouse) ===
     function handleDragStart(e) {
         e.dataTransfer.setData(
             "text/plain",
             JSON.stringify({ buildIndex, slotIndex, memName }),
         );
         e.dataTransfer.effectAllowed = "copy";
-    }
-
-    let touchTimer = null;
-    let isLongPress = false;
-
-    function handlePointerDown(e) {
-        if (!memName) return; // Can't copy an empty slot
-
-        isLongPress = false;
-        // Start 500ms timer for long press
-        touchTimer = setTimeout(() => {
-            isLongPress = true;
-            if (navigator.vibrate) navigator.vibrate(50);
-            appState.draggedMemory = { memName };
-            e.target.style.opacity = "0.5";
-            setTimeout(() => (e.target.style.opacity = "1"), 300);
-        }, 500);
-    }
-
-    function handlePointerUpOrCancel(e) {
-        if (touchTimer) clearTimeout(touchTimer);
-        // We removed the paste logic from here, as 'click' handles it better on mobile
     }
 
     function handleDragOver(e) {
@@ -88,20 +60,160 @@
             }
         } catch {}
     }
-    import { t } from "$lib/i18n.js";
-    import { preloadMemoryImages } from "$lib/utils/image-preloader.js";
+
+    // === Mobile Touch Drag & Drop ===
+    let touchTimer = null;
+    let isDragging = false;
+    let dragClone = null;
+    let dragData = null;
+
+    function handleTouchStart(e) {
+        if (!memImg) return; // Nothing to drag from empty slot
+
+        const touch = e.touches[0];
+        isDragging = false;
+
+        // Start a timer - after 300ms of holding, start dragging
+        touchTimer = setTimeout(() => {
+            isDragging = true;
+            dragData = { memName, buildIndex, slotIndex };
+
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            // Create a floating clone of the image
+            const img = e.target.closest(".mem-box")?.querySelector("img");
+            if (img) {
+                dragClone = img.cloneNode(true);
+                dragClone.style.cssText = `
+                    position: fixed;
+                    width: 80px;
+                    height: 80px;
+                    object-fit: cover;
+                    pointer-events: none;
+                    z-index: 99999;
+                    opacity: 0.85;
+                    border: 2px solid #4CAF50;
+                    box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+                    border-radius: 4px;
+                    left: ${touch.clientX - 40}px;
+                    top: ${touch.clientY - 40}px;
+                    transition: none;
+                `;
+                document.body.appendChild(dragClone);
+            }
+
+            // Dim the source slot
+            const box = e.target.closest(".mem-box");
+            if (box) box.style.opacity = "0.4";
+
+            // Highlight all other mem-boxes as potential targets
+            document.querySelectorAll(".mem-box").forEach((el) => {
+                if (el !== box) {
+                    el.classList.add("touch-drop-target");
+                }
+            });
+        }, 300);
+    }
+
+    function handleTouchMove(e) {
+        if (!isDragging || !dragClone) {
+            // If finger moved before the timer fired, cancel the drag attempt
+            if (touchTimer && !isDragging) {
+                clearTimeout(touchTimer);
+                touchTimer = null;
+            }
+            return;
+        }
+
+        e.preventDefault(); // Prevent scrolling while dragging
+
+        const touch = e.touches[0];
+        dragClone.style.left = `${touch.clientX - 40}px`;
+        dragClone.style.top = `${touch.clientY - 40}px`;
+
+        // Highlight the slot under the finger
+        const elementBelow = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY,
+        );
+        const targetBox = elementBelow?.closest(".mem-cell");
+
+        document.querySelectorAll(".mem-cell.touch-hover").forEach((el) => {
+            el.classList.remove("touch-hover");
+        });
+        if (targetBox) {
+            targetBox.classList.add("touch-hover");
+        }
+    }
+
+    function handleTouchEnd(e) {
+        if (touchTimer) {
+            clearTimeout(touchTimer);
+            touchTimer = null;
+        }
+
+        if (!isDragging || !dragData) {
+            isDragging = false;
+            return;
+        }
+
+        // Find the slot under the finger
+        const touch = e.changedTouches[0];
+        const elementBelow = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY,
+        );
+        const targetCell = elementBelow?.closest(".mem-cell");
+
+        if (targetCell) {
+            const targetSlotAttr = targetCell.getAttribute("data-slot");
+            const targetBuildAttr = targetCell.getAttribute("data-build");
+            if (targetSlotAttr !== null && targetBuildAttr !== null) {
+                const tSlot = parseInt(targetSlotAttr);
+                const tBuild = parseInt(targetBuildAttr);
+                if (!isNaN(tSlot) && !isNaN(tBuild)) {
+                    appState.builds[tBuild].mems[tSlot] = dragData.memName;
+                    if (navigator.vibrate) navigator.vibrate(20);
+                }
+            }
+        }
+
+        // Cleanup
+        if (dragClone) {
+            dragClone.remove();
+            dragClone = null;
+        }
+        dragData = null;
+        isDragging = false;
+
+        // Restore opacity on source
+        document.querySelectorAll(".mem-box").forEach((el) => {
+            el.style.opacity = "";
+        });
+
+        // Remove all highlight classes
+        document.querySelectorAll(".touch-drop-target").forEach((el) => {
+            el.classList.remove("touch-drop-target");
+        });
+        document.querySelectorAll(".touch-hover").forEach((el) => {
+            el.classList.remove("touch-hover");
+        });
+
+        // Prevent the click event that fires after touchend from opening the modal
+        appState._touchDragJustEnded = true;
+        setTimeout(() => {
+            appState._touchDragJustEnded = false;
+        }, 100);
+    }
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
     class="mem-cell {memName || memImg ? 'has-item' : ''} {dragOver
         ? 'drag-over'
-        : ''} {appState.draggedMemory?.memName === memName && memName
-        ? 'is-copied'
-        : ''} {appState.draggedMemory &&
-    appState.draggedMemory.memName !== memName
-        ? 'is-drop-target'
         : ''}"
+    data-slot={slotIndex}
+    data-build={buildIndex}
     ondragover={handleDragOver}
     ondragleave={handleDragLeave}
     ondrop={handleDrop}
@@ -124,9 +236,9 @@
     <div
         class="mem-box"
         onclick={handleClick}
-        onpointerdown={handlePointerDown}
-        onpointerup={handlePointerUpOrCancel}
-        onpointercancel={handlePointerUpOrCancel}
+        ontouchstart={handleTouchStart}
+        ontouchmove={handleTouchMove}
+        ontouchend={handleTouchEnd}
         oncontextmenu={(e) => {
             e.preventDefault();
             return false;
