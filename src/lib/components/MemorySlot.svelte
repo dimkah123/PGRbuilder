@@ -20,7 +20,21 @@
         appState.builds[buildIndex].mems[slotIndex] = "";
     }
 
-    function handleClick() {
+    function handleClick(e) {
+        if (appState.draggedMemory) {
+            // We have a dragged memory, so this tap is a paste action
+            if (appState.draggedMemory.memName !== memName) {
+                appState.builds[buildIndex].mems[slotIndex] =
+                    appState.draggedMemory.memName;
+                if (navigator.vibrate) navigator.vibrate(20);
+            }
+            appState.draggedMemory = null; // Consume the paste buffer
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+
+        // Normal click opens the selector modal
         appState.openModal("mem", { buildIndex, slotIndex });
     }
 
@@ -36,44 +50,22 @@
     let isLongPress = false;
 
     function handlePointerDown(e) {
-        if (!memName) return;
+        if (!memName) return; // Can't copy an empty slot
 
         isLongPress = false;
         // Start 500ms timer for long press
         touchTimer = setTimeout(() => {
             isLongPress = true;
-            // Provide haptic feedback and visual cue if possible
             if (navigator.vibrate) navigator.vibrate(50);
-
-            // Set the "copied" memory data to global state
             appState.draggedMemory = { memName };
-
-            // Optional visual feedback on the dragged slot
             e.target.style.opacity = "0.5";
             setTimeout(() => (e.target.style.opacity = "1"), 300);
-        }, 500); // 500ms to trigger copy
+        }, 500);
     }
 
     function handlePointerUpOrCancel(e) {
         if (touchTimer) clearTimeout(touchTimer);
-
-        // If it was just a quick tap, it opens the modal (handled by onclick)
-        // If we are dropping a previously copied memory, do it here
-        if (!isLongPress && appState.draggedMemory && !memName) {
-            // Drop onto empty slot on tap
-            appState.builds[buildIndex].mems[slotIndex] =
-                appState.draggedMemory.memName;
-            appState.draggedMemory = null; // Consume the dragged item
-            if (navigator.vibrate) navigator.vibrate(20); // Success feedback
-            e.preventDefault(); // Prevent modal opening
-        } else if (!isLongPress && appState.draggedMemory && memName) {
-            // Replace existing slot on tap
-            appState.builds[buildIndex].mems[slotIndex] =
-                appState.draggedMemory.memName;
-            appState.draggedMemory = null;
-            if (navigator.vibrate) navigator.vibrate(20);
-            e.preventDefault();
-        }
+        // We removed the paste logic from here, as 'click' handles it better on mobile
     }
 
     function handleDragOver(e) {
