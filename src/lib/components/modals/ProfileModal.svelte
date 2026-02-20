@@ -354,7 +354,7 @@
         color: inherit;
         display: flex;
         flex-direction: column;
-        gap: 3px;
+        gap: 6px;
         line-height: 1.3;
     }
 
