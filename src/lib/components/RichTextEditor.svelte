@@ -976,6 +976,28 @@
                 closeDropdowns();
             }
         }
+        if (tooltip.show) {
+            if (
+                !e.target.closest(".char-highlight") &&
+                !e.target.closest(".memory-highlight") &&
+                !e.target.closest(".term-highlight") &&
+                !e.target.closest(".char-tooltip")
+            ) {
+                tooltip.show = false;
+            }
+        }
+    }}
+    ontouchstart={(e) => {
+        if (tooltip.show) {
+            if (
+                !e.target.closest(".char-highlight") &&
+                !e.target.closest(".memory-highlight") &&
+                !e.target.closest(".term-highlight") &&
+                !e.target.closest(".char-tooltip")
+            ) {
+                tooltip.show = false;
+            }
+        }
     }}
 />
 
@@ -984,9 +1006,15 @@
     class="rich-editor-wrapper"
     onmouseover={handleMouseOver}
     onmouseout={handleMouseOut}
-    onmousedown={() => {
+    onmousedown={(e) => {
         isMouseDown = true;
-        tooltip.show = false;
+        const isTooltipTrigger =
+            e.target.closest(".char-highlight") ||
+            e.target.closest(".memory-highlight") ||
+            e.target.closest(".term-highlight");
+        if (!isTooltipTrigger) {
+            tooltip.show = false;
+        }
     }}
     onmouseup={() => {
         isMouseDown = false;
