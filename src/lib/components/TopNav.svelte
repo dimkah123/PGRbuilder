@@ -185,19 +185,6 @@
                     <button onclick={() => handleToolClick(onSave)}
                         >{t("create_link")}</button
                     >
-                    {#if appState.userToken && appState.userProfile}
-                        <button onclick={() => handleToolClick(onProfile)}
-                            >{t("profile") || "Profile"}</button
-                        >
-                    {:else}
-                        <div
-                            use:googleSignin
-                            style="height: 40px; display: flex; align-items: center; justify-content: center; padding: 5px;"
-                        ></div>
-                    {/if}
-                    <button onclick={() => handleToolClick(onToggleTheme)}>
-                        {isLightMode ? t("dark_mode") : t("light_mode")}
-                    </button>
                     <button onclick={() => handleToolClick(onToggleTheme)}>
                         {isLightMode ? t("dark_mode") : t("light_mode")}
                     </button>
