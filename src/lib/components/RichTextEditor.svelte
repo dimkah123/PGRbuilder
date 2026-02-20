@@ -417,7 +417,12 @@
                 );
                 if (memory) {
                     const rect = target.getBoundingClientRect();
-                    const newX = rect.left + rect.width / 2;
+                    let newX = rect.left + rect.width / 2;
+                    const margin = 170;
+                    if (newX < margin) newX = margin;
+                    if (newX > window.innerWidth - margin)
+                        newX = window.innerWidth - margin;
+
                     const fitsAbove = rect.top > 200;
                     const newY = fitsAbove ? rect.top - 15 : rect.bottom + 15;
                     if (
@@ -446,7 +451,12 @@
                             ? rawDef[appState.lang] || rawDef.ru || rawDef.en
                             : rawDef;
                     const rect = target.getBoundingClientRect();
-                    const newX = rect.left + rect.width / 2;
+                    let newX = rect.left + rect.width / 2;
+                    const margin = 170;
+                    if (newX < margin) newX = margin;
+                    if (newX > window.innerWidth - margin)
+                        newX = window.innerWidth - margin;
+
                     const fitsAbove = rect.top > 200;
                     const newY = fitsAbove ? rect.top - 15 : rect.bottom + 15;
                     if (
@@ -489,7 +499,12 @@
                         (char.name && ruNameCount[char.name] > 1));
                 if (char && !isMultiFrame) {
                     const rect = target.getBoundingClientRect();
-                    const newX = rect.left + rect.width / 2;
+                    let newX = rect.left + rect.width / 2;
+                    const margin = 170;
+                    if (newX < margin) newX = margin;
+                    if (newX > window.innerWidth - margin)
+                        newX = window.innerWidth - margin;
+
                     const fitsAbove = rect.top > 200;
                     const newY = fitsAbove ? rect.top - 15 : rect.bottom + 15;
                     if (
