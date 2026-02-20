@@ -135,6 +135,10 @@
         onpointerdown={handlePointerDown}
         onpointerup={handlePointerUpOrCancel}
         onpointercancel={handlePointerUpOrCancel}
+        oncontextmenu={(e) => {
+            e.preventDefault();
+            return false;
+        }}
         role="button"
         tabindex="0"
     >

@@ -133,7 +133,6 @@
     animation: pulseBorder 1.5s infinite;
 }
 
-/* Individual Memory Slot */
 .mem-box {
     width: 100%;
     aspect-ratio: 1;
@@ -144,12 +143,18 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    /* Prevent default mobile browser context menu on long press */
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .mem-box img {
     width: 90%;
     height: 90%;
     object-fit: cover;
+    pointer-events: none;
+    /* Let the parent .mem-box handle the touch events */
 }
 
 .mem-box:hover {
