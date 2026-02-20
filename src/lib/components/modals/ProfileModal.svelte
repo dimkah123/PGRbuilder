@@ -348,12 +348,14 @@
         flex-grow: 1;
         background: transparent;
         border: none;
-        padding: 10px;
+        padding: 12px;
         text-align: left;
         cursor: pointer;
         color: inherit;
         display: flex;
         flex-direction: column;
+        gap: 3px;
+        line-height: 1.3;
     }
 
     .delete-btn {
@@ -366,6 +368,7 @@
         transition:
             opacity 0.2s,
             color 0.2s;
+        align-self: center;
     }
 
     .delete-btn:hover {
@@ -375,18 +378,20 @@
 
     .build-title {
         font-weight: bold;
+        font-size: 0.95rem;
+        color: var(--accent-red, #e44);
     }
 
     .build-memory {
-        font-size: 0.85rem;
-        color: #bbb;
-        margin: 2px 0;
+        font-size: 0.8rem;
+        color: #aaa;
+        font-family: var(--font-tech, monospace);
     }
 
     .build-id {
         font-family: monospace;
-        color: #888;
-        font-size: 0.8rem;
+        color: #666;
+        font-size: 0.75rem;
     }
 
     .empty,
