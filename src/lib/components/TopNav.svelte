@@ -282,6 +282,26 @@
         font-size: 0.75rem;
     }
 
+    .google-login-btn {
+        padding: 5px 15px;
+        font-size: 0.75rem;
+        border: 1px solid #444;
+        background: #000;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .google-login-btn:hover {
+        border-color: var(--accent-red);
+        color: var(--accent-red);
+    }
+
+    .google-login-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+    }
+
     .nav-separator {
         width: 1px;
         height: 24px;
