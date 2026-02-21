@@ -62,7 +62,10 @@
                     body: JSON.stringify({ code: response.code }),
                 });
 
-                if (!res.ok) throw new Error("Auth failed");
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error || "Auth failed");
+                }
 
                 const data = await res.json();
                 appState.sessionToken = data.sessionToken;
@@ -78,7 +81,8 @@
                 );
             } catch (e) {
                 console.error("Failed to exchange code", e);
-                alert(t("msg_save_error") || "Login failed. Please try again.");
+                // Combine localized prefix with the actual error message
+                alert(`${t("msg_save_error") || "Error:"} ${e.message}`);
             }
         }
     }
