@@ -18,7 +18,11 @@ export async function POST({ request }) {
         const editToken = Math.random().toString(36).substring(2, 15);
         let ownerId = null;
 
-        if (body.googleToken) {
+        if (body.sessionToken) {
+            const { validateSession } = await import('$lib/server/session.js');
+            ownerId = await validateSession(body.sessionToken);
+        } else if (body.googleToken) {
+            // Fallback for older clients
             try {
                 const tokenRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${body.googleToken}`);
                 if (tokenRes.ok) {

@@ -3,14 +3,17 @@ import { json } from '@sveltejs/kit';
 
 export async function POST({ request }) {
     try {
-        const { shortId, editToken, data, googleToken } = await request.json();
+        const { shortId, editToken, data, googleToken, sessionToken } = await request.json();
 
         if (!shortId || !data) {
             return json({ error: 'Missing required fields' }, { status: 400 });
         }
 
         let ownerId = null;
-        if (googleToken) {
+        if (sessionToken) {
+            const { validateSession } = await import('$lib/server/session.js');
+            ownerId = await validateSession(sessionToken);
+        } else if (googleToken) {
             try {
                 const tokenRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${googleToken}`);
                 if (tokenRes.ok) {

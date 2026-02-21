@@ -18,6 +18,7 @@
 
     let isToolsOpen = $state(false);
     let googleReady = $state(false);
+    let client = null;
 
     function loadGoogleLibrary() {
         // Remove existing script if any
@@ -31,10 +32,12 @@
         script.defer = true;
         script.onload = () => {
             /* global google */
-            google.accounts.id.initialize({
+            client = google.accounts.oauth2.initCodeClient({
                 client_id:
                     "64823134414-44hmn7s4ro6bhdu9ub82a5gi092pq0nj.apps.googleusercontent.com",
-                callback: handleCredentialResponse,
+                scope: "email profile",
+                ux_mode: "popup",
+                callback: handleAuthCodeResponse,
             });
             googleReady = true;
         };
@@ -50,53 +53,34 @@
         }
     });
 
-    function handleCredentialResponse(response) {
-        console.log("Encoded JWT ID token: " + response.credential);
-        appState.userToken = response.credential;
+    async function handleAuthCodeResponse(response) {
+        if (response.code) {
+            try {
+                const res = await fetch("/api/auth/google", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ code: response.code }),
+                });
 
-        // Decode Token
-        try {
-            const payload = JSON.parse(atob(response.credential.split(".")[1]));
-            appState.userProfile = {
-                name: payload.name,
-                email: payload.email,
-                picture: payload.picture,
-                id: payload.sub,
-            };
+                if (!res.ok) throw new Error("Auth failed");
 
-            // Persist
-            localStorage.setItem("pgr_user_token", appState.userToken);
-            localStorage.setItem(
-                "pgr_user_profile",
-                JSON.stringify(appState.userProfile),
-            );
-        } catch (e) {
-            console.error("Failed to decode token", e);
-        }
-    }
+                const data = await res.json();
+                appState.sessionToken = data.sessionToken;
+                appState.userProfile = data.userProfile;
 
-    function googleSignin(node) {
-        $effect(() => {
-            if (googleReady && !appState.userToken) {
-                try {
-                    // Slight delay to ensure library is fully ready after load
-                    setTimeout(() => {
-                        if (typeof google === "undefined") return;
-
-                        const isMobile = window.innerWidth <= 1024;
-
-                        google.accounts.id.renderButton(node, {
-                            theme: "filled_black",
-                            size: "medium",
-                            type: isMobile ? "icon" : "standard",
-                            shape: isMobile ? "circle" : "pill",
-                        });
-                    }, 50);
-                } catch (e) {
-                    console.error("Google Sign-In render error", e);
-                }
+                localStorage.setItem(
+                    "pgr_session_token",
+                    appState.sessionToken,
+                );
+                localStorage.setItem(
+                    "pgr_user_profile",
+                    JSON.stringify(appState.userProfile),
+                );
+            } catch (e) {
+                console.error("Failed to exchange code", e);
+                alert(t("msg_save_error") || "Login failed. Please try again.");
             }
-        });
+        }
     }
 
     function handleToolClick(action) {
@@ -153,7 +137,7 @@
         </button>
 
         <!-- Login / Profile (Moved) -->
-        {#if appState.userToken && appState.userProfile}
+        {#if (appState.sessionToken || appState.userToken) && appState.userProfile}
             <button
                 class="avatar-btn"
                 onclick={onProfile}
@@ -167,10 +151,14 @@
                 />
             </button>
         {:else}
-            <div
-                use:googleSignin
-                style="height: 40px; display: flex; align-items: center; margin-left: 10px;"
-            ></div>
+            <button
+                class="btn google-login-btn"
+                onclick={() => client && client.requestCode()}
+                disabled={!googleReady}
+                style="margin-left: 10px;"
+            >
+                {t("login") || "Sign In"}
+            </button>
         {/if}
 
         <!-- Mobile Tools Menu -->

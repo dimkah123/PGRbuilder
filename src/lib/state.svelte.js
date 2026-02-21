@@ -34,6 +34,7 @@ class AppState {
 
     // Auth
     userToken = $state(null);
+    sessionToken = $state(null);
     userProfile = $state(null);
 
     // Stats
@@ -159,9 +160,19 @@ class AppState {
             if (savedLang) this.lang = savedLang;
 
             const savedToken = localStorage.getItem('pgr_user_token');
+            const savedSessionToken = localStorage.getItem('pgr_session_token');
             const savedProfile = localStorage.getItem('pgr_user_profile');
 
-            if (savedToken) {
+            if (savedSessionToken) {
+                this.sessionToken = savedSessionToken;
+                if (savedProfile) {
+                    try {
+                        this.userProfile = JSON.parse(savedProfile);
+                    } catch (e) {
+                        console.error('Failed to parse saved profile', e);
+                    }
+                }
+            } else if (savedToken) {
                 this.userToken = savedToken;
                 let profile = null;
 
@@ -221,15 +232,42 @@ class AppState {
                 }
 
                 this.userProfile = profile;
+                if (this.sessionToken) {
+                    this.refreshSession();
+                }
             }
+        }
+    }
+
+    async refreshSession() {
+        if (!this.sessionToken) return;
+
+        try {
+            const res = await fetch('/api/auth/refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sessionToken: this.sessionToken })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                this.userProfile = data.userProfile;
+                localStorage.setItem("pgr_user_profile", JSON.stringify(this.userProfile));
+            } else if (res.status === 401) {
+                this.logout();
+            }
+        } catch (e) {
+            console.error('Silent refresh failed', e);
         }
     }
 
     logout() {
         this.userToken = null;
+        this.sessionToken = null;
         this.userProfile = null;
         if (typeof localStorage !== 'undefined') {
             localStorage.removeItem('pgr_user_token');
+            localStorage.removeItem('pgr_session_token');
             localStorage.removeItem('pgr_user_profile');
         }
     }

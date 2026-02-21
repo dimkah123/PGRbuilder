@@ -57,6 +57,7 @@ async function updateBuild(shortId, editToken) {
             shortId: shortId,
             editToken: editToken, // Can be null if using googleToken
             data: stateString,
+            sessionToken: appState.sessionToken,
             googleToken: appState.userToken
         })
     });
@@ -79,6 +80,7 @@ async function createNewBuild() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             data: stateString,
+            sessionToken: appState.sessionToken,
             googleToken: appState.userToken
         })
     });

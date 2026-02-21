@@ -3,22 +3,28 @@ import { json } from '@sveltejs/kit';
 
 export async function POST({ request }) {
     try {
-        const { shortId, googleToken } = await request.json();
+        const { shortId, googleToken, sessionToken } = await request.json();
 
-        if (!shortId || !googleToken) {
+        if (!shortId || (!googleToken && !sessionToken)) {
             return json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        // Verify Token
-        const tokenRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${googleToken}`);
-        if (!tokenRes.ok) {
-            return json({ error: 'Invalid token' }, { status: 401 });
+        let ownerId = null;
+        if (sessionToken) {
+            const { validateSession } = await import('$lib/server/session.js');
+            ownerId = await validateSession(sessionToken);
+        } else if (googleToken) {
+            // Verify Token
+            const tokenRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${googleToken}`);
+            if (!tokenRes.ok) {
+                return json({ error: 'Invalid token' }, { status: 401 });
+            }
+            const tokenData = await tokenRes.json();
+            ownerId = tokenData.sub;
         }
-        const tokenData = await tokenRes.json();
-        const ownerId = tokenData.sub;
 
         if (!ownerId) {
-            return json({ error: 'Invalid token data' }, { status: 401 });
+            return json({ error: 'Invalid token data or expired session' }, { status: 401 });
         }
 
         const turso = getTurso();

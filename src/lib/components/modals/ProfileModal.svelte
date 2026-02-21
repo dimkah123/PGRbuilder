@@ -27,7 +27,10 @@
             const res = await fetch("/api/my-builds", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ googleToken: appState.userToken }),
+                body: JSON.stringify({
+                    sessionToken: appState.sessionToken,
+                    googleToken: appState.userToken, // Legacy format support
+                }),
             });
             if (res.ok) {
                 const data = await res.json();
@@ -71,6 +74,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     shortId,
+                    sessionToken: appState.sessionToken,
                     googleToken: appState.userToken,
                 }),
             });
@@ -96,15 +100,16 @@
         }
     }
 
-    // Google Logout
     function logout() {
-        // Revoke if needed, or just clear state
         /* global google */
-        if (typeof google !== "undefined") {
+        if (
+            typeof google !== "undefined" &&
+            google.accounts &&
+            google.accounts.id
+        ) {
             google.accounts.id.disableAutoSelect();
         }
-        appState.userToken = null;
-        appState.userProfile = null; // Clear profile data
+        appState.logout();
         close();
     }
 </script>
