@@ -1,7 +1,15 @@
 import { getTurso } from '$lib/server/db.js';
 import { json } from '@sveltejs/kit';
 
-export async function POST({ request }) {
+export async function GET(event) {
+    return runMigration();
+}
+
+export async function POST(event) {
+    return runMigration();
+}
+
+async function runMigration() {
     try {
         const turso = getTurso();
 
