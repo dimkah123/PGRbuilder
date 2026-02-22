@@ -47,12 +47,15 @@
 
     margin-bottom: 0px;
     display: grid;
+    width: 100%;
+    box-sizing: border-box;
     /* Grid Columns: Memories | Harmony | Weapon Res | Res | Controls */
     grid-template-columns: var(--mem-col-width) var(--slot-size) 220px 1fr 30px;
     gap: 10px;
     border-bottom: 1px solid #111;
     padding-bottom: 5px;
     position: relative;
+    transition: margin 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
 }
 
 /* Lift build-row above others when dropdown is open */
@@ -567,7 +570,9 @@
     border: 1px solid #1a1a1a;
     background: rgba(255, 255, 255, 0.01);
     overflow: hidden;
-    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: none;
     min-width: 250px;
     display: flex;
     flex-direction: column;

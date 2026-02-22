@@ -64,10 +64,9 @@
     /* Fixed 400px Left Panel, Fluid Right Panel */
     gap: 40px;
     width: calc(100% - 120px);
-    /* 100% minus sidebar(80) and double padding(20+20) */
-    max-width: 1800px;
+    /* 100% minus sidebar(80) and padding */
+    max-width: none;
     margin-left: 100px;
-    /* 80px sidebar + 20px gap */
     margin-right: auto;
     margin-bottom: 0px;
     position: relative;
