@@ -3,7 +3,7 @@
     import { appState } from "$lib/state.svelte.js";
     import { t } from "$lib/i18n.js";
     import { CHAR_DATABASE, ROSTER_REDIRECTS } from "$lib/data.js";
-    import { preloadImages } from "$lib/utils/image-preloader.js";
+    import { preloadCriticalImages } from "$lib/utils/image-preloader.js";
     import Sidebar from "$lib/components/Sidebar.svelte";
     import ProfileModal from "$lib/components/modals/ProfileModal.svelte";
 
@@ -273,14 +273,12 @@
 
         // This page doesn't use the complex builder initialization, so we manually hide the loader
         appState.isLoading = false;
-
-        // Start background caching for all images, including avatars
-        preloadImages();
+        appState.isInitialLoad = false;
     });
 </script>
 
 <svelte:head>
-    <title>GRAY RAVEN DB // ГЛАВНАЯ</title>
+    <title>GRAY RAVEN Database // ГЛАВНАЯ</title>
 </svelte:head>
 
 <ProfileModal bind:this={profileModal} />
@@ -291,9 +289,9 @@
     <header class="header">
         <div class="logo-text">
             {#if appState.lang === "ru"}
-                <span>GRAY RAVEN DB</span> // СПИСОК КОНСТРУКТОВ
+                <span>GRAY RAVEN Database</span> // СПИСОК КОНСТРУКТОВ
             {:else}
-                <span>GRAY RAVEN DB</span> // CONSTRUCT ROSTER
+                <span>GRAY RAVEN Database</span> // CONSTRUCT ROSTER
             {/if}
         </div>
         <div class="header-controls">
@@ -713,7 +711,7 @@
     .logo-text {
         font-size: 14px;
         letter-spacing: 2px;
-        color: var(--text-dim);
+        color: #fff;
         text-transform: uppercase;
         font-family: var(--font-header);
     }

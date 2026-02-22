@@ -1,9 +1,10 @@
 <script>
     import { appState } from "$lib/state.svelte.js";
     import { fade } from "svelte/transition";
+    import { page } from "$app/stores";
 </script>
 
-{#if appState.isInitialLoad}
+{#if appState.isInitialLoad && $page.url.pathname === "/"}
     <div id="loading-overlay" transition:fade={{ duration: 300 }}>
         <div class="spinner"></div>
         <div class="loading-text">INITIALIZING SYSTEMS...</div>
