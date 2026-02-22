@@ -28,7 +28,8 @@
         preloadImages,
         preloadCriticalImages,
     } from "$lib/utils/image-preloader.js";
-    import { MEMORY_NAMES } from "$lib/data.js";
+    import { MEMORY_NAMES, CHAR_DATABASE } from "$lib/data.js";
+    import { fillCharacterData } from "$lib/utils/autocomplete.js";
 
     let isLightMode = $state(false);
     let saveBtnState = $state({ textKey: "create_link", style: "new" });
@@ -110,6 +111,23 @@
     onMount(() => {
         // Init URL Load
         loadFromUrl().then(async () => {
+            const params = new URLSearchParams(window.location.search);
+            const charParam = params.get("char");
+
+            // If ?char= is present and no cloud save was loaded, initialize character
+            if (charParam && !params.get("id")) {
+                const searchVal = charParam.toLowerCase().trim();
+                const dbEntry = CHAR_DATABASE.find(
+                    (c) =>
+                        (c.enFrame && c.enFrame.toLowerCase() === searchVal) ||
+                        (c.frame && c.frame.toLowerCase() === searchVal),
+                );
+
+                if (dbEntry) {
+                    fillCharacterData(dbEntry);
+                }
+            }
+
             saveBtnState = getSaveButtonState();
 
             // Collect critical images to block loading screen

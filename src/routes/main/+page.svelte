@@ -554,7 +554,12 @@
             <div class="roster-container">
                 <div class="roster-grid">
                     {#each filteredRoster as char}
-                        <div class="char-card">
+                        <a
+                            href="/?char={encodeURIComponent(
+                                char.enFrame || char.frame,
+                            )}"
+                            class="char-card"
+                        >
                             <div class={`char-avatar-box rank-bg-${char.rank}`}>
                                 {#if char.avatar}
                                     <img
@@ -579,7 +584,7 @@
                                         : char.enFrame}
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     {/each}
                 </div>
             </div>
@@ -857,6 +862,8 @@
         display: flex;
         flex-direction: column;
         cursor: pointer;
+        text-decoration: none;
+        color: inherit;
         transition:
             transform 0.2s,
             background-color 0.2s,
