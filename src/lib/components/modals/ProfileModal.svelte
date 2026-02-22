@@ -20,7 +20,7 @@
     let error = $state(null);
 
     async function fetchBuilds() {
-        if (!appState.userToken) return;
+        if (!appState.userToken && !appState.sessionToken) return;
         isLoading = true;
         error = null;
         try {
