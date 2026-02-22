@@ -4,7 +4,8 @@ import {
     CLASS_IMAGES,
     WEAPON_IMAGES,
     CUB_IMAGES,
-    MEMORY_IMAGES
+    MEMORY_IMAGES,
+    CHAR_DATABASE
 } from '$lib/data.js';
 
 /**
@@ -49,6 +50,15 @@ function getAllImageUrls() {
             } else {
                 urls.add(url);
             }
+        }
+    });
+
+    // 7. Character Avatars (Faces)
+    CHAR_DATABASE.forEach(char => {
+        const key = char.enFrame || char.enName;
+        if (key) {
+            const cleaned = key.replace(/\s+/g, "");
+            urls.add(`/Image/Characters/Head/Dialogue-${cleaned}-Icon.webp`);
         }
     });
 

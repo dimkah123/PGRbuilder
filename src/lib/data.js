@@ -75,7 +75,7 @@ export const CHARACTER_IMAGES = [
 ];
 
 export const ROSTER_REDIRECTS = {
-    "Arete": "YzHKhZYW" // Example: Rosetta -> YzHKhZYW
+    "Arete": "YzHKhZYW" // Rosetta -> YzHKhZYW
 };
 
 export const ELEMENT_IMAGES = {

@@ -3,6 +3,7 @@
     import { appState } from "$lib/state.svelte.js";
     import { t } from "$lib/i18n.js";
     import { CHAR_DATABASE, ROSTER_REDIRECTS } from "$lib/data.js";
+    import { preloadImages } from "$lib/utils/image-preloader.js";
     import Sidebar from "$lib/components/Sidebar.svelte";
     import ProfileModal from "$lib/components/modals/ProfileModal.svelte";
 
@@ -272,6 +273,9 @@
 
         // This page doesn't use the complex builder initialization, so we manually hide the loader
         appState.isLoading = false;
+
+        // Start background caching for all images, including avatars
+        preloadImages();
     });
 </script>
 

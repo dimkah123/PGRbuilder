@@ -67,7 +67,35 @@
                     "Are you sure? This will clear current changes.",
             )
         ) {
-            // Reset character to default empty state
+            // First, unconditionally reset titles and builds
+            appState.title = "";
+            appState.posCode = "";
+            appState.builds = [
+                {
+                    title: "",
+                    mems: ["", "", "", "", "", ""],
+                    harm: "",
+                    resTopSlot: "",
+                    resTopSkill: "",
+                    resBotSlot: "",
+                    resBotSkill: "",
+                    desc: "",
+                    wRes: [null, null, null],
+                },
+                {
+                    title: "",
+                    mems: ["", "", "", "", "", ""],
+                    harm: "",
+                    resTopSlot: "",
+                    resTopSkill: "",
+                    resBotSlot: "",
+                    resBotSkill: "",
+                    desc: "",
+                    wRes: [null, null, null],
+                },
+            ];
+
+            // Reset character to default empty state or reload current basic data
             const searchVal = (appState.enFrame || appState.frame || "")
                 .toLowerCase()
                 .trim();
@@ -79,34 +107,6 @@
 
             if (dbEntry) {
                 fillCharacterData(dbEntry);
-            } else {
-                // Fallback reset
-                appState.title = "";
-                appState.builds = [
-                    {
-                        title: "",
-                        mems: ["", "", "", "", "", ""],
-                        harm: "",
-                        resTopSlot: "",
-                        resTopSkill: "",
-                        resBotSlot: "",
-                        resBotSkill: "",
-                        desc: "",
-                        wRes: [null, null, null],
-                    },
-                    {
-                        title: "",
-                        mems: ["", "", "", "", "", ""],
-                        harm: "",
-                        resTopSlot: "",
-                        resTopSkill: "",
-                        resBotSlot: "",
-                        resBotSkill: "",
-                        desc: "",
-                        wRes: [null, null, null],
-                    },
-                ];
-                appState.posCode = "";
             }
 
             // Unbind from cloud save
