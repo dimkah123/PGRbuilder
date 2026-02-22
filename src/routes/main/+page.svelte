@@ -981,7 +981,13 @@
 
     .char-info {
         text-align: center;
-        margin-top: 2px;
+        margin-top: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: 46px;
+        flex-grow: 1;
     }
 
     .char-name {
