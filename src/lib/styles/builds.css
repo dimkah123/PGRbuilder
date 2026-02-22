@@ -153,8 +153,9 @@
     width: 90%;
     height: 90%;
     object-fit: cover;
-    pointer-events: none;
-    /* Let the parent .mem-box handle the touch events */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .mem-box:hover {
