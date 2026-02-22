@@ -231,6 +231,7 @@
             // Small delay to ensure render
             setTimeout(() => {
                 appState.isLoading = false;
+                appState.isInitialLoad = false;
 
                 // Start background image preloading immediately after render
                 preloadImages();
@@ -267,7 +268,6 @@
     class="app-container"
     class:lang-changing={isLangChanging}
     bind:this={appContainer}
-    style="opacity: {appState.isLoading ? 0 : 1};"
 >
     <div class="page-corner pc-tl"></div>
     <div class="page-corner pc-tr"></div>

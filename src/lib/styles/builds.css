@@ -55,7 +55,6 @@
     border-bottom: 1px solid #111;
     padding-bottom: 5px;
     position: relative;
-    transition: margin 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
 }
 
 /* Lift build-row above others when dropdown is open */
@@ -650,7 +649,4 @@
    ----------------------------------------------
    Transitions for adding/removing builds.
 */
-/* Limit max height for smooth expanding */
-.build-row {
-    transition: margin 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
-}
+/* Transitions removed for faster rendering */

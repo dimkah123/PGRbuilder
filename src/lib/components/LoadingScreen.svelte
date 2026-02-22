@@ -3,7 +3,7 @@
     import { fade } from "svelte/transition";
 </script>
 
-{#if appState.isLoading}
+{#if appState.isInitialLoad}
     <div id="loading-overlay" transition:fade={{ duration: 300 }}>
         <div class="spinner"></div>
         <div class="loading-text">INITIALIZING SYSTEMS...</div>

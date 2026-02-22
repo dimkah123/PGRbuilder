@@ -26,6 +26,7 @@ export const findLocalizedKey = (obj, val) => {
 
 class AppState {
     // Character Info
+    isInitialLoad = $state(true);
     isLoading = $state(true);
     char = $state('');
     frame = $state('');
