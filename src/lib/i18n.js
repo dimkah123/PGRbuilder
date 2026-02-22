@@ -102,7 +102,13 @@ const translations = {
         enter_build_name: "Введите название сборки...",
         delete_confirm: "Вы уверены, что хотите удалить эту сборку? Это действие необратимо.",
         update_build: "ОБНОВИТЬ СБОРКУ",
-        build_suffix: " - Сборка"
+        build_suffix: " - Сборка",
+        nav_constructs: "Конструкты",
+        nav_builds: "Сборки",
+        nav_settings: "Настройки",
+        main_title: "GRAY RAVEN DB // СПИСОК КОНСТРУКТОВ",
+        filters: "ФИЛЬТРЫ",
+        char_prefix: "ПЕРСОНАЖ"
     },
     en: {
         tools: "TOOLS",
@@ -205,7 +211,13 @@ const translations = {
         enter_build_name: "Enter build name...",
         delete_confirm: "Are you sure you want to delete this build? This action cannot be undone.",
         update_build: "UPDATE BUILD",
-        build_suffix: " - Build"
+        build_suffix: " - Build",
+        nav_constructs: "Constructs",
+        nav_builds: "Builds",
+        nav_settings: "Settings",
+        main_title: "GRAY RAVEN DB // CONSTRUCT ROSTER",
+        filters: "FILTERS",
+        char_prefix: "CHARACTER"
     }
 };
 

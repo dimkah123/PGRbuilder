@@ -10,11 +10,12 @@
     import LoadingScreen from "$lib/components/LoadingScreen.svelte";
     import { injectAnalytics } from "@vercel/analytics/sveltekit";
     import { onMount } from "svelte";
+    import { dev } from "$app/environment";
 
     onMount(() => {
         injectAnalytics();
 
-        if ("serviceWorker" in navigator) {
+        if (!dev && "serviceWorker" in navigator) {
             navigator.serviceWorker
                 .register("/service-worker.js")
                 .then((registration) => {

@@ -53,7 +53,7 @@ export const CHARACTER_IMAGES = [
     { frame: "Pyroath", file: "Image/Characters/Coating-Pyroath-Generic.webp" },
     { frame: "Qilin", file: "Image/Characters/Coating-Qilin-Generic.webp" },
     { frame: "Radiant Daybreak", file: "Image/Characters/Coating-Radiant Daybreak-Generic.webp" },
-    { frame: "Remote Star", file: "Image/Characters/Coating-Remote Star-Generic.webp" },
+    { frame: "Starfarer", file: "Image/Characters/Coating-Starfarer-Generic.webp" },
     { frame: "Rigor", file: "Image/Characters/Coating-Rigor-Generic.webp" },
     { frame: "Rozen", file: "Image/Characters/Coating-Rozen-Generic.webp" },
     { frame: "Secator", file: "Image/Characters/Coating-Secator-Generic.webp" },
@@ -82,13 +82,13 @@ export const ELEMENT_IMAGES = {
     "general": "Image/Elements/GENERAL.webp",
     "dis": "Image/Elements/GENERAL.webp",
     "ice": "Image/Elements/ICE.webp",
-    "light": "Image/Elements/LIGHT.webp",
+    "Raydiance": "Image/Elements/Raydiance.webp",
     "nihl": "Image/Elements/NIHL.webp",
     "phys": "Image/Elements/PHYS.webp",
     "plasma": "Image/Elements/PLASMA.webp",
     "slash": "Image/Elements/SLASH.webp",
     "thunder": "Image/Elements/THUNDER.webp",
-    "umbra": "Image/Elements/UMBRA.webp"
+    "Darkflow": "Image/Elements/Darkflow.webp"
 };
 
 export const ELEMENT_NAMES = {
@@ -103,9 +103,9 @@ export const ELEMENT_NAMES = {
         "Ignition": "Горение",
         "plasma": "Плазма",
         "slash": "Слеш",
-        "umbra": "Тень",
+        "Darkflow": "Даркфлоу",
         "freez": "Заморозка",
-        "light": "Рейдианс",
+        "Raydiance": "Рейдианс",
         "general": "Общий",
         "-": "-"
     },
@@ -120,9 +120,9 @@ export const ELEMENT_NAMES = {
         "Ignition": "Ignition",
         "plasma": "Plasma",
         "slash": "Slash",
-        "umbra": "Umbra",
+        "Darkflow": "Darkflow",
         "freez": "Freez",
-        "light": "Raydiance",
+        "Raydiance": "Raydiance",
         "general": "General",
         "-": "-"
     }
@@ -1425,16 +1425,6 @@ export const CHAR_DATABASE = [
         weapon: "Sarastro"
     },
     {
-        name: "Пулао",
-        enName: "Pulao",
-        frame: "Драгонтол",
-        enFrame: "Dragontoll",
-        rank: "S",
-        element: "Физический",
-        class: "Авангард",
-        weapon: "Infinity"
-    },
-    {
         name: "Нанами",
         enName: "Nanami",
         frame: "Старфарер",
@@ -1530,7 +1520,7 @@ export const CHAR_DATABASE = [
         element: "Молния",
         class: "Атакующий",
         weapon: "Nightblaze",
-        affix: "Umbra",
+        affix: "Darkflow",
         cub: "Motorbolt"
     },
     {
@@ -1596,7 +1586,7 @@ export const CHAR_DATABASE = [
         element: "Огонь",
         class: "Танк",
         weapon: "Dark Falcon",
-        affix: "Umbra",
+        affix: "Darkflow",
         cub: "Shadow Wing"
     },
     {
@@ -1755,7 +1745,7 @@ export const CHAR_DATABASE = [
         element: "Огонь",
         class: "Амплифаер",
         weapon: "Deathless Flame",
-        affix: "Umbra",
+        affix: "Darkflow",
         cub: "Wrathfang"
     },
     {
@@ -1826,7 +1816,7 @@ export const CHAR_DATABASE = [
         element: "Молния",
         class: "Атакующий",
         weapon: "Ripples of the Aloft Sea",
-        affix: "Umbra",
+        affix: "Darkflow",
         cub: "Levvi"
     },
     {
@@ -1838,14 +1828,14 @@ export const CHAR_DATABASE = [
         element: "Лед",
         class: "Амплифаер",
         weapon: "Neon Wayfarer",
-        affix: "Light",
+        affix: "Рейдианс",
         cub: "Beep-Boop"
     },
     {
         name: "BLACK★ROCK SHOOTER",
         enName: "BLACK★ROCK SHOOTER",
         frame: "",
-        enFrame: "BLACK★ROCK SHOOTER",
+        enFrame: "",
         rank: "A",
         element: "Огонь",
         class: "Атакующий",
@@ -1862,28 +1852,6 @@ export const CHAR_DATABASE = [
         weapon: "Mirage Halberd: Amalga",
         affix: "Slash",
         cub: "Buzzling"
-    },
-    {
-        name: "Каренина",
-        enName: "Karenina",
-        frame: "Рэдиант Дэйбрейк",
-        enFrame: "Radiant Daybreak",
-        rank: "S",
-        element: "Тьма",
-        class: "Танк",
-        weapon: "Illuminare",
-        cub: "Moonhopper"
-    },
-    {
-        name: "Нанами",
-        enName: "Nanami",
-        frame: "Римоут Стар",
-        enFrame: "Remote Star",
-        rank: "S",
-        element: "Огонь",
-        class: "Танк",
-        weapon: "Implosion",
-        cub: "Jet Jaeger"
     },
     {
         name: "Пулао",
