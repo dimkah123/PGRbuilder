@@ -4,6 +4,75 @@
     import { t } from "$lib/i18n.js";
     import { CHAR_DATABASE } from "$lib/data.js";
     import Sidebar from "$lib/components/Sidebar.svelte";
+    import ProfileModal from "$lib/components/modals/ProfileModal.svelte";
+
+    let profileModal = $state(null);
+    let googleReady = $state(false);
+    let client = null;
+
+    function loadGoogleLibrary() {
+        const existingScript = document.getElementById("google-gsi-script");
+        if (existingScript) existingScript.remove();
+
+        const script = document.createElement("script");
+        script.id = "google-gsi-script";
+        script.src = `https://accounts.google.com/gsi/client?hl=${appState.lang}`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+            /* global google */
+            client = google.accounts.oauth2.initCodeClient({
+                client_id:
+                    "64823134414-44hmn7s4ro6bhdu9ub82a5gi092pq0nj.apps.googleusercontent.com",
+                scope: "email profile",
+                ux_mode: "popup",
+                callback: handleAuthCodeResponse,
+            });
+            googleReady = true;
+        };
+        document.head.appendChild(script);
+    }
+
+    $effect(() => {
+        // Reload Google Library when language changes
+        const l = appState.lang; // Dependency
+        if (typeof window !== "undefined") {
+            googleReady = false; // Reset readiness
+            loadGoogleLibrary();
+        }
+    });
+
+    async function handleAuthCodeResponse(response) {
+        if (response.code) {
+            try {
+                const res = await fetch("/api/auth/google", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ code: response.code }),
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to verify code");
+                }
+
+                const data = await res.json();
+                appState.sessionToken = data.sessionToken;
+                appState.userProfile = data.userProfile;
+
+                localStorage.setItem(
+                    "pgr_session_token",
+                    appState.sessionToken,
+                );
+                localStorage.setItem(
+                    "pgr_user_profile",
+                    JSON.stringify(appState.userProfile),
+                );
+            } catch (e) {
+                console.error("Failed to exchange code", e);
+                alert(`${t("msg_save_error") || "Error:"} ${e.message}`);
+            }
+        }
+    }
 
     let roster = $state([]);
     let showFilters = $state(false);
@@ -209,6 +278,8 @@
 <svelte:head>
     <title>GRAY RAVEN DB // ГЛАВНАЯ</title>
 </svelte:head>
+
+<ProfileModal bind:this={profileModal} />
 
 <svelte:window onclick={handleWindowClick} />
 
@@ -441,6 +512,8 @@
                     </div>
                 {/if}
             </div>
+            <div class="nav-separator"></div>
+
             <button
                 class="btn btn-lang"
                 onclick={() =>
@@ -448,6 +521,29 @@
             >
                 {appState.lang === "ru" ? "RU" : "EN"}
             </button>
+
+            <!-- Login / Profile -->
+            {#if (appState.sessionToken || appState.userToken) && appState.userProfile}
+                <button
+                    class="avatar-btn"
+                    onclick={() => profileModal.open()}
+                    title={appState.userProfile.name}
+                >
+                    <img
+                        src={appState.userProfile.picture}
+                        alt="Avatar"
+                        class="nav-avatar"
+                    />
+                </button>
+            {:else}
+                <button
+                    class="btn google-login-btn"
+                    onclick={() => client && client.requestCode()}
+                    disabled={!googleReady}
+                >
+                    {t("login") || "Sign In"}
+                </button>
+            {/if}
         </div>
     </header>
 
@@ -616,6 +712,7 @@
 
     .header-controls {
         display: flex;
+        align-items: center;
         gap: 10px;
     }
 
@@ -648,6 +745,28 @@
         min-width: 45px;
         background: #000;
         color: #fff;
+    }
+
+    .google-login-btn {
+        background: #000;
+        font-weight: bold;
+    }
+
+    .google-login-btn:hover {
+        border-color: var(--accent-red);
+        color: var(--accent-red);
+    }
+
+    .google-login-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+    }
+
+    .nav-separator {
+        width: 1px;
+        height: 24px;
+        background: #333;
+        margin: 0 10px;
     }
 
     .filter-panel {
@@ -755,6 +874,28 @@
         border-color: #555;
     }
 
+    .avatar-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        transition: transform 0.2s;
+    }
+
+    .avatar-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px var(--accent-red);
+    }
+
+    .nav-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid #555;
+    }
     .char-avatar-box {
         width: 100%;
         aspect-ratio: 1;

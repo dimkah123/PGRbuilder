@@ -146,7 +146,6 @@
                 class="avatar-btn"
                 onclick={onProfile}
                 title={appState.userProfile.name}
-                style="margin-left: 10px;"
             >
                 <img
                     src={appState.userProfile.picture}
@@ -159,7 +158,6 @@
                 class="btn google-login-btn"
                 onclick={() => client && client.requestCode()}
                 disabled={!googleReady}
-                style="margin-left: 10px;"
             >
                 {t("login") || "Sign In"}
             </button>
@@ -244,13 +242,23 @@
         color: #fff;
     }
 
-    .toggle-btn {
-        padding: 5px 10px;
-        font-size: 0.7rem;
-        cursor: pointer;
-        text-transform: uppercase;
+    .btn {
+        background: transparent;
         border: 1px solid #444;
-        transition: all 0.2s ease;
+        color: #fff;
+        padding: 5px 15px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-radius: 0;
+        font-family: var(--font-header);
+    }
+
+    .btn:hover {
+        border-color: var(--accent-red);
+        color: var(--accent-red);
     }
 
     .lang-toggle {
@@ -277,19 +285,9 @@
         gap: 10px;
     }
 
-    .nav-btn {
-        padding: 5px 15px;
-        font-size: 0.75rem;
-    }
-
     .google-login-btn {
-        padding: 5px 15px;
-        font-size: 0.75rem;
-        border: 1px solid #444;
         background: #000;
-        color: #fff;
-        cursor: pointer;
-        transition: all 0.2s ease;
+        font-weight: bold;
     }
 
     .google-login-btn:hover {
