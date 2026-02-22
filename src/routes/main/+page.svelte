@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { appState } from "$lib/state.svelte.js";
     import { t } from "$lib/i18n.js";
-    import { CHAR_DATABASE } from "$lib/data.js";
+    import { CHAR_DATABASE, ROSTER_REDIRECTS } from "$lib/data.js";
     import Sidebar from "$lib/components/Sidebar.svelte";
     import ProfileModal from "$lib/components/modals/ProfileModal.svelte";
 
@@ -554,10 +554,14 @@
             <div class="roster-container">
                 <div class="roster-grid">
                     {#each filteredRoster as char}
+                        {@const redirectId =
+                            ROSTER_REDIRECTS[char.enFrame || char.frame]}
                         <a
-                            href="/?char={encodeURIComponent(
-                                char.enFrame || char.frame,
-                            )}"
+                            href={redirectId
+                                ? `/?id=${redirectId}`
+                                : `/?char=${encodeURIComponent(
+                                      char.enFrame || char.frame,
+                                  )}`}
                             class="char-card"
                         >
                             <div class={`char-avatar-box rank-bg-${char.rank}`}>

@@ -60,6 +60,65 @@
         saveBuildModal.open();
     }
 
+    function handleNewBuild() {
+        if (
+            confirm(
+                t("delete_confirm") ||
+                    "Are you sure? This will clear current changes.",
+            )
+        ) {
+            // Reset character to default empty state
+            const searchVal = (appState.enFrame || appState.frame || "")
+                .toLowerCase()
+                .trim();
+            const dbEntry = CHAR_DATABASE.find(
+                (c) =>
+                    (c.enFrame && c.enFrame.toLowerCase() === searchVal) ||
+                    (c.frame && c.frame.toLowerCase() === searchVal),
+            );
+
+            if (dbEntry) {
+                fillCharacterData(dbEntry);
+            } else {
+                // Fallback reset
+                appState.title = "";
+                appState.builds = [
+                    {
+                        title: "",
+                        mems: ["", "", "", "", "", ""],
+                        harm: "",
+                        resTopSlot: "",
+                        resTopSkill: "",
+                        resBotSlot: "",
+                        resBotSkill: "",
+                        desc: "",
+                        wRes: [null, null, null],
+                    },
+                    {
+                        title: "",
+                        mems: ["", "", "", "", "", ""],
+                        harm: "",
+                        resTopSlot: "",
+                        resTopSkill: "",
+                        resBotSlot: "",
+                        resBotSkill: "",
+                        desc: "",
+                        wRes: [null, null, null],
+                    },
+                ];
+                appState.posCode = "";
+            }
+
+            // Unbind from cloud save
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.delete("id");
+            window.history.pushState({}, "", newUrl.toString());
+
+            appState.loadedBuildOwner = null;
+            saveBtnState = getSaveButtonState();
+        }
+    }
+
     function autoScale() {
         if (!appContainer) return;
         const sidebarW = 80;
@@ -199,6 +258,7 @@
     onGuide={() => guideModal.open()}
     onToggleTheme={toggleTheme}
     onProfile={() => profileModal.open()}
+    onNewBuild={handleNewBuild}
     {isLightMode}
     {saveBtnState}
 />

@@ -74,6 +74,10 @@ export const CHARACTER_IMAGES = [
     { frame: "Zitherwoe", file: "Image/Characters/Coating-Zitherwoe-Generic.webp" }
 ];
 
+export const ROSTER_REDIRECTS = {
+    "Arete": "YzHKhZYW" // Example: Rosetta -> YzHKhZYW
+};
+
 export const ELEMENT_IMAGES = {
     "Ignition": "Image/Elements/Ignition.webp",
     "dark": "Image/Elements/DARK.webp",

@@ -14,6 +14,7 @@
         onProfile, // New prop
         isLightMode,
         saveBtnState,
+        onNewBuild,
     } = $props();
 
     let isToolsOpen = $state(false);
@@ -114,6 +115,14 @@
                 {#key appState.lang}
                     <span in:fade={{ duration: 300 }}
                         >{t(saveBtnState.textKey)}</span
+                    >
+                {/key}
+            </button>
+            <!-- NEW BUILD BUTTON -->
+            <button class="btn nav-btn" onclick={onNewBuild}>
+                {#key appState.lang}
+                    <span in:fade={{ duration: 300 }}
+                        >{t("new_build") || "NEW BUILD"}</span
                     >
                 {/key}
             </button>
@@ -259,6 +268,17 @@
     .btn:hover {
         border-color: var(--accent-red);
         color: var(--accent-red);
+    }
+
+    .btn-update {
+        border-color: #4caf50;
+        color: #4caf50;
+    }
+
+    .btn-update:hover {
+        background-color: rgba(76, 175, 80, 0.1);
+        border-color: #4caf50;
+        color: #4caf50;
     }
 
     .lang-toggle {
