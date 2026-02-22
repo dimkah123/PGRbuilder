@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import TopNav from "$lib/components/TopNav.svelte";
+    import Sidebar from "$lib/components/Sidebar.svelte";
     import LeftPanel from "$lib/components/LeftPanel.svelte";
     import RightPanel from "$lib/components/RightPanel.svelte";
     import { t } from "$lib/i18n.js";
@@ -60,19 +61,20 @@
 
     function autoScale() {
         if (!appContainer) return;
-        const winW = window.innerWidth;
+        const sidebarW = 80;
+        const availW = window.innerWidth - sidebarW;
         const containerW = 1900;
         // Use 950 to ensure scaling kicks in for 1024px/1200px screens
         const minDesktopW = 950;
 
-        if (winW < containerW && winW > minDesktopW) {
+        if (availW < containerW && availW > minDesktopW) {
             // Add 40px buffer (20px each side) for "16:9 like" spacing
-            const scale = (winW - 40) / containerW;
+            const scale = (availW - 40) / containerW;
             appContainer.style.width = `${containerW}px`; // Force full width layout
             appContainer.style.transform = `scale(${scale})`;
-            appContainer.style.transformOrigin = "top center"; // Center it back
+            appContainer.style.transformOrigin = "top left";
             appContainer.style.marginLeft = "";
-            appContainer.style.alignSelf = ""; // Let Flexbox center it
+            appContainer.style.alignSelf = "";
             appContainer.style.zoom = "";
         } else {
             appContainer.style.width = ""; // Reset to CSS default
@@ -168,6 +170,10 @@
     });
 </script>
 
+<div class="sidebar-wrapper">
+    <Sidebar />
+</div>
+
 <TopNav
     onSave={handleSave}
     onExport={() => handleExport(appState.char || "UNIT")}
@@ -213,6 +219,15 @@
 
 <style>
     /* Styles are mostly global in app.css */
+    .sidebar-wrapper {
+        position: fixed;
+        top: 50px; /* Below TopNav */
+        left: 0;
+        height: calc(100vh - 50px);
+        width: 80px;
+        z-index: 200;
+        background-color: var(--panel-bg);
+    }
 
     :global(.lang-changing span),
     :global(.lang-changing label),

@@ -1578,6 +1578,16 @@ export const CHAR_DATABASE = [
         cub: "Cetus"
     },
     {
+        name: "BLACK★ROCK",
+        enName: "BLACK★ROCK",
+        frame: "SHOOTER",
+        enFrame: "SHOOTER",
+        rank: "A",
+        element: "Огонь",
+        class: "Атакующий",
+        weapon: "★Rock Cannon"
+    },
+    {
         name: "Ватанабэ",
         enName: "Watanabe",
         frame: "Эпитаф",
@@ -1830,16 +1840,6 @@ export const CHAR_DATABASE = [
         weapon: "Neon Wayfarer",
         affix: "Рейдианс",
         cub: "Beep-Boop"
-    },
-    {
-        name: "BLACK★ROCK SHOOTER",
-        enName: "BLACK★ROCK SHOOTER",
-        frame: "",
-        enFrame: "",
-        rank: "A",
-        element: "Огонь",
-        class: "Атакующий",
-        weapon: "★Rock Cannon"
     },
     {
         name: "Розетта",

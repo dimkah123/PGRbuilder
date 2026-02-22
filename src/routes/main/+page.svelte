@@ -2,7 +2,8 @@
     import { onMount } from "svelte";
     import { appState } from "$lib/state.svelte.js";
     import { t } from "$lib/i18n.js";
-    import { CHAR_DATABASE, CHARACTER_IMAGES } from "$lib/data.js";
+    import { CHAR_DATABASE } from "$lib/data.js";
+    import Sidebar from "$lib/components/Sidebar.svelte";
 
     let roster = $state([]);
     let showFilters = $state(false);
@@ -10,6 +11,17 @@
     let filterElement = $state("ALL");
     let filterClass = $state("ALL");
     let filterAffix = $state("ALL");
+    let filterContainer;
+
+    function handleWindowClick(e) {
+        if (
+            showFilters &&
+            filterContainer &&
+            !filterContainer.contains(e.target)
+        ) {
+            showFilters = false;
+        }
+    }
 
     let filteredRoster = $derived(
         roster.filter((char) => {
@@ -102,7 +114,7 @@
         "Noctis: Indomitus",
         "Alisa: Echo",
         "Lamia: Lost Lullaby",
-        "BLACK★ROCK SHOOTER",
+        "BLACK★ROCK: SHOOTER",
         "Watanabe: Epitaph",
         "Qu: Shukra",
         "Teddy: Decryptor",
@@ -128,12 +140,18 @@
         "Rosetta: Arete",
     ];
 
+    // Build head icon path from frame name (or enName for collabs with no frame)
+    // Head files: Dialogue-{Frame}-Icon.webp (spaces removed)
+    function getHeadIcon(frame, name) {
+        const key = frame || name;
+        if (!key) return "";
+        const cleaned = key.replace(/\s+/g, "");
+        return `/Image/Characters/Head/Dialogue-${cleaned}-Icon.webp`;
+    }
+
     onMount(() => {
         // Load real characters from CHAR_DATABASE
         const rawRoster = CHAR_DATABASE.map((char, index) => {
-            const imageInfo = CHARACTER_IMAGES.find(
-                (img) => img.frame === char.enFrame,
-            );
             return {
                 id: index,
                 name: char.name, // RU name
@@ -144,7 +162,7 @@
                 class: char.class,
                 element: char.element,
                 affix: char.affix || null,
-                avatar: imageInfo ? `/${imageInfo.file}` : "",
+                avatar: getHeadIcon(char.enFrame, char.enName),
             };
         });
 
@@ -192,320 +210,285 @@
     <title>GRAY RAVEN DB // ГЛАВНАЯ</title>
 </svelte:head>
 
+<svelte:window onclick={handleWindowClick} />
+
 <div class="layout-wrapper">
-    <aside class="sidebar">
-        <!-- eslint-disable-next-line a11y-invalid-attribute -->
-        <button class="nav-item">
-            <svg class="nav-icon" viewBox="0 0 24 24">
-                <path
-                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                />
-            </svg>
-            <span class="nav-text">{t("nav_constructs")}</span>
-        </button>
-        <a href="/" class="nav-item">
-            <svg class="nav-icon" viewBox="0 0 24 24">
-                <path
-                    d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"
-                />
-            </svg>
-            <span class="nav-text">{t("nav_builds")}</span>
-        </a>
-        <!-- eslint-disable-next-line a11y-invalid-attribute -->
-        <button class="nav-item" style="margin-top: auto;">
-            <svg class="nav-icon" viewBox="0 0 24 24">
-                <path
-                    d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"
-                />
-            </svg>
-            <span class="nav-text">{t("nav_settings")}</span>
-        </button>
-    </aside>
-
-    <main class="main-content">
-        <header class="header">
-            <div class="logo-text">
-                {#if appState.lang === "ru"}
-                    <span>GRAY RAVEN DB</span> // СПИСОК КОНСТРУКТОВ
-                {:else}
-                    <span>GRAY RAVEN DB</span> // CONSTRUCT ROSTER
-                {/if}
-            </div>
-            <div class="header-controls">
-                <div style="position: relative;">
-                    <button
-                        class="btn btn-filter {showFilters ? 'active' : ''}"
-                        onclick={() => (showFilters = !showFilters)}
-                    >
-                        {t("filters")}
-                    </button>
-
-                    {#if showFilters}
-                        <div class="filter-panel">
-                            <div class="filter-group">
-                                <span class="filter-label">Rank</span>
-                                <button
-                                    class="filter-opt {filterRank === 'ALL'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterRank = "ALL")}
-                                    >All</button
-                                >
-                                <button
-                                    class="filter-opt {filterRank === 'S'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterRank = "S")}>S</button
-                                >
-                                <button
-                                    class="filter-opt {filterRank === 'A'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterRank = "A")}>A</button
-                                >
-                                <button
-                                    class="filter-opt {filterRank === 'B'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterRank = "B")}>B</button
-                                >
-                            </div>
-                            <div class="filter-group">
-                                <span class="filter-label">Element</span>
-                                <button
-                                    class="filter-opt {filterElement === 'ALL'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterElement = "ALL")}
-                                    >All</button
-                                >
-                                <button
-                                    class="filter-opt {filterElement ===
-                                    'Physical'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterElement = "Physical")}
-                                    >Physical</button
-                                >
-                                <button
-                                    class="filter-opt {filterElement === 'Fire'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterElement = "Fire")}
-                                    >Fire</button
-                                >
-                                <button
-                                    class="filter-opt {filterElement ===
-                                    'Lightning'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() =>
-                                        (filterElement = "Lightning")}
-                                    >Lightning</button
-                                >
-                                <button
-                                    class="filter-opt {filterElement === 'Ice'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterElement = "Ice")}
-                                    >Ice</button
-                                >
-                                <button
-                                    class="filter-opt {filterElement === 'Dark'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterElement = "Dark")}
-                                    >Dark</button
-                                >
-                                <button
-                                    class="filter-opt {filterElement === 'Void'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterElement = "Void")}
-                                    >Void</button
-                                >
-                            </div>
-                            <div class="filter-group">
-                                <span class="filter-label">Class</span>
-                                <button
-                                    class="filter-opt {filterClass === 'ALL'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "ALL")}
-                                    >All</button
-                                >
-                                <button
-                                    class="filter-opt {filterClass ===
-                                    'Attacker'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "Attacker")}
-                                    >Attacker</button
-                                >
-                                <button
-                                    class="filter-opt {filterClass === 'Tank'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "Tank")}
-                                    >Tank</button
-                                >
-                                <button
-                                    class="filter-opt {filterClass === 'Support'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "Support")}
-                                    >Support</button
-                                >
-                                <button
-                                    class="filter-opt {filterClass ===
-                                    'Amplifier'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "Amplifier")}
-                                    >Amplifier</button
-                                >
-                                <button
-                                    class="filter-opt {filterClass ===
-                                    'Vanguard'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "Vanguard")}
-                                    >Vanguard</button
-                                >
-                                <button
-                                    class="filter-opt {filterClass === 'Breaker'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "Breaker")}
-                                    >Breaker</button
-                                >
-                                <button
-                                    class="filter-opt {filterClass ===
-                                    'Observer'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterClass = "Observer")}
-                                    >Observer</button
-                                >
-                            </div>
-                            <div class="filter-group">
-                                <span class="filter-label">Affix</span>
-                                <button
-                                    class="filter-opt {filterAffix === 'ALL'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "ALL")}
-                                    >All</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix === 'Plasma'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "Plasma")}
-                                    >Plasma</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix ===
-                                    'Darkflow'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "Darkflow")}
-                                    >Darkflow</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix === 'Freez'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "Freez")}
-                                    >Freez</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix === 'Slash'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "Slash")}
-                                    >Slash</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix ===
-                                    'Ignition'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "Ignition")}
-                                    >Ignition</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix ===
-                                    'Raydiance'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "Raydiance")}
-                                    >Raydiance</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix ===
-                                    'Дезинтеграция'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() =>
-                                        (filterAffix = "Дезинтеграция")}
-                                    >Disintegration</button
-                                >
-                                <button
-                                    class="filter-opt {filterAffix ===
-                                    'Рейдианс'
-                                        ? 'active'
-                                        : ''}"
-                                    onclick={() => (filterAffix = "Рейдианс")}
-                                    >Radiance</button
-                                >
-                            </div>
-                        </div>
-                    {/if}
-                </div>
+    <header class="header">
+        <div class="logo-text">
+            {#if appState.lang === "ru"}
+                <span>GRAY RAVEN DB</span> // СПИСОК КОНСТРУКТОВ
+            {:else}
+                <span>GRAY RAVEN DB</span> // CONSTRUCT ROSTER
+            {/if}
+        </div>
+        <div class="header-controls">
+            <div style="position: relative;" bind:this={filterContainer}>
                 <button
-                    class="btn btn-lang"
-                    onclick={() =>
-                        (appState.lang = appState.lang === "ru" ? "en" : "ru")}
+                    class="btn btn-filter {showFilters ? 'active' : ''}"
+                    onclick={() => (showFilters = !showFilters)}
                 >
-                    {appState.lang === "ru" ? "RU" : "EN"}
+                    {t("filters")}
                 </button>
-            </div>
-        </header>
 
-        <div class="roster-container">
-            <div class="roster-grid">
-                {#each filteredRoster as char}
-                    <div class="char-card">
-                        <div class={`char-avatar-box rank-bg-${char.rank}`}>
-                            {#if char.avatar}
-                                <img
-                                    src={char.avatar}
-                                    alt={char.enFrame}
-                                    class="char-avatar-img"
-                                />
-                            {/if}
-                            <div class={`char-rank text-rank-${char.rank}`}>
-                                {char.rank}
-                            </div>
+                {#if showFilters}
+                    <div class="filter-panel">
+                        <div class="filter-group">
+                            <span class="filter-label">{t("rank")}</span>
+                            <button
+                                class="filter-opt {filterRank === 'ALL'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterRank = "ALL")}
+                                >{t("filter_all")}</button
+                            >
+                            <button
+                                class="filter-opt {filterRank === 'S'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterRank = "S")}>S</button
+                            >
+                            <button
+                                class="filter-opt {filterRank === 'A'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterRank = "A")}>A</button
+                            >
+                            <button
+                                class="filter-opt {filterRank === 'B'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterRank = "B")}>B</button
+                            >
                         </div>
-                        <div class="char-info">
-                            <div class="char-name">
-                                {appState.lang === "ru"
-                                    ? char.name
-                                    : char.enName}
-                            </div>
-                            <div class="char-frame">
-                                {appState.lang === "ru"
-                                    ? char.frame
-                                    : char.enFrame}
-                            </div>
+                        <div class="filter-group">
+                            <span class="filter-label">{t("element")}</span>
+                            <button
+                                class="filter-opt {filterElement === 'ALL'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterElement = "ALL")}
+                                >{t("filter_all")}</button
+                            >
+                            <button
+                                class="filter-opt {filterElement === 'Physical'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterElement = "Physical")}
+                                >{t("filter_physical")}</button
+                            >
+                            <button
+                                class="filter-opt {filterElement === 'Fire'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterElement = "Fire")}
+                                >{t("filter_fire")}</button
+                            >
+                            <button
+                                class="filter-opt {filterElement === 'Lightning'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterElement = "Lightning")}
+                                >{t("filter_lightning")}</button
+                            >
+                            <button
+                                class="filter-opt {filterElement === 'Ice'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterElement = "Ice")}
+                                >{t("filter_ice")}</button
+                            >
+                            <button
+                                class="filter-opt {filterElement === 'Dark'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterElement = "Dark")}
+                                >{t("filter_dark")}</button
+                            >
+                            <button
+                                class="filter-opt {filterElement === 'Void'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterElement = "Void")}
+                                >{t("filter_void")}</button
+                            >
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">{t("class")}</span>
+                            <button
+                                class="filter-opt {filterClass === 'ALL'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "ALL")}
+                                >{t("filter_all")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Attacker'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Attacker")}
+                                >{t("filter_attacker")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Tank'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Tank")}
+                                >{t("filter_tank")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Support'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Support")}
+                                >{t("filter_support")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Amplifier'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Amplifier")}
+                                >{t("filter_amplifier")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Vanguard'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Vanguard")}
+                                >{t("filter_vanguard")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Breaker'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Breaker")}
+                                >{t("filter_breaker")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Observer'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Observer")}
+                                >{t("filter_observer")}</button
+                            >
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">{t("affix")}</span>
+                            <button
+                                class="filter-opt {filterAffix === 'ALL'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "ALL")}
+                                >{t("filter_all")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Plasma'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Plasma")}
+                                >{t("filter_plasma")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Darkflow'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Darkflow")}
+                                >{t("filter_darkflow")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Freez'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Freez")}
+                                >{t("filter_freez")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Slash'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Slash")}
+                                >{t("filter_slash")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Ignition'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Ignition")}
+                                >{t("filter_ignition")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Raydiance'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Raydiance")}
+                                >{t("filter_raydiance")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix ===
+                                'Дезинтеграция'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Дезинтеграция")}
+                                >{t("filter_disintegration")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Рейдианс'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Рейдианс")}
+                                >{t("filter_radiance")}</button
+                            >
                         </div>
                     </div>
-                {/each}
+                {/if}
             </div>
+            <button
+                class="btn btn-lang"
+                onclick={() =>
+                    (appState.lang = appState.lang === "ru" ? "en" : "ru")}
+            >
+                {appState.lang === "ru" ? "RU" : "EN"}
+            </button>
         </div>
-    </main>
+    </header>
+
+    <div class="body-row">
+        <Sidebar />
+
+        <main class="main-content">
+            <div class="roster-container">
+                <div class="roster-grid">
+                    {#each filteredRoster as char}
+                        <div class="char-card">
+                            <div class={`char-avatar-box rank-bg-${char.rank}`}>
+                                {#if char.avatar}
+                                    <img
+                                        src={char.avatar}
+                                        alt={char.enFrame}
+                                        class="char-avatar-img"
+                                    />
+                                {/if}
+                                <div class={`char-rank text-rank-${char.rank}`}>
+                                    {char.rank}
+                                </div>
+                            </div>
+                            <div class="char-info">
+                                <div class="char-name">
+                                    {appState.lang === "ru"
+                                        ? char.name
+                                        : char.enName}
+                                </div>
+                                <div class="char-frame">
+                                    {appState.lang === "ru"
+                                        ? char.frame
+                                        : char.enFrame}
+                                </div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            </div>
+        </main>
+    </div>
 </div>
 
 <style>
@@ -521,6 +504,7 @@
         color: var(--text-color);
         font-family: var(--font-body);
         display: flex;
+        flex-direction: column;
         height: 100vh;
         width: 100vw;
         overflow: hidden;
@@ -530,23 +514,26 @@
         z-index: 1000;
     }
 
+    .body-row {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+    }
+
     * {
         box-sizing: border-box;
     }
 
     /* Статичное компактное меню */
     .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
         width: 80px;
+        min-width: 80px;
+        height: 100%;
         background-color: var(--panel-bg);
         border-right: 1px solid var(--border-color);
         display: flex;
         flex-direction: column;
         padding: 20px 0;
-        z-index: 100;
     }
 
     .nav-item {
@@ -596,12 +583,10 @@
     }
 
     .main-content {
-        margin-left: 80px;
-        width: calc(100% - 80px);
-        flex-grow: 1;
+        flex: 1;
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        overflow: hidden;
     }
 
     /* Хедер */
@@ -636,10 +621,10 @@
 
     .btn {
         background: transparent;
-        border: 1px solid var(--border-color);
-        color: var(--text-dim);
-        padding: 6px 12px;
-        font-size: 11px;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 5px 15px;
+        font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 1px;
         cursor: pointer;
@@ -660,24 +645,26 @@
     }
 
     .btn-lang {
-        color: var(--text-color);
-        border-color: var(--border-color);
+        min-width: 45px;
+        background: #000;
+        color: #fff;
     }
 
-    /* Панель фильтров */
     .filter-panel {
         position: absolute;
         top: calc(100% + 10px);
         right: 0;
         width: max-content;
         max-width: 90vw;
-        background-color: var(--panel-bg);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-        padding: 15px 20px;
+        background-color: #0a0a0a;
+        border: 1px solid #333;
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.9),
+            0 0 1px rgba(255, 51, 51, 0.2);
+        padding: 18px 24px;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 0;
         flex-shrink: 0;
         z-index: 100;
     }
@@ -686,39 +673,52 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
+        padding: 10px 0;
+        border-bottom: 1px solid #1a1a1a;
+    }
+
+    .filter-group:last-child {
+        border-bottom: none;
     }
 
     .filter-label {
         font-family: var(--font-header);
-        font-size: 11px;
-        color: var(--text-dim);
-        min-width: 60px;
+        font-size: 13px;
+        color: var(--accent-red);
+        min-width: 80px;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
+        font-weight: 800;
+        text-shadow: 0 0 8px rgba(255, 51, 51, 0.3);
     }
 
     .filter-opt {
-        background: #111;
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-        padding: 4px 10px;
-        font-size: 10px;
+        background: #0f0f0f;
+        border: 1px solid #2a2a2a;
+        color: #ccc;
+        padding: 6px 14px;
+        font-size: 12px;
         font-family: var(--font-header);
+        font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.15s ease;
         border-radius: 0;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .filter-opt:hover {
-        border-color: #555;
+        border-color: #666;
+        color: #fff;
+        background: #1a1a1a;
     }
 
     .filter-opt.active {
         border-color: var(--accent-red);
-        color: var(--accent-red);
-        background: rgba(255, 51, 51, 0.05);
+        color: #fff;
+        background: rgba(255, 51, 51, 0.15);
+        box-shadow: 0 0 8px rgba(255, 51, 51, 0.2);
     }
 
     /* Сетка персонажей */
@@ -745,6 +745,8 @@
         background: var(--panel-bg);
         border: 1px solid var(--border-color);
         padding: 6px;
+        will-change: transform;
+        backface-visibility: hidden;
     }
 
     .char-card:hover {
@@ -783,7 +785,6 @@
     }
     .char-card:hover .rank-bg-S {
         border-color: var(--sub-rank-s);
-        filter: brightness(1.2);
     }
 
     .rank-bg-A {
@@ -792,7 +793,6 @@
     }
     .char-card:hover .rank-bg-A {
         border-color: var(--sub-rank-a);
-        filter: brightness(1.2);
     }
 
     .rank-bg-B {
@@ -801,7 +801,6 @@
     }
     .char-card:hover .rank-bg-B {
         border-color: var(--sub-rank-b);
-        filter: brightness(1.2);
     }
 
     /* Ранг */
@@ -812,7 +811,12 @@
         font-size: 16px;
         font-weight: 900;
         font-style: italic;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+        text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000,
+            0 0 6px rgba(0, 0, 0, 0.8);
         z-index: 2;
     }
 
@@ -845,13 +849,17 @@
     }
 
     .char-frame {
-        font-size: 11px;
-        color: var(--text-dim);
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--accent-red);
+        text-shadow: 0 0 6px rgba(255, 51, 51, 0.4);
         text-transform: uppercase;
         letter-spacing: 0.2px;
         word-wrap: break-word;
         word-break: break-word;
         line-height: 1.15;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     .roster-container::-webkit-scrollbar {
