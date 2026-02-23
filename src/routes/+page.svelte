@@ -32,6 +32,7 @@
     import { fillCharacterData } from "$lib/utils/autocomplete.js";
 
     let isLightMode = $state(false);
+    let sidebarOpen = $state(false);
     let saveBtnState = $state({ textKey: "create_link", style: "new" });
     let appContainer = $state(); // binding
     let settingsModal = $state(); // binding
@@ -248,8 +249,8 @@
     });
 </script>
 
-<div class="sidebar-wrapper">
-    <Sidebar />
+<div class="sidebar-wrapper" class:sidebar-wrapper--open={sidebarOpen}>
+    <Sidebar bind:open={sidebarOpen} />
 </div>
 
 <TopNav
@@ -260,6 +261,7 @@
     onToggleTheme={toggleTheme}
     onProfile={() => profileModal.open()}
     onNewBuild={handleNewBuild}
+    onToggleSidebar={() => (sidebarOpen = !sidebarOpen)}
     {isLightMode}
     {saveBtnState}
 />
@@ -305,6 +307,16 @@
         width: 80px;
         z-index: 200;
         background-color: var(--panel-bg);
+    }
+
+    /* On mobile the sidebar is hidden by default (slides via Sidebar.svelte CSS);
+       this wrapper just stays out of the way */
+    @media (max-width: 768px) {
+        .sidebar-wrapper {
+            width: 0;
+            overflow: visible;
+            background-color: transparent;
+        }
     }
 
     :global(.lang-changing span),

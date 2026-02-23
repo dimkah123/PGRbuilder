@@ -9,11 +9,12 @@
     /* Light Theme Variables */
     --bg-color: #f2f2f5;
     --panel-bg: #ffffff;
-    --text-color: #000000;
+    --text-color: #1a1a1a;
     --text-highlight: #000000;
+    --text-dim: #555555;
     --accent-red: #d32f2f;
     --accent-dim: #f0f0f0;
-    --border-color: #e0e0e0;
+    --border-color: #d8d8d8;
     --input-bg: #f5f5f7;
 }
 
@@ -415,4 +416,214 @@
 .changing-theme *::after {
     transition: all 0.5s ease-in-out !important;
     transition-delay: 0s !important;
+}
+
+/* ==============================================
+   Light Theme — /main roster page
+   ============================================== */
+
+/* Header */
+.light-theme .header {
+    background-color: #ffffff !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+.light-theme .logo-text {
+    color: #1a1a1a !important;
+}
+
+.light-theme .logo-text span {
+    color: var(--accent-red) !important;
+}
+
+.light-theme .logo-subtitle {
+    color: #555 !important;
+}
+
+/* Header buttons */
+.light-theme .btn-filter,
+.light-theme .btn-lang,
+.light-theme .google-login-btn {
+    background: #f5f5f5 !important;
+    color: #1a1a1a !important;
+    border-color: #ccc !important;
+}
+
+.light-theme .btn-filter:hover,
+.light-theme .btn-lang:hover,
+.light-theme .google-login-btn:hover {
+    border-color: var(--accent-red) !important;
+    color: var(--accent-red) !important;
+    background: #fff !important;
+}
+
+.light-theme .btn-filter.active {
+    border-color: var(--accent-red) !important;
+    color: var(--accent-red) !important;
+    background: rgba(211, 47, 47, 0.05) !important;
+}
+
+/* Filter panel */
+.light-theme .filter-panel {
+    background-color: #ffffff !important;
+    border-color: #ddd !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+}
+
+.light-theme .filter-group {
+    border-bottom-color: #ececec !important;
+}
+
+.light-theme .filter-label {
+    color: var(--accent-red) !important;
+}
+
+.light-theme .filter-opt {
+    background: #f7f7f7 !important;
+    border-color: #ddd !important;
+    color: #333 !important;
+}
+
+.light-theme .filter-opt:hover {
+    background: #efefef !important;
+    border-color: #aaa !important;
+    color: #000 !important;
+}
+
+.light-theme .filter-opt.active {
+    background: rgba(211, 47, 47, 0.08) !important;
+    border-color: var(--accent-red) !important;
+    color: #000 !important;
+}
+
+/* Roster grid — body-row background */
+.light-theme .body-row {
+    background-color: var(--bg-color);
+}
+
+/* Character cards */
+.light-theme .char-card {
+    background: #ffffff !important;
+    border-color: #ddd !important;
+}
+
+.light-theme .char-card:hover {
+    background: #f5f5f5 !important;
+    border-color: #aaa !important;
+}
+
+.light-theme .char-name {
+    color: #000 !important;
+}
+
+.light-theme .char-frame {
+    color: var(--accent-red) !important;
+    text-shadow: none !important;
+}
+
+/* Rank backgrounds — lighter versions */
+.light-theme .rank-bg-S {
+    background: radial-gradient(circle at top left, #fff8e1, #fffde7) !important;
+    border-color: #ffe082 !important;
+}
+
+.light-theme .rank-bg-A {
+    background: radial-gradient(circle at top left, #f3e5f5, #fce4ec) !important;
+    border-color: #ce93d8 !important;
+}
+
+.light-theme .rank-bg-B {
+    background: radial-gradient(circle at top left, #e3f2fd, #e8f5e9) !important;
+    border-color: #90caf9 !important;
+}
+
+/* Roster container scrollbar */
+.light-theme .roster-container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+.light-theme .roster-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+/* ==============================================
+   Light Theme — Sidebar
+   ============================================== */
+
+.light-theme .sidebar {
+    background-color: #ffffff !important;
+    border-right-color: var(--border-color) !important;
+}
+
+.light-theme .nav-item {
+    color: #1a1a1a !important;
+}
+
+.light-theme .nav-item:hover {
+    background-color: #f0f0f0 !important;
+}
+
+.light-theme .nav-item.active {
+    background-color: #f0f0f0 !important;
+    border-left-color: var(--accent-red) !important;
+}
+
+.light-theme .nav-icon {
+    fill: #666 !important;
+}
+
+.light-theme .nav-item:hover .nav-icon,
+.light-theme .nav-item.active .nav-icon {
+    fill: var(--accent-red) !important;
+}
+
+.light-theme .nav-text {
+    color: #555 !important;
+}
+
+.light-theme .nav-item:hover .nav-text,
+.light-theme .nav-item.active .nav-text {
+    color: var(--accent-red) !important;
+}
+
+/* Sidebar close button */
+.light-theme .sidebar-close-btn {
+    color: #555 !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+.light-theme .sidebar-close-btn:hover {
+    color: var(--accent-red) !important;
+    background: #f5f5f5 !important;
+}
+
+/* Hamburger bars */
+.light-theme .ham-bar {
+    background: #444 !important;
+}
+
+.light-theme .hamburger-btn:hover .ham-bar {
+    background: var(--accent-red) !important;
+}
+
+/* Settings dropdown */
+.light-theme .settings-dropdown {
+    background: #ffffff !important;
+    border-color: #ddd !important;
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.light-theme .settings-opt {
+    color: #333 !important;
+    border-bottom-color: #ececec !important;
+}
+
+.light-theme .settings-opt:hover {
+    background: #f5f5f5 !important;
+    color: var(--accent-red) !important;
+}
+
+/* Sidebar backdrop */
+.light-theme .sidebar-backdrop {
+    background: rgba(0, 0, 0, 0.3) !important;
 }

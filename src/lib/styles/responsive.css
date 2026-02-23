@@ -63,6 +63,14 @@
    Mobile Devices (max-width: 768px)
    ============================================== */
 @media screen and (max-width: 768px) {
+
+    /* Sidebar is now an overlay — remove reserved margin */
+    .app-container {
+        margin-left: 10px !important;
+        width: calc(100% - 20px) !important;
+        transform: none !important;
+    }
+
     .top-nav {
         padding: 0 15px;
         font-size: 0.75rem;

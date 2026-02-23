@@ -8,6 +8,7 @@
     import ProfileModal from "$lib/components/modals/ProfileModal.svelte";
 
     let profileModal = $state(null);
+    let sidebarOpen = $state(false);
     let googleReady = $state(false);
     let client = null;
 
@@ -287,12 +288,26 @@
 
 <div class="layout-wrapper">
     <header class="header">
+        <!-- Mobile hamburger -->
+        <button
+            class="hamburger-btn"
+            onclick={() => (sidebarOpen = !sidebarOpen)}
+            aria-label="Toggle navigation"
+            aria-expanded={sidebarOpen}
+        >
+            <span class="ham-bar"></span>
+            <span class="ham-bar"></span>
+            <span class="ham-bar"></span>
+        </button>
         <div class="logo-text">
-            {#if appState.lang === "ru"}
-                <span>GRAY RAVEN Database</span> // СПИСОК КОНСТРУКТОВ
-            {:else}
-                <span>GRAY RAVEN Database</span> // CONSTRUCT ROSTER
-            {/if}
+            <span>GRAY RAVEN</span>
+            <span class="logo-subtitle">
+                {#if appState.lang === "ru"}
+                    // СПИСОК
+                {:else}
+                    // ROSTER
+                {/if}
+            </span>
         </div>
         <div class="header-controls">
             <div style="position: relative;" bind:this={filterContainer}>
@@ -550,7 +565,7 @@
     </header>
 
     <div class="body-row">
-        <Sidebar />
+        <Sidebar bind:open={sidebarOpen} />
 
         <main class="main-content">
             <div class="roster-container">
@@ -574,9 +589,6 @@
                                         class="char-avatar-img"
                                     />
                                 {/if}
-                                <div class={`char-rank text-rank-${char.rank}`}>
-                                    {char.rank}
-                                </div>
                             </div>
                             <div class="char-info">
                                 <div class="char-name">
@@ -681,14 +693,6 @@
         text-align: center;
     }
 
-    .nav-item:hover .nav-icon {
-        fill: var(--accent-red);
-    }
-
-    .nav-item:hover .nav-text {
-        color: var(--accent-red);
-    }
-
     .main-content {
         flex: 1;
         display: flex;
@@ -719,6 +723,11 @@
     .logo-text span {
         color: var(--accent-red);
         font-weight: bold;
+    }
+
+    .logo-subtitle {
+        color: #fff;
+        font-weight: normal;
     }
 
     .header-controls {
@@ -1033,5 +1042,126 @@
     }
     .roster-container::-webkit-scrollbar-thumb:hover {
         background: var(--accent-red);
+    }
+
+    /* ─── Hamburger button (mobile only) ─── */
+    .hamburger-btn {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        margin-right: 8px;
+        flex-shrink: 0;
+    }
+
+    .ham-bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--text-dim);
+        border-radius: 1px;
+        transition: background 0.2s;
+    }
+
+    .hamburger-btn:hover .ham-bar {
+        background: var(--accent-red);
+    }
+
+    /* ─── Mobile overrides ─── */
+    @media (max-width: 768px) {
+        .hamburger-btn {
+            display: flex;
+        }
+
+        .header {
+            padding: 0 12px;
+            height: 48px;
+        }
+
+        .logo-text {
+            font-size: 11px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .header-controls {
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 4px 8px;
+            font-size: 0.65rem;
+        }
+
+        .google-login-btn {
+            padding: 4px 8px;
+            font-size: 0.65rem;
+            font-weight: normal;
+        }
+
+        .logo-subtitle {
+            display: none;
+        }
+
+        .nav-separator {
+            display: none;
+        }
+
+        .roster-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .roster-container {
+            padding: 6px;
+        }
+
+        .char-card {
+            padding: 3px;
+        }
+
+        .filter-panel {
+            position: fixed;
+            top: 48px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100%;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+            border-left: none;
+            border-right: none;
+        }
+
+        .body-row {
+            /* sidebar is fixed/overlaid on mobile, body-row takes full width */
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .logo-text {
+            font-size: 10px;
+        }
+
+        .roster-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .btn-filter,
+        .btn-lang {
+            padding: 4px 8px;
+            font-size: 0.65rem;
+        }
     }
 </style>

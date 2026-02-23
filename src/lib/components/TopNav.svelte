@@ -11,7 +11,8 @@
         onGuide,
         onSettings,
         onToggleTheme,
-        onProfile, // New prop
+        onProfile,
+        onToggleSidebar = () => {},
         isLightMode,
         saveBtnState,
         onNewBuild,
@@ -96,6 +97,16 @@
 
 <div class="top-nav">
     <div class="nav-left">
+        <!-- Mobile hamburger -->
+        <button
+            class="hamburger-btn"
+            onclick={onToggleSidebar}
+            aria-label="Toggle navigation"
+        >
+            <span class="ham-bar"></span>
+            <span class="ham-bar"></span>
+            <span class="ham-bar"></span>
+        </button>
         <span>{t("system_database")}</span>
         {#key appState.lang}
             <span class="desktop-status-text" in:fade={{ duration: 300 }}>
@@ -201,6 +212,38 @@
 </div>
 
 <style>
+    /* ─── Hamburger ─── */
+    .hamburger-btn {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 6px 8px;
+        flex-shrink: 0;
+    }
+
+    .ham-bar {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: var(--text-dim);
+        border-radius: 1px;
+        transition: background 0.2s;
+    }
+
+    .hamburger-btn:hover .ham-bar {
+        background: var(--accent-red);
+    }
+
+    @media screen and (max-width: 768px) {
+        .hamburger-btn {
+            display: flex;
+        }
+    }
+
     .mobile-tools-container {
         position: relative;
         display: none; /* Hidden by default (Desktop) */

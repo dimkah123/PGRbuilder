@@ -9,6 +9,18 @@ import {
 } from '$lib/data.js';
 
 /**
+ * Ensures a URL is absolute (starts with / or http).
+ * Fixes relative paths like "Image/..." that resolve wrongly on sub-pages (/main).
+ * @param {string} url
+ * @returns {string}
+ */
+function normalizeUrl(url) {
+    if (!url) return url;
+    if (url.startsWith('/') || url.startsWith('http')) return url;
+    return '/' + url;
+}
+
+/**
  * Collects all unique image URLs from the data constants.
  * @returns {Set<string>} A set of unique image URLs.
  */
@@ -17,38 +29,39 @@ function getAllImageUrls() {
 
     // 1. Character Images (Array of objects with 'file' property)
     CHARACTER_IMAGES.forEach(char => {
-        if (char.file) urls.add(char.file);
+        if (char.file) urls.add(normalizeUrl(char.file));
     });
 
     // 2. Element Images (Object values)
     Object.values(ELEMENT_IMAGES).forEach(url => {
-        if (url) urls.add(url);
+        if (url) urls.add(normalizeUrl(url));
     });
 
     // 3. Class Images (Object values)
     Object.values(CLASS_IMAGES).forEach(url => {
-        if (url) urls.add(url);
+        if (url) urls.add(normalizeUrl(url));
     });
 
     // 4. Weapon Images (Object values)
     Object.values(WEAPON_IMAGES).forEach(url => {
-        if (url) urls.add(url);
+        if (url) urls.add(normalizeUrl(url));
     });
 
     // 5. CUB Images (Object values)
     Object.values(CUB_IMAGES).forEach(url => {
-        if (url) urls.add(url);
+        if (url) urls.add(normalizeUrl(url));
     });
 
     // 6. Memory Images (Object values)
     Object.values(MEMORY_IMAGES).forEach(url => {
         if (url) {
-            if (url.includes('-Icon-1.webp')) {
-                urls.add(url);
-                urls.add(url.replace('-Icon-1.webp', '-Icon-2.webp'));
-                urls.add(url.replace('-Icon-1.webp', '-Icon-3.webp'));
+            const norm = normalizeUrl(url);
+            if (norm.includes('-Icon-1.webp')) {
+                urls.add(norm);
+                urls.add(norm.replace('-Icon-1.webp', '-Icon-2.webp'));
+                urls.add(norm.replace('-Icon-1.webp', '-Icon-3.webp'));
             } else {
-                urls.add(url);
+                urls.add(norm);
             }
         }
     });
