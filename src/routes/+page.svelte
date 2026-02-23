@@ -184,6 +184,23 @@
                 );
 
                 if (dbEntry) {
+                    // Reset builds so a previously loaded shared build doesn't bleed into this character
+                    const emptyBuild = () => ({
+                        title: "",
+                        mems: ["", "", "", "", "", ""],
+                        harm: "",
+                        resTopSlot: "",
+                        resTopSkill: "",
+                        resBotSlot: "",
+                        resBotSkill: "",
+                        desc: "",
+                        wRes: [null, null, null],
+                    });
+                    appState.builds = [emptyBuild(), emptyBuild()];
+                    appState.title = "";
+                    appState.posCode = "";
+                    appState.loadedBuildOwner = null;
+
                     fillCharacterData(dbEntry);
                 }
             }
