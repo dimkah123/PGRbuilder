@@ -72,7 +72,7 @@ export const CHARACTER_IMAGES = [
     { frame: "Vitrum", file: "Image/Characters/Coating-Vitrum-Generic.webp" },
     { frame: "XXI", file: "Image/Characters/Coating-XXI-Generic.webp" },
     { frame: "Zitherwoe", file: "Image/Characters/Coating-Zitherwoe-Generic.webp" },
-    { frame: "Nirvatia", file: "Image/Characters/Coating-Nirvatia-Generic.webp" }
+    { frame: "Dirge", file: "Image/Characters/Coating-Nirvatia-Generic.webp" }
 ];
 
 export const ROSTER_REDIRECTS = {
