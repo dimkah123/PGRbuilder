@@ -5,7 +5,7 @@
 
 // Suggestions for res-skill-input based on top/bottom resonance
 const RES_SKILL_TOP_OPTIONS = ['+15 АТК', 'Red Orb', 'Blue Orb', 'Yellow Orb'];
-const RES_SKILL_BOTTOM_OPTIONS = ['Core Passive', 'Signature Move', 'Class Passive'];
+const RES_SKILL_BOTTOM_OPTIONS = ['Core Passive', 'Signature Move', 'Class Skill'];
 
 // Weapon resonances with class prefix (AT, TA, HE, UN, UNI)
 // UN = Universal (all classes), UNI = Vanguard only

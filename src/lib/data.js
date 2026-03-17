@@ -920,11 +920,11 @@ export const TERMINOLOGY_DB = {
     },
     "бэтмен": {
         ru: "Resonant Echo - резонанс оружия (обычно для танков), увеличивает длительность классовой пассивки.",
-        en: "Resonant Echo - Weapon resonance (mostly for Tanks), increases class passive duration."
+        en: "Resonant Echo - Weapon resonance (mostly for Tanks), increases Class Skill duration."
     },
     "мышь": {
         ru: "Resonant Echo - резонанс оружия (обычно для танков), увеличивает длительность классовой пассивки.",
-        en: "Resonant Echo - Weapon resonance (mostly for Tanks), increases class passive duration."
+        en: "Resonant Echo - Weapon resonance (mostly for Tanks), increases Class Skill duration."
     },
     "ин": {
         ru: "Incandescence - резонанс оружия, увеличивающий АТК.",

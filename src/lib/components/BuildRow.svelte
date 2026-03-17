@@ -23,7 +23,7 @@
     const RES_SKILL_BOTTOM_OPTIONS = [
         "Core Passive",
         "Signature Move",
-        "Class Passive",
+        "Class Skill",
     ];
 
     function removeBuild() {

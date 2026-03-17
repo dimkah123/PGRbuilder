@@ -66,7 +66,7 @@
         "Дизрапшн",
         "Core Passive",
         "Signature Move",
-        "Class Passive",
+        "Class Skill",
         "Red Orb",
         "Blue Orb",
         "Yellow Orb",
@@ -166,7 +166,7 @@
         "+15 АТК",
         "Core Passive",
         "Signature Move",
-        "Class Passive",
+        "Class Skill",
         "Red Orb",
         "Blue Orb",
         "Yellow Orb",
@@ -192,7 +192,13 @@
     ];
 
     const allTerms = Array.from(
-        new Set([...explicitTerms, ...termKeys, ...charNames, ...charTerms, ...memNames]),
+        new Set([
+            ...explicitTerms,
+            ...termKeys,
+            ...charNames,
+            ...charTerms,
+            ...memNames,
+        ]),
     );
     // Sort by length desc to prioritize longer matches
     allTerms.sort((a, b) => b.length - a.length);
@@ -475,19 +481,31 @@
                     }
                 }
             } else {
-                const char = CHAR_DATABASE.find(
-                    (c) => {
-                        const lowerTxt = text.toLowerCase();
-                        return (c.name && c.name.toLowerCase() === lowerTxt) ||
+                const char = CHAR_DATABASE.find((c) => {
+                    const lowerTxt = text.toLowerCase();
+                    return (
+                        (c.name && c.name.toLowerCase() === lowerTxt) ||
                         (c.enName && c.enName.toLowerCase() === lowerTxt) ||
                         (c.frame && c.frame.toLowerCase() === lowerTxt) ||
                         (c.enFrame && c.enFrame.toLowerCase() === lowerTxt) ||
-                        (c.name && c.frame && `${c.name}: ${c.frame}`.toLowerCase() === lowerTxt) ||
-                        (c.enName && c.enFrame && `${c.enName}: ${c.enFrame}`.toLowerCase() === lowerTxt) ||
-                        (c.name && c.enFrame && `${c.name}: ${c.enFrame}`.toLowerCase() === lowerTxt) ||
-                        (c.enName && c.frame && `${c.enName}: ${c.frame}`.toLowerCase() === lowerTxt);
-                    }
-                );
+                        (c.name &&
+                            c.frame &&
+                            `${c.name}: ${c.frame}`.toLowerCase() ===
+                                lowerTxt) ||
+                        (c.enName &&
+                            c.enFrame &&
+                            `${c.enName}: ${c.enFrame}`.toLowerCase() ===
+                                lowerTxt) ||
+                        (c.name &&
+                            c.enFrame &&
+                            `${c.name}: ${c.enFrame}`.toLowerCase() ===
+                                lowerTxt) ||
+                        (c.enName &&
+                            c.frame &&
+                            `${c.enName}: ${c.frame}`.toLowerCase() ===
+                                lowerTxt)
+                    );
+                });
                 // Skip tooltip for bare multi-frame character names
                 const isBareName =
                     char &&
@@ -644,19 +662,35 @@
                         const cleanMatch = match.endsWith(":")
                             ? match.slice(0, -1)
                             : match;
-                        const isChar = CHAR_DATABASE.some(
-                            (c) => {
-                                const lowerMatch = cleanMatch.toLowerCase();
-                                return (c.name && c.name.toLowerCase() === lowerMatch) ||
-                                (c.enName && c.enName.toLowerCase() === lowerMatch) ||
-                                (c.frame && c.frame.toLowerCase() === lowerMatch) ||
-                                (c.enFrame && c.enFrame.toLowerCase() === lowerMatch) ||
-                                (c.name && c.frame && `${c.name}: ${c.frame}`.toLowerCase() === lowerMatch) ||
-                                (c.enName && c.enFrame && `${c.enName}: ${c.enFrame}`.toLowerCase() === lowerMatch) ||
-                                (c.name && c.enFrame && `${c.name}: ${c.enFrame}`.toLowerCase() === lowerMatch) ||
-                                (c.enName && c.frame && `${c.enName}: ${c.frame}`.toLowerCase() === lowerMatch);
-                            }
-                        );
+                        const isChar = CHAR_DATABASE.some((c) => {
+                            const lowerMatch = cleanMatch.toLowerCase();
+                            return (
+                                (c.name &&
+                                    c.name.toLowerCase() === lowerMatch) ||
+                                (c.enName &&
+                                    c.enName.toLowerCase() === lowerMatch) ||
+                                (c.frame &&
+                                    c.frame.toLowerCase() === lowerMatch) ||
+                                (c.enFrame &&
+                                    c.enFrame.toLowerCase() === lowerMatch) ||
+                                (c.name &&
+                                    c.frame &&
+                                    `${c.name}: ${c.frame}`.toLowerCase() ===
+                                        lowerMatch) ||
+                                (c.enName &&
+                                    c.enFrame &&
+                                    `${c.enName}: ${c.enFrame}`.toLowerCase() ===
+                                        lowerMatch) ||
+                                (c.name &&
+                                    c.enFrame &&
+                                    `${c.name}: ${c.enFrame}`.toLowerCase() ===
+                                        lowerMatch) ||
+                                (c.enName &&
+                                    c.frame &&
+                                    `${c.enName}: ${c.frame}`.toLowerCase() ===
+                                        lowerMatch)
+                            );
+                        });
                         const isMemory =
                             !isChar &&
                             MEMORY_DATABASE.some(
