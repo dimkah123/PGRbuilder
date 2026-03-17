@@ -111,7 +111,7 @@ export const ELEMENT_NAMES = {
         "Darkflow": "Даркфлоу",
         "freez": "Заморозка",
         "Raydiance": "Рейдианс",
-        "general": "Общий",
+        "general": "Дизрапшн",
         "-": "-"
     },
     en: {
