@@ -209,6 +209,7 @@
         "Liv: Limpidity",
         "Teddy: Spectre",
         "Rosetta: Arete",
+        "Nirvatia: Dirge",
     ];
 
     // Build head icon path from frame name (or enName for collabs with no frame)
