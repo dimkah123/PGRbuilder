@@ -71,7 +71,8 @@ export const CHARACTER_IMAGES = [
     { frame: "Veritas", file: "Image/Characters/Coating-Veritas-Generic.webp" },
     { frame: "Vitrum", file: "Image/Characters/Coating-Vitrum-Generic.webp" },
     { frame: "XXI", file: "Image/Characters/Coating-XXI-Generic.webp" },
-    { frame: "Zitherwoe", file: "Image/Characters/Coating-Zitherwoe-Generic.webp" }
+    { frame: "Zitherwoe", file: "Image/Characters/Coating-Zitherwoe-Generic.webp" },
+    { frame: "Nirvatia", file: "Image/Characters/Coating-Nirvatia-Generic.webp" }
 ];
 
 export const ROSTER_REDIRECTS = {
@@ -267,7 +268,8 @@ export const WEAPON_IMAGES = {
     "alpha-omega": "Image/Weapons/Alpha Omega.webp",
     "orpheus' lullaby": "Image/Weapons/Orpheus Lullaby.webp",
     "ripples of the aloft sea": "Image/Weapons/Ripplesofthe Aloft Sea.webp",
-    "zero scale": "Image/Weapons/ZeroScale.webp"
+    "zero scale": "Image/Weapons/ZeroScale.webp",
+    "obituary for yesterday": "Image/Weapons/Obituary for Yesterday.webp"
 };
 
 export const CUB_IMAGES = {
@@ -302,7 +304,8 @@ export const CUB_IMAGES = {
     "snow waltz": "Image/CUB/Snow Waltz.webp",
     "snowveil": "Image/CUB/Snowveil.webp",
     "toniris": "Image/CUB/Toniris.webp",
-    "wrathfang": "Image/CUB/Wrathfang.webp"
+    "wrathfang": "Image/CUB/Wrathfang.webp",
+    "morigan": "Image/CUB/Morigan.webp"
 };
 
 export const MEMORY_6STAR = [
@@ -1866,6 +1869,18 @@ export const CHAR_DATABASE = [
         element: "Физический",
         class: "Авангард",
         weapon: "Infinity"
+    },
+    {
+        name: "Нирватия",
+        enName: "Nirvatia",
+        frame: "Дирдж",
+        enFrame: "Dirge",
+        rank: "S",
+        element: "Нихил",
+        class: "Амплифаер",
+        weapon: "Obituary for Yesterday",
+        affix: "General",
+        cub: "Morigan"
     }
 ];
 
