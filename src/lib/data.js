@@ -72,7 +72,8 @@ export const CHARACTER_IMAGES = [
     { frame: "Vitrum", file: "Image/Characters/Coating-Vitrum-Generic.webp" },
     { frame: "XXI", file: "Image/Characters/Coating-XXI-Generic.webp" },
     { frame: "Zitherwoe", file: "Image/Characters/Coating-Zitherwoe-Generic.webp" },
-    { frame: "Dirge", file: "Image/Characters/Coating-Nirvatia-Generic.webp" }
+    { frame: "Dirge", file: "Image/Characters/Coating-Nirvatia-Generic.webp" },
+    { frame: "Aeternion", file: "Image/Characters/Coating-Aeternion-Generic.webp" }
 ];
 
 export const ROSTER_REDIRECTS = {
@@ -270,7 +271,8 @@ export const WEAPON_IMAGES = {
     "orpheus' lullaby": "Image/Weapons/Orpheus Lullaby.webp",
     "ripples of the aloft sea": "Image/Weapons/Ripplesofthe Aloft Sea.webp",
     "zero scale": "Image/Weapons/ZeroScale.webp",
-    "obituary for yesterday": "Image/Weapons/Obituary for Yesterday.webp"
+    "obituary for yesterday": "Image/Weapons/Obituary for Yesterday.webp",
+    "solar flare": "Image/Weapons/Solar Flare.webp"
 };
 
 export const CUB_IMAGES = {
@@ -306,7 +308,8 @@ export const CUB_IMAGES = {
     "snowveil": "Image/CUB/Snowveil.webp",
     "toniris": "Image/CUB/Toniris.webp",
     "wrathfang": "Image/CUB/Wrathfang.webp",
-    "morigan": "Image/CUB/Morigan.webp"
+    "morigan": "Image/CUB/Morigan.webp",
+    "ignis": "Image/CUB/Ignis.webp"
 };
 
 export const MEMORY_6STAR = [
@@ -316,7 +319,7 @@ export const MEMORY_6STAR = [
     "Frederick", "Guinevere", "Hanna", "Heisen", "Heraclitus", "Herschell", "Hervor",
     "Jeanne", "Ji Boan", "Keats", "Klenova", "Leeuwenhoek", "Liston", "Natasha",
     "Patton", "Philip II", "Poincare", "Seraphine", "Shakespeare",
-    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Nimue", "Bunsen"
+    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Nimue", "Bunsen", "Feynman"
 ];
 
 export const MEMORY_5STAR = [
@@ -374,7 +377,8 @@ export const MEMORY_DATABASE = [
     { name: "Natasha", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "ATK increases by 5%. Lightning DMG and Darkflow DMG increase by 5%.", ru: "АТК увеличивается на 5%. Урон Молнии и Даркфлоу увеличивается на 5%." }, fourPiece: { en: "Enhanced Base DMG effect of Delicate Heart doubles.", ru: "Усиленный эффект базового урона Delicate Heart удваивается." } } },
     { name: "Poincare", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "Dark DMG increases by 5%, Darkflow DMG increases by 10%.", ru: "Урон Тьмы увеличивается на 5%, урон Даркфлоу увеличивается на 10%." }, fourPiece: { en: "When casting a Signature Move, ATK increases by 5% and Darkflow DMG increases by 10% for 10s. Duration resets every time it is triggered.", ru: "При применении сигнатурного приёма АТК увеличивается на 5% и урон Даркфлоу увеличивается на 10% на 10 сек. Длительность сбрасывается при каждом срабатывании." } } },
     { name: "Nimue", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "ATK increases by 5%. Dark DMG and Ultima Slash DMG increase by 5%.", ru: "АТК увеличивается на 5%. Урон Тьмы и урон Ultima Slash увеличиваются на 5%." }, fourPiece: { en: "In Nessos Mimic, Signature Energy gained is doubled; the Signature Base DMG boost from consuming Overridden Blessing is doubled (up to 90% increase).", ru: "В Nessos Mimic получаемая энергия Сигнатуры удваивается; усиление базового урона Сигнатуры от потребления Overridden Blessing удваивается (макс. прирост 90%)." } } },
-    { name: "Bunsen", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "Physical DMG increases by 5%, and Ultima Slash DMG increases by 10%.", ru: "Физический урон увеличивается на 5%, урон Ultima Slash увеличивается на 10%." }, fourPiece: { en: "When Truewill is 5 or greater, ATK increases by 5%, and Ultima Slash DMG increases by 10%.", ru: "Когда Truewill 5 или выше, АТК увеличивается на 5%, и урон Ultima Slash увеличивается на 10%." } } }
+    { name: "Bunsen", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "Physical DMG increases by 5%, and Ultima Slash DMG increases by 10%.", ru: "Физический урон увеличивается на 5%, урон Ultima Slash увеличивается на 10%." }, fourPiece: { en: "When Truewill is 5 or greater, ATK increases by 5%, and Ultima Slash DMG increases by 10%.", ru: "Когда Truewill 5 или выше, АТК увеличивается на 5%, и урон Ultima Slash увеличивается на 10%." } } },
+    { name: "Feynman", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } }
 ];
 
 export const MEMORY_IMAGES = {
@@ -429,7 +433,8 @@ export const MEMORY_IMAGES = {
     "natasha": "Image/Memories/Memory-Natasha-Icon-1.webp",
     "poincare": "Image/Memories/Memory-Poincare-Icon-1.webp",
     "nimue": "Image/Memories/Memory-Nimue-Icon-1.webp",
-    "bunsen": "Image/Memories/Memory-Bunsen-Icon-1.webp"
+    "bunsen": "Image/Memories/Memory-Bunsen-Icon-1.webp",
+    "Feynman": "Image/Memories/Memory-Feynman-Icon-1.webp"
 };
 
 export const TERMINOLOGY_DB = {
@@ -1882,6 +1887,18 @@ export const CHAR_DATABASE = [
         weapon: "Obituary for Yesterday",
         affix: "General",
         cub: "Morigan"
+    },
+    {
+        name: "Камуи",
+        enName: "Kamui",
+        frame: "Этернион",
+        enFrame: "Aeternion",
+        rank: "S",
+        element: "Огонь",
+        class: "Брейкер",
+        weapon: "Solar Flare",
+        affix: "Plasma",
+        cub: "Ignis"
     }
 ];
 
