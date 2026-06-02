@@ -73,7 +73,8 @@ export const CHARACTER_IMAGES = [
     { frame: "XXI", file: "Image/Characters/Coating-XXI-Generic.webp" },
     { frame: "Zitherwoe", file: "Image/Characters/Coating-Zitherwoe-Generic.webp" },
     { frame: "Dirge", file: "Image/Characters/Coating-Nirvatia-Generic.webp" },
-    { frame: "Aeternion", file: "Image/Characters/Coating-Aeternion-Generic.webp" }
+    { frame: "Aeternion", file: "Image/Characters/Coating-Aeternion-Generic.webp" },
+    { frame: "Inverse Crown", file: "Image/Characters/Coating-Inverse Crown-Generic.webp" }
 ];
 
 export const ROSTER_REDIRECTS = {
@@ -273,7 +274,8 @@ export const WEAPON_IMAGES = {
     "ripples of the aloft sea": "Image/Weapons/Ripplesofthe Aloft Sea.webp",
     "zero scale": "Image/Weapons/ZeroScale.webp",
     "obituary for yesterday": "Image/Weapons/Obituary for Yesterday.webp",
-    "solar flare": "Image/Weapons/Solar Flare.webp"
+    "solar flare": "Image/Weapons/Solar Flare.webp",
+    "lightless dusk": "Image/Weapons/Lightless Dusk.webp"
 };
 
 export const CUB_IMAGES = {
@@ -310,7 +312,8 @@ export const CUB_IMAGES = {
     "toniris": "Image/CUB/Toniris.webp",
     "wrathfang": "Image/CUB/Wrathfang.webp",
     "morigan": "Image/CUB/Morigan.webp",
-    "ignis": "Image/CUB/Ignis.webp"
+    "ignis": "Image/CUB/Ignis.webp",
+    "allos": "Image/CUB/Allos.webp"
 };
 
 export const MEMORY_6STAR = [
@@ -320,7 +323,7 @@ export const MEMORY_6STAR = [
     "Frederick", "Guinevere", "Hanna", "Heisen", "Heraclitus", "Herschell", "Hervor",
     "Jeanne", "Ji Boan", "Keats", "Klenova", "Leeuwenhoek", "Liston", "Natasha",
     "Patton", "Philip II", "Poincare", "Seraphine", "Shakespeare",
-    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Nimue", "Bunsen", "Feynman"
+    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Nimue", "Bunsen", "Feynman", "Bulgakov", "Pavlichenko", "Clusius"
 ];
 
 export const MEMORY_5STAR = [
@@ -435,7 +438,10 @@ export const MEMORY_IMAGES = {
     "poincare": "Image/Memories/Memory-Poincare-Icon-1.webp",
     "nimue": "Image/Memories/Memory-Nimue-Icon-1.webp",
     "bunsen": "Image/Memories/Memory-Bunsen-Icon-1.webp",
-    "Feynman": "Image/Memories/Memory-Feynman-Icon-1.webp"
+    "Feynman": "Image/Memories/Memory-Feynman-Icon-1.webp",
+    "bulgakov": "Image/Memories/Memory-Bulgakov-Icon-1.webp",
+    "pavlichenko": "Image/Memories/Memory-Pavlichenko-Icon-1.webp",
+    "clusius": "Image/Memories/Memory-Clusius-Icon-1.webp"
 };
 
 export const TERMINOLOGY_DB = {
@@ -1900,6 +1906,18 @@ export const CHAR_DATABASE = [
         weapon: "Solar Flare",
         affix: "Plasma",
         cub: "Ignis"
+    },
+    {
+        name: "Альфа",
+        enName: "Alpha",
+        frame: "Инверс Кроун",
+        enFrame: "Inverse Crown",
+        rank: "S",
+        element: "Лед",
+        class: "Атакующий",
+        weapon: "Lightless Dusk",
+        affix: "Burn",
+        cub: "Allos"
     }
 ];
 
