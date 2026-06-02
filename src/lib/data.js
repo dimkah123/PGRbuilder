@@ -1916,7 +1916,7 @@ export const CHAR_DATABASE = [
         element: "Лед",
         class: "Атакующий",
         weapon: "Lightless Dusk",
-        affix: "Burn",
+        affix: "Ignition",
         cub: "Allos"
     }
 ];
