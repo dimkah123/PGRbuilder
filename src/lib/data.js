@@ -74,14 +74,29 @@ export const CHARACTER_IMAGES = [
     { frame: "Zitherwoe", file: "Image/Characters/Coating-Zitherwoe-Generic.webp" },
     { frame: "Dirge", file: "Image/Characters/Coating-Nirvatia-Generic.webp" },
     { frame: "Aeternion", file: "Image/Characters/Coating-Aeternion-Generic.webp" },
-    { frame: "Inverse Crown", file: "Image/Characters/Coating-Inverse Crown-Generic.webp" }
+    { frame: "Inverse Crown", file: "Image/Characters/Coating-Inverse Crown-Generic.webp" },
+    { frame: "Lacrimosa", file: "Image/Characters/Coating-Lacrimosa-Generic.webp" },
+    { frame: "Effulgence", file: "Image/Characters/Coating-Effulgence-Generic.webp" },
+    { frame: "Anabasis", file: "Image/Characters/Character-Anabasis-Portrait.webp" }
 ];
 
 export const ROSTER_REDIRECTS = {
-    "Arete": "YzHKhZYW", // Rosetta -> YzHKhZYW
+    "Arete": "DLKl65eq",
     "Dirge": "R4Jjv4dC",
     "Aeternion": "9vSoWRyC",
-    "Inverse Crown": "nNcvptD8",
+    "Inverse Crown": "foyV3FV8",
+    "Lucid Dreamer": "Uw2QzfOy",
+    "Spectre": "BraRl4Jf",
+    "Starfarer": "2d5GZfak",
+    "Daemonissa": "KKI3iGJv",
+    "Pianissimo": "E18j9hTo",
+    "Geiravor": "o2LT7TSa",
+    "Raydiance": "hNdMzSI5",
+    "Limpidity": "xQVtfLss",
+    "Parhelion": "VJlWZPQr",
+    "Aegis": "72XAgZfx",
+    "Lacrimosa": "VmHuwzMH",
+    "Effulgence": "TbiJDoAG"
 };
 
 export const ELEMENT_IMAGES = {
@@ -150,6 +165,7 @@ export const CLASS_NAMES = {
         "observer": "Наблюдатель",
         "disruption": "Дезинтегратор",
         "breaker": "Брейкер",
+        "overlinker": "Оверлинкер",
         "-": "-"
     },
     en: {
@@ -161,6 +177,7 @@ export const CLASS_NAMES = {
         "observer": "Observer",
         "disruption": "Disruption",
         "breaker": "Breaker",
+        "overlinker": "Overlinker",
         "-": "-"
     }
 };
@@ -175,7 +192,8 @@ export const CLASS_IMAGES = {
     "support": "Image/Classes/Support.webp",
     "tank": "Image/Classes/Tank.webp",
     "uniframe": "Image/Classes/Uniframe.webp",
-    "vanguard": "Image/Classes/Vanguard.webp"
+    "vanguard": "Image/Classes/Vanguard.webp",
+    "overlinker": "Image/Classes/Overlinker.webp"
 };
 
 export const WEAPON_IMAGES = {
@@ -276,7 +294,10 @@ export const WEAPON_IMAGES = {
     "zero scale": "Image/Weapons/ZeroScale.webp",
     "obituary for yesterday": "Image/Weapons/Obituary for Yesterday.webp",
     "solar flare": "Image/Weapons/Solar Flare.webp",
-    "lightless dusk": "Image/Weapons/Lightless Dusk.webp"
+    "lightless dusk": "Image/Weapons/Lightless Dusk.webp",
+    "hear the bell": "Image/Weapons/Hear the Bell.webp",
+    "start of niflheim": "Image/Weapons/Start of Niflheim.webp",
+    "unforsaken beacon": "Image/Weapons/Unforsaken Beacon.webp"
 };
 
 export const CUB_IMAGES = {
@@ -314,7 +335,10 @@ export const CUB_IMAGES = {
     "wrathfang": "Image/CUB/Wrathfang.webp",
     "morigan": "Image/CUB/Morigan.webp",
     "ignis": "Image/CUB/Ignis.webp",
-    "allos": "Image/CUB/Allos.webp"
+    "allos": "Image/CUB/Allos.webp",
+    "grand duke": "Image/CUB/Grand Duke.webp",
+    "patrick": "Image/CUB/Patrick.webp",
+    "kelpie": "Image/CUB/Kelpie.webp"
 };
 
 export const MEMORY_6STAR = [
@@ -324,7 +348,9 @@ export const MEMORY_6STAR = [
     "Frederick", "Guinevere", "Hanna", "Heisen", "Heraclitus", "Herschell", "Hervor",
     "Jeanne", "Ji Boan", "Keats", "Klenova", "Leeuwenhoek", "Liston", "Natasha",
     "Patton", "Philip II", "Poincare", "Seraphine", "Shakespeare",
-    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Nimue", "Bunsen", "Feynman", "Bulgakov", "Pavlichenko", "Clusius"
+    "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Joanna", "Nimue", "Bunsen",
+    "Feynman", "Bulgakov", "Pavlichenko", "Clusius", "Cogito", "Santiago",
+    "Pesanteur"
 ];
 
 export const MEMORY_5STAR = [
@@ -383,7 +409,13 @@ export const MEMORY_DATABASE = [
     { name: "Poincare", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "Dark DMG increases by 5%, Darkflow DMG increases by 10%.", ru: "Урон Тьмы увеличивается на 5%, урон Даркфлоу увеличивается на 10%." }, fourPiece: { en: "When casting a Signature Move, ATK increases by 5% and Darkflow DMG increases by 10% for 10s. Duration resets every time it is triggered.", ru: "При применении сигнатурного приёма АТК увеличивается на 5% и урон Даркфлоу увеличивается на 10% на 10 сек. Длительность сбрасывается при каждом срабатывании." } } },
     { name: "Nimue", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "ATK increases by 5%. Dark DMG and Ultima Slash DMG increase by 5%.", ru: "АТК увеличивается на 5%. Урон Тьмы и урон Ultima Slash увеличиваются на 5%." }, fourPiece: { en: "In Nessos Mimic, Signature Energy gained is doubled; the Signature Base DMG boost from consuming Overridden Blessing is doubled (up to 90% increase).", ru: "В Nessos Mimic получаемая энергия Сигнатуры удваивается; усиление базового урона Сигнатуры от потребления Overridden Blessing удваивается (макс. прирост 90%)." } } },
     { name: "Bunsen", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "Physical DMG increases by 5%, and Ultima Slash DMG increases by 10%.", ru: "Физический урон увеличивается на 5%, урон Ultima Slash увеличивается на 10%." }, fourPiece: { en: "When Truewill is 5 or greater, ATK increases by 5%, and Ultima Slash DMG increases by 10%.", ru: "Когда Truewill 5 или выше, АТК увеличивается на 5%, и урон Ultima Slash увеличивается на 10%." } } },
-    { name: "Feynman", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } }
+    { name: "Feynman", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "ATK increases by 5% and Fire DMG and Plasma Beam DMG increase by 5%.", ru: "" }, fourPiece: { en: "The effects of Flare Point on Ignited Raydiance's Base DMG is doubled.", ru: "" } } },
+    { name: "Joanna", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "ATK increases by 5%. Ice DMG and Raydiance DMG increase by 5%.", ru: "" }, fourPiece: { en: "Digital Space: Flash Retention DMG increases by 125%. Digital Space: Barrier Rift DMG doubles.", ru: "" } } },
+    { name: "Bulgakov", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "Nihil DMG increases by 10%.", ru: "" }, fourPiece: { en: "Upon entering battle, additionally gains 3 Red Orbs after using Fatal Kiss for the first time. Extra DMG of Fatal Kiss and Death's Promise increases by 50%.", ru: "" } } },
+    { name: "Pavlichenko", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "ATK increases by 5%. Ice DMG and Ignition DMG increase by 5%.", ru: "" }, fourPiece: { en: "Multipler of Signature - Silenced Abysslight doubles", ru: "" } } },
+    { name: "Clusius", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } },
+    { name: "Santiago", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } },
+    { name: "Pesanteur", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } }
 ];
 
 export const MEMORY_IMAGES = {
@@ -442,7 +474,11 @@ export const MEMORY_IMAGES = {
     "Feynman": "Image/Memories/Memory-Feynman-Icon-1.webp",
     "bulgakov": "Image/Memories/Memory-Bulgakov-Icon-1.webp",
     "pavlichenko": "Image/Memories/Memory-Pavlichenko-Icon-1.webp",
-    "clusius": "Image/Memories/Memory-Clusius-Icon-1.webp"
+    "clusius": "Image/Memories/Memory-Clusius-Icon-1.webp",
+    "joanna": "Image/Memories/Memory-Joanna-Icon-1.webp",
+    "cogito": "Image/Memories/Memory-Cogito-Icon-1.webp",
+    "santiago": "Image/Memories/Memory-Santiago-Icon-1.webp",
+    "pesanteur": "Image/Memories/Memory-Pesanteur-Icon-1.webp"
 };
 
 export const TERMINOLOGY_DB = {
@@ -460,6 +496,10 @@ export const TERMINOLOGY_DB = {
         en: "Sub DPS - Character dealing auxiliary damage/burst."
     },
     "sub dps": {
+        ru: "Sub DPS - персонаж, наносящий вспомогательный урон.",
+        en: "Sub DPS - Character dealing auxiliary damage/burst."
+    },
+    "sub-dps": {
         ru: "Sub DPS - персонаж, наносящий вспомогательный урон.",
         en: "Sub DPS - Character dealing auxiliary damage/burst."
     },
@@ -1919,6 +1959,42 @@ export const CHAR_DATABASE = [
         weapon: "Lightless Dusk",
         affix: "Ignition",
         cub: "Allos"
+    },
+    {
+        name: "Хелентайн",
+        enName: "Helentain",
+        frame: "Лакримоза",
+        enFrame: "Lacrimosa",
+        rank: "S",
+        element: "Молния",
+        class: "Амплифаер",
+        weapon: "Hear the Bell",
+        affix: "Freez",
+        cub: "Grand Duke"
+    },
+    {
+        name: "Каренина",
+        enName: "Karenina",
+        frame: "Эффулдженс",
+        enFrame: "Effulgence",
+        rank: "S",
+        element: "Физический",
+        class: "Брейкер",
+        weapon: "Start of Niflheim",
+        affix: "Darkflow",
+        cub: "Patrick"
+    },
+    {
+        name: "Аделаида",
+        enName: "Adelyda",
+        frame: "Анабасис",
+        enFrame: "Anabasis",
+        rank: "S",
+        element: "Тьма",
+        class: "Оверлинкер",
+        weapon: "Unforsaken Beacon",
+        affix: "Slash",
+        cub: "Kelpie"
     }
 ];
 
@@ -2000,4 +2076,6 @@ export const CLASS_TO_PREFIX = {
     'Vanguard': 'UNI',
     'Брейкер': 'BA',
     'Breaker': 'BA',
+    'Оверлинкер': 'UN',
+    'Overlinker': 'UN',
 };

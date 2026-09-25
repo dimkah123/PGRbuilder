@@ -121,6 +121,7 @@
                     Amplifier: "Амплифаер",
                     Observer: "Наблюдатель",
                     Breaker: "Брейкер",
+                    Overlinker: "Оверлинкер",
                 };
                 if (char.class !== clMap[filterClass]) return false;
             }
@@ -209,7 +210,12 @@
         "Liv: Limpidity",
         "Teddy: Spectre",
         "Rosetta: Arete",
-        "Nirvatia: Dirge"
+        "Nirvatia: Dirge",
+        "Kamui: Aeternion",
+        "Alpha: Inverse Crown",
+        "Helentain: Lacrimosa",
+        "Karenina: Effulgence",
+        "Adelyda: Anabasis"
     ];
 
     // Build head icon path from frame name (or enName for collabs with no frame)
@@ -458,6 +464,13 @@
                                     : ''}"
                                 onclick={() => (filterClass = "Observer")}
                                 >{t("filter_observer")}</button
+                            >
+                            <button
+                                class="filter-opt {filterClass === 'Overlinker'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterClass = "Overlinker")}
+                                >{t("filter_overlinker")}</button
                             >
                         </div>
                         <div class="filter-group">
