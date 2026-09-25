@@ -37,7 +37,9 @@ export const CLASS_TO_PREFIX = {
     'Поддержка': 'HE',
     'Амплифаер': 'HE',
     'Авангард': 'UNI',
-    'Наблюдатель': 'UN' // Special case - universal
+    'Наблюдатель': 'UN', // Special case - universal
+    'Оверлинкер': 'HE',
+    'Overlinker': 'HE'
 };
 
 let activeWeaponResBox = null;

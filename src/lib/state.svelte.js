@@ -69,7 +69,10 @@ class AppState {
                 // 2. Vanguard (UNI) character can equip ANY resonance
                 if (allowedPrefix === 'UNI') return true;
 
-                // 3. Otherwise, prefix must match character's class prefix
+                // 3. Breaker (BA) can equip AT and TA
+                if (allowedPrefix === 'BA') return res.prefix === 'AT' || res.prefix === 'TA';
+
+                // 4. Otherwise, prefix must match character's class prefix
                 const isValid = res.prefix === allowedPrefix;
 
                 return isValid;

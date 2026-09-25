@@ -2076,6 +2076,6 @@ export const CLASS_TO_PREFIX = {
     'Vanguard': 'UNI',
     'Брейкер': 'BA',
     'Breaker': 'BA',
-    'Оверлинкер': 'UN',
-    'Overlinker': 'UN',
+    'Оверлинкер': 'HE',
+    'Overlinker': 'HE',
 };
