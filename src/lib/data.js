@@ -96,7 +96,8 @@ export const ROSTER_REDIRECTS = {
     "Parhelion": "VJlWZPQr",
     "Aegis": "72XAgZfx",
     "Lacrimosa": "VmHuwzMH",
-    "Effulgence": "TbiJDoAG"
+    "Effulgence": "TbiJDoAG",
+    "Anabasis": "epPSo2Cz"
 };
 
 export const ELEMENT_IMAGES = {
