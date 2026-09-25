@@ -14,6 +14,10 @@
         MEMORY_IMAGES,
         TERMINOLOGY_DB,
     } from "$lib/data.js";
+    import {
+        generateRussianDeclensions,
+        DECLENSION_TO_BASE,
+    } from "$lib/utils/declensions.js";
 
     let { value = $bindable("") } = $props();
 
@@ -191,13 +195,24 @@
         ...STATIC_TERMS, // Includes War Zone, WZ, PPC via previous edit
     ];
 
+    const baseSet = new Set([
+        ...explicitTerms,
+        ...termKeys,
+        ...charNames,
+        ...charTerms,
+        ...memNames,
+    ]);
+
+    const declensions = [];
+    baseSet.forEach((term) => {
+        const decs = generateRussianDeclensions(term);
+        declensions.push(...decs);
+    });
+
     const allTerms = Array.from(
         new Set([
-            ...explicitTerms,
-            ...termKeys,
-            ...charNames,
-            ...charTerms,
-            ...memNames,
+            ...baseSet,
+            ...declensions,
         ]),
     );
     // Sort by length desc to prioritize longer matches
@@ -416,10 +431,14 @@
             ).trim();
 
             const isMemoryEl = target.classList.contains("memory-highlight");
+            const baseTxt = DECLENSION_TO_BASE.get(text.toLowerCase()) || text;
+            const lowerBase = baseTxt.toLowerCase();
 
             if (isMemoryEl) {
                 const memory = MEMORY_DATABASE.find(
-                    (m) => m.name.toLowerCase() === text.toLowerCase(),
+                    (m) =>
+                        m.name.toLowerCase() === text.toLowerCase() ||
+                        m.name.toLowerCase() === lowerBase,
                 );
                 if (memory) {
                     const rect = target.getBoundingClientRect();
@@ -448,7 +467,9 @@
                 }
             } else if (target.classList.contains("term-highlight")) {
                 const termKey = Object.keys(TERMINOLOGY_DB).find(
-                    (k) => k.toLowerCase() === text.toLowerCase(),
+                    (k) =>
+                        k.toLowerCase() === text.toLowerCase() ||
+                        k.toLowerCase() === lowerBase,
                 );
                 if (termKey) {
                     const rawDef = TERMINOLOGY_DB[termKey];
@@ -484,35 +505,53 @@
                 const char = CHAR_DATABASE.find((c) => {
                     const lowerTxt = text.toLowerCase();
                     return (
-                        (c.name && c.name.toLowerCase() === lowerTxt) ||
-                        (c.enName && c.enName.toLowerCase() === lowerTxt) ||
-                        (c.frame && c.frame.toLowerCase() === lowerTxt) ||
-                        (c.enFrame && c.enFrame.toLowerCase() === lowerTxt) ||
+                        (c.name &&
+                            (c.name.toLowerCase() === lowerTxt ||
+                                c.name.toLowerCase() === lowerBase)) ||
+                        (c.enName &&
+                            (c.enName.toLowerCase() === lowerTxt ||
+                                c.enName.toLowerCase() === lowerBase)) ||
+                        (c.frame &&
+                            (c.frame.toLowerCase() === lowerTxt ||
+                                c.frame.toLowerCase() === lowerBase)) ||
+                        (c.enFrame &&
+                            (c.enFrame.toLowerCase() === lowerTxt ||
+                                c.enFrame.toLowerCase() === lowerBase)) ||
                         (c.name &&
                             c.frame &&
-                            `${c.name}: ${c.frame}`.toLowerCase() ===
-                                lowerTxt) ||
+                            (`${c.name}: ${c.frame}`.toLowerCase() ===
+                                lowerTxt ||
+                                `${c.name}: ${c.frame}`.toLowerCase() ===
+                                    lowerBase)) ||
                         (c.enName &&
                             c.enFrame &&
-                            `${c.enName}: ${c.enFrame}`.toLowerCase() ===
-                                lowerTxt) ||
+                            (`${c.enName}: ${c.enFrame}`.toLowerCase() ===
+                                lowerTxt ||
+                                `${c.enName}: ${c.enFrame}`.toLowerCase() ===
+                                    lowerBase)) ||
                         (c.name &&
                             c.enFrame &&
-                            `${c.name}: ${c.enFrame}`.toLowerCase() ===
-                                lowerTxt) ||
+                            (`${c.name}: ${c.enFrame}`.toLowerCase() ===
+                                lowerTxt ||
+                                `${c.name}: ${c.enFrame}`.toLowerCase() ===
+                                    lowerBase)) ||
                         (c.enName &&
                             c.frame &&
-                            `${c.enName}: ${c.frame}`.toLowerCase() ===
-                                lowerTxt)
+                            (`${c.enName}: ${c.frame}`.toLowerCase() ===
+                                lowerTxt ||
+                                `${c.enName}: ${c.frame}`.toLowerCase() ===
+                                    lowerBase))
                     );
                 });
                 // Skip tooltip for bare multi-frame character names
                 const isBareName =
                     char &&
                     ((char.name &&
-                        char.name.toLowerCase() === text.toLowerCase()) ||
+                        (char.name.toLowerCase() === text.toLowerCase() ||
+                            char.name.toLowerCase() === lowerBase)) ||
                         (char.enName &&
-                            char.enName.toLowerCase() === text.toLowerCase()));
+                            (char.enName.toLowerCase() === text.toLowerCase() ||
+                                char.enName.toLowerCase() === lowerBase)));
                 const isMultiFrame =
                     isBareName &&
                     ((char.enName && enNameCount[char.enName] > 1) ||
@@ -662,49 +701,66 @@
                         const cleanMatch = match.endsWith(":")
                             ? match.slice(0, -1)
                             : match;
+                        const baseTxt =
+                            DECLENSION_TO_BASE.get(cleanMatch.toLowerCase()) ||
+                            cleanMatch;
+                        const lowerBase = baseTxt.toLowerCase();
+                        const lowerMatch = cleanMatch.toLowerCase();
+
                         const isChar = CHAR_DATABASE.some((c) => {
-                            const lowerMatch = cleanMatch.toLowerCase();
                             return (
                                 (c.name &&
-                                    c.name.toLowerCase() === lowerMatch) ||
+                                    (c.name.toLowerCase() === lowerMatch ||
+                                        c.name.toLowerCase() === lowerBase)) ||
                                 (c.enName &&
-                                    c.enName.toLowerCase() === lowerMatch) ||
+                                    (c.enName.toLowerCase() === lowerMatch ||
+                                        c.enName.toLowerCase() === lowerBase)) ||
                                 (c.frame &&
-                                    c.frame.toLowerCase() === lowerMatch) ||
+                                    (c.frame.toLowerCase() === lowerMatch ||
+                                        c.frame.toLowerCase() === lowerBase)) ||
                                 (c.enFrame &&
-                                    c.enFrame.toLowerCase() === lowerMatch) ||
+                                    (c.enFrame.toLowerCase() === lowerMatch ||
+                                        c.enFrame.toLowerCase() === lowerBase)) ||
                                 (c.name &&
                                     c.frame &&
-                                    `${c.name}: ${c.frame}`.toLowerCase() ===
-                                        lowerMatch) ||
+                                    (`${c.name}: ${c.frame}`.toLowerCase() ===
+                                        lowerMatch ||
+                                        `${c.name}: ${c.frame}`.toLowerCase() ===
+                                            lowerBase)) ||
                                 (c.enName &&
                                     c.enFrame &&
-                                    `${c.enName}: ${c.enFrame}`.toLowerCase() ===
-                                        lowerMatch) ||
+                                    (`${c.enName}: ${c.enFrame}`.toLowerCase() ===
+                                        lowerMatch ||
+                                        `${c.enName}: ${c.enFrame}`.toLowerCase() ===
+                                            lowerBase)) ||
                                 (c.name &&
                                     c.enFrame &&
-                                    `${c.name}: ${c.enFrame}`.toLowerCase() ===
-                                        lowerMatch) ||
+                                    (`${c.name}: ${c.enFrame}`.toLowerCase() ===
+                                        lowerMatch ||
+                                        `${c.name}: ${c.enFrame}`.toLowerCase() ===
+                                            lowerBase)) ||
                                 (c.enName &&
                                     c.frame &&
-                                    `${c.enName}: ${c.frame}`.toLowerCase() ===
-                                        lowerMatch)
+                                    (`${c.enName}: ${c.frame}`.toLowerCase() ===
+                                        lowerMatch ||
+                                        `${c.enName}: ${c.frame}`.toLowerCase() ===
+                                            lowerBase))
                             );
                         });
                         const isMemory =
                             !isChar &&
                             MEMORY_DATABASE.some(
                                 (m) =>
-                                    m.name.toLowerCase() ===
-                                    cleanMatch.toLowerCase(),
+                                    m.name.toLowerCase() === lowerMatch ||
+                                    m.name.toLowerCase() === lowerBase,
                             );
                         const isTerm =
                             !isChar &&
                             !isMemory &&
                             Object.keys(TERMINOLOGY_DB).some(
                                 (k) =>
-                                    k.toLowerCase() ===
-                                    cleanMatch.toLowerCase(),
+                                    k.toLowerCase() === lowerMatch ||
+                                    k.toLowerCase() === lowerBase,
                             );
 
                         const isBlueTerm = /^(War Zone|WZ|PPC)$/i.test(
