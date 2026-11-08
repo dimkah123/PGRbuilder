@@ -77,7 +77,8 @@ export const CHARACTER_IMAGES = [
     { frame: "Inverse Crown", file: "Image/Characters/Coating-Inverse Crown-Generic.webp" },
     { frame: "Lacrimosa", file: "Image/Characters/Coating-Lacrimosa-Generic.webp" },
     { frame: "Effulgence", file: "Image/Characters/Coating-Effulgence-Generic.webp" },
-    { frame: "Anabasis", file: "Image/Characters/Character-Anabasis-Portrait.webp" }
+    { frame: "Anabasis", file: "Image/Characters/Character-Anabasis-Portrait.webp" },
+    { frame: "Fortunaster", file: "Image/Characters/Character-Fortunaster-Portrait.webp" }
 ];
 
 export const ROSTER_REDIRECTS = {
@@ -97,7 +98,7 @@ export const ROSTER_REDIRECTS = {
     "Aegis": "72XAgZfx",
     "Lacrimosa": "VmHuwzMH",
     "Effulgence": "TbiJDoAG",
-    "Anabasis": "epPSo2Cz"
+    "Anabasis": "4cZNgux0"
 };
 
 export const ELEMENT_IMAGES = {
@@ -105,6 +106,8 @@ export const ELEMENT_IMAGES = {
     "dark": "Image/Elements/DARK.webp",
     "fire": "Image/Elements/FIRE.webp",
     "freez": "Image/Elements/FREEZ.webp",
+    "glaciation": "Image/Elements/FREEZ.webp",
+    "Glaciation": "Image/Elements/FREEZ.webp",
     "general": "Image/Elements/GENERAL.webp",
     "dis": "Image/Elements/GENERAL.webp",
     "ice": "Image/Elements/ICE.webp",
@@ -131,6 +134,7 @@ export const ELEMENT_NAMES = {
         "slash": "Слеш",
         "Darkflow": "Даркфлоу",
         "freez": "Заморозка",
+        "glaciation": "Глациация",
         "Raydiance": "Рейдианс",
         "general": "Дизрапшн",
         "-": "-"
@@ -148,6 +152,7 @@ export const ELEMENT_NAMES = {
         "slash": "Slash",
         "Darkflow": "Darkflow",
         "freez": "Freez",
+        "glaciation": "Glaciation",
         "Raydiance": "Raydiance",
         "general": "General",
         "-": "-"
@@ -298,7 +303,9 @@ export const WEAPON_IMAGES = {
     "lightless dusk": "Image/Weapons/Lightless Dusk.webp",
     "hear the bell": "Image/Weapons/Hear the Bell.webp",
     "start of niflheim": "Image/Weapons/Start of Niflheim.webp",
-    "unforsaken beacon": "Image/Weapons/Unforsaken Beacon.webp"
+    "unforsaken beacon": "Image/Weapons/Unforsaken Beacon.webp",
+    "edges of the twisted ribbon": "Image/Weapons/Edgesofthe Twisted Ribbon.webp",
+    "edgesofthe twisted ribbon": "Image/Weapons/Edgesofthe Twisted Ribbon.webp"
 };
 
 export const CUB_IMAGES = {
@@ -339,7 +346,8 @@ export const CUB_IMAGES = {
     "allos": "Image/CUB/Allos.webp",
     "grand duke": "Image/CUB/Grand Duke.webp",
     "patrick": "Image/CUB/Patrick.webp",
-    "kelpie": "Image/CUB/Kelpie.webp"
+    "kelpie": "Image/CUB/Kelpie.webp",
+    "vulpecula": "Image/CUB/Vulpecula.webp"
 };
 
 export const MEMORY_6STAR = [
@@ -351,7 +359,7 @@ export const MEMORY_6STAR = [
     "Patton", "Philip II", "Poincare", "Seraphine", "Shakespeare",
     "Signa", "Sothoth", "Tifa", "Turing", "Unimate", "Wilde", "Joanna", "Nimue", "Bunsen",
     "Feynman", "Bulgakov", "Pavlichenko", "Clusius", "Cogito", "Santiago",
-    "Pesanteur"
+    "Pesanteur", "Mousme"
 ];
 
 export const MEMORY_5STAR = [
@@ -416,7 +424,24 @@ export const MEMORY_DATABASE = [
     { name: "Pavlichenko", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "ATK increases by 5%. Ice DMG and Ignition DMG increase by 5%.", ru: "" }, fourPiece: { en: "Multipler of Signature - Silenced Abysslight doubles", ru: "" } } },
     { name: "Clusius", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } },
     { name: "Santiago", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } },
-    { name: "Pesanteur", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } }
+    { name: "Pesanteur", hp: 1491, crit: 66, atk: 132, def: 223, effects: { twoPiece: { en: "", ru: "" }, fourPiece: { en: "", ru: "" } } },
+    {
+        name: "Mousme",
+        hp: 1491,
+        crit: 66,
+        atk: 132,
+        def: 223,
+        effects: {
+            twoPiece: {
+                en: "Ice DMG increased by 10%.",
+                ru: "Урон Льда увеличивается на 10%."
+            },
+            fourPiece: {
+                en: "Doubles the damage dealt by Red Dwarf's Gaze, Brown Dwarf's Monologue, Blue Dwarf's Tears, and Ribbon Circuit. Additionally, the Light-Catching Energy gained from Dust Coalescence and Astral Oath is doubled.",
+                ru: "Удваивает урон, наносимый Red Dwarf's Gaze, Brown Dwarf's Monologue, Blue Dwarf's Tears и Ribbon Circuit. Кроме того, получаемая энергия Light-Catching от Dust Coalescence и Astral Oath удваивается."
+            }
+        }
+    }
 ];
 
 export const MEMORY_IMAGES = {
@@ -479,7 +504,9 @@ export const MEMORY_IMAGES = {
     "joanna": "Image/Memories/Memory-Joanna-Icon-1.webp",
     "cogito": "Image/Memories/Memory-Cogito-Icon-1.webp",
     "santiago": "Image/Memories/Memory-Santiago-Icon-1.webp",
-    "pesanteur": "Image/Memories/Memory-Pesanteur-Icon-1.webp"
+    "pesanteur": "Image/Memories/Memory-Pesanteur-Icon-1.webp",
+    "mousme": "Image/Memories/Memory-Mousme-Icon-1.webp",
+    "Mousme": "Image/Memories/Memory-Mousme-Icon-1.webp"
 };
 
 export const TERMINOLOGY_DB = {
@@ -773,6 +800,14 @@ export const TERMINOLOGY_DB = {
         en: "Raydiance - Character affix, visible in skill descriptions."
     },
     "глацио": {
+        ru: "Glaciation - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Glaciation - Character affix, visible in skill descriptions."
+    },
+    "глациация": {
+        ru: "Glaciation - аффикс персонажа, можно посмотреть в описании навыков.",
+        en: "Glaciation - Character affix, visible in skill descriptions."
+    },
+    "glaciation": {
         ru: "Glaciation - аффикс персонажа, можно посмотреть в описании навыков.",
         en: "Glaciation - Character affix, visible in skill descriptions."
     },
@@ -1996,6 +2031,18 @@ export const CHAR_DATABASE = [
         weapon: "Unforsaken Beacon",
         affix: "Slash",
         cub: "Kelpie"
+    },
+    {
+        name: "Лея",
+        enName: "Leia",
+        frame: "Фортунастер",
+        enFrame: "Fortunaster",
+        rank: "S",
+        element: "Лед",
+        class: "Брейкер",
+        weapon: "Edges of the Twisted Ribbon",
+        affix: "Glaciation",
+        cub: "Vulpecula"
     }
 ];
 

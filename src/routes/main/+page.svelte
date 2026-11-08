@@ -97,8 +97,14 @@
     let filteredRoster = $derived(
         roster.filter((char) => {
             if (filterRank !== "ALL" && char.rank !== filterRank) return false;
-            if (filterAffix !== "ALL" && char.affix !== filterAffix)
-                return false;
+            if (filterAffix !== "ALL") {
+                if (filterAffix === "Freez" || filterAffix === "Glaciation") {
+                    if (char.affix !== "Freez" && char.affix !== "Glaciation")
+                        return false;
+                } else if (char.affix !== filterAffix) {
+                    return false;
+                }
+            }
 
             if (filterElement !== "ALL") {
                 const elMap = {
@@ -215,7 +221,8 @@
         "Alpha: Inverse Crown",
         "Helentain: Lacrimosa",
         "Karenina: Effulgence",
-        "Adelyda: Anabasis"
+        "Adelyda: Anabasis",
+        "Leia: Fortunaster"
     ];
 
     // Build head icon path from frame name (or enName for collabs with no frame)
@@ -502,6 +509,13 @@
                                     : ''}"
                                 onclick={() => (filterAffix = "Freez")}
                                 >{t("filter_freez")}</button
+                            >
+                            <button
+                                class="filter-opt {filterAffix === 'Glaciation'
+                                    ? 'active'
+                                    : ''}"
+                                onclick={() => (filterAffix = "Glaciation")}
+                                >{t("filter_glaciation")}</button
                             >
                             <button
                                 class="filter-opt {filterAffix === 'Slash'
